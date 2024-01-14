@@ -12,7 +12,7 @@
 		"solid-js": "^1.8.11"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": "20"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "~1.5.1",
