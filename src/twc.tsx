@@ -10,8 +10,13 @@ interface TwcComponentFactory<DefaultTag extends ValidComponentStrict> {
 
 interface TwcComponent<DefaultTag extends ValidComponentStrict> {
 	<As extends ValidComponentStrict = DefaultTag>(
-		props: ComponentProps<As> & { as?: As; class?: string },
+		props: TwcComponentProps<As>,
 	): JSX.Element
+}
+
+type TwcComponentProps<As extends ValidComponentStrict> = ComponentProps<As> & {
+	as?: As
+	class?: string
 }
 
 function createComponentFactory<DefaultTag extends ValidComponentStrict>(
