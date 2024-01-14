@@ -9,9 +9,7 @@
 			"recommended": true
 		}
 	},
-	"javascript": {
-		"formatter": {
-			"semicolons": "asNeeded"
-		}
+	"formatter": {
+		"enabled": false
 	}
 }
