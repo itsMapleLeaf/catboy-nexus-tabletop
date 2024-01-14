@@ -37,34 +37,36 @@ export default {
 			},
 		},
 	},
-	plugins: [
-		plugin(function grid(api) {
-			api.matchUtilities(
-				{
-					"bg-grid": (value) => ({
-						"background-size": `${value} ${value}`,
-						"background-image": [
-							"linear-gradient(to right, var(--tw-bg-grid-color) 0%, transparent 1px)",
-							"linear-gradient(to bottom, var(--tw-bg-grid-color) 0%, transparent 1px)",
-						].join(", "),
-					}),
-				},
-				{
-					type: "absolute-size",
-					values: api.theme("size"),
-				},
-			)
-			api.matchUtilities(
-				{
-					"bg-grid": (value) => ({
-						"--tw-bg-grid-color": value,
-					}),
-				},
-				{
-					type: "color",
-					values: flattenColorPalette(api.theme("colors")),
-				},
-			)
-		}),
-	],
+	plugins: [gridPlugin()],
 } satisfies Config
+
+function gridPlugin() {
+	return plugin(function grid(api) {
+		api.matchUtilities(
+			{
+				"bg-grid": (value) => ({
+					"background-size": `${value} ${value}`,
+					"background-image": [
+						"linear-gradient(to right, var(--tw-bg-grid-color) 0%, transparent 1px)",
+						"linear-gradient(to bottom, var(--tw-bg-grid-color) 0%, transparent 1px)",
+					].join(", "),
+				}),
+			},
+			{
+				type: "absolute-size",
+				values: api.theme("size"),
+			},
+		)
+		api.matchUtilities(
+			{
+				"bg-grid": (value) => ({
+					"--tw-bg-grid-color": value,
+				}),
+			},
+			{
+				type: "color",
+				values: flattenColorPalette(api.theme("colors")),
+			},
+		)
+	})
+}

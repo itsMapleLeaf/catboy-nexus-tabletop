@@ -4,13 +4,19 @@
 	"scripts": {
 		"dev": "vinxi dev",
 		"build": "vinxi build",
-		"start": "vinxi start"
+		"start": "vinxi start",
+		"lint": "biome check .",
+		"format": "run-s --continue-on-error biome-apply prettier-write",
+		"format-unsafe": "run-s --continue-on-error biome-apply-unsafe prettier-write",
+		"prettier-write": "prettier . --write",
+		"biome-apply": "biome check . --apply",
+		"biome-apply-unsafe": "biome check . --apply-unsafe"
 	},
 	"dependencies": {
 		"@solidjs/router": "^0.10.9",
 		"@solidjs/start": "^0.4.9",
 		"solid-js": "^1.8.11",
-		"tailwind-merge": "~2.2.0",
+		"tailwind-variants": "~0.1.20",
 		"vinxi": "^0.1.2"
 	},
 	"engines": {
@@ -19,6 +25,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "~1.5.1",
 		"autoprefixer": "^10.4.16",
+		"npm-run-all": "~4.1.5",
 		"postcss": "^8.4.33",
 		"prettier": "~3.2.2",
 		"prettier-plugin-jsdoc": "~1.3.0",
