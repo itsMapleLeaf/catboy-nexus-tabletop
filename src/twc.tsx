@@ -17,21 +17,20 @@ interface TwcComponent<DefaultTag extends ValidComponentStrict> {
 function createComponentFactory<DefaultTag extends ValidComponentStrict>(
 	defaultTag: DefaultTag,
 ): TwcComponentFactory<DefaultTag> {
-	return function createComponent(strings, ...values) {
+	return function createComponent(statics, ...dynamics) {
+		const baseClasses: Array<string | undefined> = []
+		for (let i = 0; i < statics.length - 1; i += 1) {
+			baseClasses.push(statics[i])
+			baseClasses.push(dynamics[i])
+		}
+		baseClasses.push(statics.at(-1))
+
 		return function TwcComponent(props) {
-			function* classes() {
-				for (let i = 0; i < strings.length - 1; i += 1) {
-					yield strings[i]
-					yield values[i]
-				}
-				yield strings.at(-1)
-				yield props.class
-			}
 			return (
 				<Dynamic
 					component={props.as ?? defaultTag}
 					{...props}
-					class={twMerge(...classes())}
+					class={twMerge(baseClasses, props.class)}
 				/>
 			)
 		}
