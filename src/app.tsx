@@ -7,11 +7,17 @@ import { Panel } from "./components/Panel.tsx"
 
 export default function App() {
 	return (
-		<section class="relative h-dvh bg-[size:40px_40px] bg-repeat bg-grid-10 bg-grid-theme-border/40">
-			<Panel class="absolute left-10 top-10 flex size-20 flex-col items-center justify-center rounded-md">
+		<main class="relative h-dvh bg-[size:40px_40px] bg-repeat bg-grid-10 bg-grid-theme-border/40">
+			<Panel
+				as="button"
+				class="absolute left-10 top-10 flex size-20 flex-col items-center justify-center rounded-md transition-[filter] hover:brightness-110 active:brightness-125 active:transition-none"
+				onClick={() => {
+					console.log("test")
+				}}
+			>
 				test
 			</Panel>
-		</section>
+		</main>
 	)
 }
 
