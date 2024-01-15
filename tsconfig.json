@@ -16,6 +16,8 @@
 		"allowImportingTsExtensions": true,
 		"paths": {
 			"~/*": ["./src/*"]
-		}
+		},
+		"noUncheckedIndexedAccess": true,
+		"verbatimModuleSyntax": true
 	}
 }
