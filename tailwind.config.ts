@@ -41,8 +41,20 @@ export default {
 			},
 		},
 	},
-	plugins: [gridPlugin()],
+	plugins: [flexShortcutsPlugin(), gridPlugin()],
 } satisfies Config
+
+function flexShortcutsPlugin() {
+	return plugin(function flexShortcuts(api) {
+		api.addComponents({
+			".flex-center": {
+				display: "flex",
+				"align-items": "center",
+				"justify-content": "center",
+			},
+		})
+	})
+}
 
 function gridPlugin() {
 	return plugin(function grid(api) {
