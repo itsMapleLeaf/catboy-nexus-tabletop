@@ -14,7 +14,7 @@ export function Tabs(props: {
 						<button
 							type="button"
 							class={twMerge(
-								"h-12 flex-1 justify-center border-b p-2 ",
+								"h-10 flex-1 justify-center border-b p-2 ",
 								active() === i()
 									? "border-theme-primary-light font-medium text-theme-primary-content"
 									: "border-white/25 opacity-50 transition-opacity hover:opacity-75",

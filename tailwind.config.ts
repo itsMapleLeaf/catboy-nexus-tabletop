@@ -1,3 +1,4 @@
+import containerQueries from "@tailwindcss/container-queries"
 import type { Config } from "tailwindcss"
 import defaultTheme from "tailwindcss/defaultTheme.js"
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette.js"
@@ -41,7 +42,7 @@ export default {
 			},
 		},
 	},
-	plugins: [flexShortcutsPlugin(), gridPlugin()],
+	plugins: [containerQueries, flexShortcutsPlugin(), gridPlugin()],
 } satisfies Config
 
 function flexShortcutsPlugin() {
