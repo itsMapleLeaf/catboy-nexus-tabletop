@@ -4,7 +4,7 @@ import {
 	LucideSettings,
 	LucideVenetianMask,
 } from "lucide-solid"
-import { type ParentProps, createSignal } from "solid-js"
+import { type ParentProps, Show, createSignal } from "solid-js"
 import { Button } from "~/ui/Button.tsx"
 import { panel } from "~/ui/panel.ts"
 
@@ -15,7 +15,7 @@ export function App() {
 			<nav
 				class={panel({
 					border: "right",
-					class: "flex flex-col gap-2 overflow-auto p-2",
+					class: "flex flex-col overflow-auto p-2",
 				})}
 			>
 				<Collapse defaultOpen title="Characters">
@@ -36,7 +36,7 @@ export function App() {
 						</Collapse>
 					</Collapse>
 				</Collapse>
-				<hr class="mt-auto border-theme-border" />
+				<hr class="my-2 mt-auto border-theme-border" />
 				<Button text="Settings" icon={LucideSettings} />
 			</nav>
 			<div class="relative bg-[size:40px_40px] bg-repeat bg-grid-10 bg-grid-theme-border/40">
@@ -70,7 +70,9 @@ function Collapse(
 				text={props.title}
 				icon={open() ? LucideFolderOpen : LucideFolder}
 			/>
-			<div class="flex flex-col pl-4">{props.children}</div>
+			<Show when={open()}>
+				<div class="flex flex-col pl-4">{props.children}</div>
+			</Show>
 		</details>
 	)
 }
