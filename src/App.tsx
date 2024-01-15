@@ -4,7 +4,10 @@ import { Tabs } from "./ui/Tabs.tsx"
 export function App() {
 	return (
 		<main class="@container h-dvh gap-2 p-2">
-			<div class="@2xl:hidden grid h-full grid-rows-[auto,auto,1fr] gap-[inherit]">
+			<div class="@2xl:hidden flex h-full flex-col gap-[inherit]">
+				<Panel class="p-2">
+					<Destiny />
+				</Panel>
 				<Panel class="p-2">
 					<Initiative />
 				</Panel>
@@ -12,7 +15,7 @@ export function App() {
 					<Positioning />
 				</Panel>
 
-				<div class="@lg:hidden">
+				<div class="@lg:hidden flex-1">
 					<Tabs
 						views={[
 							{ title: "dice rolls", content: DiceRolls },
@@ -21,7 +24,7 @@ export function App() {
 					/>
 				</div>
 
-				<div class="@lg:grid hidden auto-cols-fr grid-flow-col gap-[inherit]">
+				<div class="@lg:grid hidden flex-1 auto-cols-fr grid-flow-col gap-[inherit]">
 					<Panel class="p-2">
 						<DiceRolls />
 					</Panel>
@@ -32,18 +35,21 @@ export function App() {
 			</div>
 
 			<div class="@2xl:flex hidden h-full justify-between gap-[inherit]">
-				<div class="grid max-w-[24rem] flex-1 grid-rows-[auto,1fr] gap-[inherit]">
+				<div class="flex w-[24rem] shrink flex-col gap-[inherit] last:*:flex-1">
+					<Panel class="p-2">
+						<Destiny />
+					</Panel>
 					<Panel class="p-2">
 						<Initiative />
 					</Panel>
 					<Panel class="p-2">
-						<Positioning />
+						<DiceRolls />
 					</Panel>
 				</div>
 
-				<div class="grid max-w-[24rem] flex-1 grid-rows-[auto,1fr] gap-[inherit]">
+				<div class="flex w-[24rem] shrink flex-col gap-[inherit] last:*:flex-1">
 					<Panel class="p-2">
-						<DiceRolls />
+						<Positioning />
 					</Panel>
 					<Panel class="p-2">
 						<Characters />
@@ -56,6 +62,10 @@ export function App() {
 
 function Initiative() {
 	return <section class="flex-center h-full">initiative</section>
+}
+
+function Destiny() {
+	return <section class="flex-center h-full">destiny</section>
 }
 
 function Positioning() {
