@@ -23,7 +23,6 @@ const layout = (): Layout => ({
 	right: [
 		{ title: "Positions", content: Positioning },
 		{ title: "Characters", content: Characters, expanded: true },
-		{ title: "Characters", content: Characters, expanded: true },
 	],
 })
 
