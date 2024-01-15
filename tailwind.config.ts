@@ -1,11 +1,15 @@
-import { Config } from "tailwindcss"
+import type { Config } from "tailwindcss"
+import defaultTheme from "tailwindcss/defaultTheme.js"
 import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette.js"
-import plugin from "tailwindcss/plugin"
+import plugin from "tailwindcss/plugin.js"
 
 export default {
 	content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
 	theme: {
 		extend: {
+			fontFamily: {
+				sans: ["Barlow", ...defaultTheme.fontFamily.sans],
+			},
 			colors: {
 				theme: {
 					primary: "hsl(136, 64%, 35%)",

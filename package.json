@@ -13,8 +13,10 @@
 		"biome-apply-unsafe": "biome check . --apply-unsafe"
 	},
 	"dependencies": {
+		"@fontsource/barlow": "~5.0.8",
 		"@solidjs/router": "^0.10.9",
 		"@solidjs/start": "^0.4.9",
+		"lucide-solid": "~0.309.0",
 		"solid-js": "^1.8.11",
 		"tailwind-variants": "~0.1.20",
 		"vinxi": "^0.1.2"

@@ -9,4 +9,7 @@ export default defineConfig({
 			preset: "vercel",
 		},
 	},
+	ssr: {
+		noExternal: ["lucide-solid"],
+	},
 })
