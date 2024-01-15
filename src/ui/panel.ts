@@ -1,4 +1,4 @@
-import { twVariants } from "~/ui/twVariants.ts"
+import { twVariants } from "./twVariants.ts"
 
 export const panel = twVariants({
 	base: "bg-theme-foreground shadow shadow-black/50",

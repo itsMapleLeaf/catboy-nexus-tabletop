@@ -4,8 +4,9 @@ import {
 	LucideSettings,
 	LucideVenetianMask,
 } from "lucide-solid"
-import { type ParentProps, Show, createSignal } from "solid-js"
-import { Button } from "~/ui/Button.tsx"
+import { Show, createSignal, type ParentProps } from "solid-js"
+import { Dynamic } from "solid-js/web"
+import { button } from "~/ui/button.ts"
 import { panel } from "~/ui/panel.ts"
 
 export function App() {
@@ -19,25 +20,51 @@ export function App() {
 				})}
 			>
 				<Collapse defaultOpen title="Characters">
-					<Button text="Subaru" icon={LucideVenetianMask} />
-					<Button text="Maple" icon={LucideVenetianMask} />
-					<Button text="Raguna" icon={LucideVenetianMask} />
-					<Button text="Cyrus" icon={LucideVenetianMask} />
+					<button type="button" class={button()}>
+						<LucideVenetianMask /> Subaru
+					</button>
+					<button type="button" class={button()}>
+						<LucideVenetianMask /> Maple
+					</button>
+					<button type="button" class={button()}>
+						<LucideVenetianMask /> Raguna
+					</button>
+					<button type="button" class={button()}>
+						<LucideVenetianMask /> Cyrus
+					</button>
 					<Collapse defaultOpen title="Characters">
-						<Button text="Subaru" icon={LucideVenetianMask} />
-						<Button text="Maple" icon={LucideVenetianMask} />
-						<Button text="Raguna" icon={LucideVenetianMask} />
-						<Button text="Cyrus" icon={LucideVenetianMask} />
+						<button type="button" class={button()}>
+							<LucideVenetianMask /> Subaru
+						</button>
+						<button type="button" class={button()}>
+							<LucideVenetianMask /> Maple
+						</button>
+						<button type="button" class={button()}>
+							<LucideVenetianMask /> Raguna
+						</button>
+						<button type="button" class={button()}>
+							<LucideVenetianMask /> Cyrus
+						</button>
 						<Collapse defaultOpen title="Characters">
-							<Button text="Subaru" icon={LucideVenetianMask} />
-							<Button text="Maple" icon={LucideVenetianMask} />
-							<Button text="Raguna" icon={LucideVenetianMask} />
-							<Button text="Cyrus" icon={LucideVenetianMask} />
+							<button type="button" class={button()}>
+								<LucideVenetianMask /> Subaru
+							</button>
+							<button type="button" class={button()}>
+								<LucideVenetianMask /> Maple
+							</button>
+							<button type="button" class={button()}>
+								<LucideVenetianMask /> Raguna
+							</button>
+							<button type="button" class={button()}>
+								<LucideVenetianMask /> Cyrus
+							</button>
 						</Collapse>
 					</Collapse>
 				</Collapse>
 				<hr class="my-2 mt-auto border-theme-border" />
-				<Button text="Settings" icon={LucideSettings} />
+				<button type="button" class={button()}>
+					<LucideSettings /> Settings
+				</button>
 			</nav>
 			<div class="relative bg-[size:40px_40px] bg-repeat bg-grid-10 bg-grid-theme-border/40">
 				<button
@@ -65,11 +92,10 @@ function Collapse(
 			open={open()}
 			onToggle={(event) => setOpen(event.currentTarget.open)}
 		>
-			<Button
-				component="summary"
-				text={props.title}
-				icon={open() ? LucideFolderOpen : LucideFolder}
-			/>
+			<summary class={button()}>
+				<Dynamic component={open() ? LucideFolderOpen : LucideFolder} />
+				{props.title}
+			</summary>
 			<Show when={open()}>
 				<div class="flex flex-col pl-4">{props.children}</div>
 			</Show>
