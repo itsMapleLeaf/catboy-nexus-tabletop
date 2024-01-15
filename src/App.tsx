@@ -6,7 +6,7 @@ import { Tabs } from "./ui/Tabs.tsx"
 type LayoutItem = {
 	title: string
 	content: () => JSX.Element
-	primary?: boolean
+	expanded?: boolean
 }
 
 type Layout = {
@@ -18,18 +18,18 @@ const layout = (): Layout => ({
 	left: [
 		{ title: "Destiny", content: Destiny },
 		{ title: "Initiative", content: Initiative },
-		{ title: "Dice", content: DiceRolls, primary: true },
+		{ title: "Dice", content: DiceRolls, expanded: true },
 	],
 	right: [
 		{ title: "Positions", content: Positioning },
-		{ title: "Characters", content: Characters, primary: true },
-		{ title: "Characters", content: Characters, primary: true },
+		{ title: "Characters", content: Characters, expanded: true },
+		{ title: "Characters", content: Characters, expanded: true },
 	],
 })
 
 const allItems = () => Object.values(layout()).flat()
-const nonPrimaryItems = () => allItems().filter((item) => !item.primary)
-const primaryItems = () => allItems().filter((item) => item.primary)
+const nonPrimaryItems = () => allItems().filter((item) => !item.expanded)
+const primaryItems = () => allItems().filter((item) => item.expanded)
 
 export function App() {
 	return (
@@ -37,7 +37,7 @@ export function App() {
 			<div class="@2xl:hidden flex h-full flex-col gap-[inherit]">
 				<For each={nonPrimaryItems()}>
 					{(item) => (
-						<Panel class="p-2" classList={{ "flex-1": item.primary }}>
+						<Panel class="p-2" classList={{ "flex-1": item.expanded }}>
 							{item.content()}
 						</Panel>
 					)}
@@ -49,12 +49,12 @@ export function App() {
 
 				<div class="@lg:grid hidden flex-1 auto-cols-fr grid-flow-col gap-[inherit]">
 					<div class="grid auto-rows-fr gap-[inherit]">
-						<For each={layout().left.filter((item) => item.primary)}>
+						<For each={layout().left.filter((item) => item.expanded)}>
 							{(item) => <Panel class="p-2">{item.content()}</Panel>}
 						</For>
 					</div>
 					<div class="grid auto-rows-fr gap-[inherit]">
-						<For each={layout().right.filter((item) => item.primary)}>
+						<For each={layout().right.filter((item) => item.expanded)}>
 							{(item) => <Panel class="p-2">{item.content()}</Panel>}
 						</For>
 					</div>
@@ -65,7 +65,7 @@ export function App() {
 				<div class="flex w-[24rem] shrink flex-col gap-[inherit]">
 					<For each={layout().left}>
 						{(item) => (
-							<Panel class={twMerge("p-2", item.primary && "flex-1")}>
+							<Panel class={twMerge("p-2", item.expanded && "flex-1")}>
 								{item.content()}
 							</Panel>
 						)}
@@ -75,7 +75,7 @@ export function App() {
 				<div class="flex w-[24rem] shrink flex-col gap-[inherit]">
 					<For each={layout().right}>
 						{(item) => (
-							<Panel class={twMerge("p-2", item.primary && "flex-1")}>
+							<Panel class={twMerge("p-2", item.expanded && "flex-1")}>
 								{item.content()}
 							</Panel>
 						)}
