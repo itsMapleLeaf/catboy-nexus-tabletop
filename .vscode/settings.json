@@ -2,10 +2,13 @@
 	"tailwindCSS.experimental.classRegex": [
 		["twVariants\\((([^()]*|\\([^()]*\\))*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
 	],
+	// https://github.com/biomejs/biome/issues/1015#issuecomment-1837390106
 	"editor.codeActionsOnSave": {
-		"source.fixAll": "never",
-		"source.organizeImports": "never",
-		"source.organizeImports.biome": "explicit",
-		"quickfix.biome": "explicit"
-	}
+		"source.fixAll": "explicit",
+		"quickfix.biome": true,
+		"source.organizeImports.biome": true
+	},
+
+	"typescript.preferences.importModuleSpecifierEnding": "js",
+	"javascript.preferences.importModuleSpecifierEnding": "js"
 }
