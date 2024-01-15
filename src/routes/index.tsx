@@ -1,6 +1,7 @@
 import {
 	LucideFolder,
 	LucideFolderOpen,
+	LucideSettings,
 	LucideVenetianMask,
 } from "lucide-solid"
 import { type ParentProps, createSignal } from "solid-js"
@@ -14,7 +15,7 @@ export default function Index() {
 			<nav
 				class={panel({
 					border: "right",
-					class: "grid gap-2 overflow-auto p-2",
+					class: "flex flex-col gap-2 overflow-auto p-2",
 				})}
 			>
 				<Collapse defaultOpen title="Characters">
@@ -35,6 +36,8 @@ export default function Index() {
 						</Collapse>
 					</Collapse>
 				</Collapse>
+				<hr class="mt-auto border-theme-border" />
+				<Button text="Settings" icon={LucideSettings} />
 			</nav>
 			<div class="relative bg-[size:40px_40px] bg-repeat bg-grid-10 bg-grid-theme-border/40">
 				<button
@@ -58,7 +61,10 @@ function Collapse(
 ) {
 	const [open, setOpen] = createSignal(props.defaultOpen)
 	return (
-		<details open={open()} onToggle={() => setOpen(!open())}>
+		<details
+			open={open()}
+			onToggle={(event) => setOpen(event.currentTarget.open)}
+		>
 			<Button
 				component="summary"
 				text={props.title}
