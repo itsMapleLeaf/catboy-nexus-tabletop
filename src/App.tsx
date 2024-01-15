@@ -23,6 +23,7 @@ const layout = (): Layout => ({
 	right: [
 		{ title: "Positions", content: Positioning },
 		{ title: "Characters", content: Characters, primary: true },
+		{ title: "Characters", content: Characters, primary: true },
 	],
 })
 
@@ -47,9 +48,16 @@ export function App() {
 				</div>
 
 				<div class="@lg:grid hidden flex-1 auto-cols-fr grid-flow-col gap-[inherit]">
-					<For each={primaryItems()}>
-						{(item) => <Panel class="p-2">{item.content()}</Panel>}
-					</For>
+					<div class="grid auto-rows-fr gap-[inherit]">
+						<For each={layout().left.filter((item) => item.primary)}>
+							{(item) => <Panel class="p-2">{item.content()}</Panel>}
+						</For>
+					</div>
+					<div class="grid auto-rows-fr gap-[inherit]">
+						<For each={layout().right.filter((item) => item.primary)}>
+							{(item) => <Panel class="p-2">{item.content()}</Panel>}
+						</For>
+					</div>
 				</div>
 			</div>
 
