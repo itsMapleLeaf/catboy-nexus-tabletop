@@ -8,7 +8,8 @@
 		"rules": {
 			"recommended": true,
 			"nursery": {
-				"useImportType": "error"
+				"useImportType": "error",
+				"noUnusedImports": "error"
 			}
 		}
 	},
