@@ -4,7 +4,7 @@ import flattenColorPalette from "tailwindcss/lib/util/flattenColorPalette.js"
 import plugin from "tailwindcss/plugin.js"
 
 export default {
-	content: ["./src/**/*.{html,js,jsx,ts,tsx}"],
+	content: ["src/**/*.{js,jsx,ts,tsx}", "index.html"],
 	theme: {
 		extend: {
 			fontFamily: {

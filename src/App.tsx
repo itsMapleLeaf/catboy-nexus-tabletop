@@ -8,7 +8,7 @@ import { type ParentProps, createSignal } from "solid-js"
 import { Button } from "~/ui/Button.tsx"
 import { panel } from "~/ui/panel.ts"
 
-export default function Index() {
+export function App() {
 	const [isBlue, setIsBlue] = createSignal(false)
 	return (
 		<main class="grid h-dvh grid-cols-[theme(width.48),1fr]">
