@@ -1,13 +1,13 @@
 import { For, type JSX, createSignal } from "solid-js"
 import { twMerge } from "tailwind-merge"
-import { panel } from "./panel.ts"
+import { Panel } from "./Panel.tsx"
 
 export function Tabs(props: {
 	views: { title: string; content: () => JSX.Element }[]
 }) {
 	const [active, setActive] = createSignal(0)
 	return (
-		<section class={panel({ class: "flex h-full flex-col gap-2" })}>
+		<Panel class="flex h-full flex-col gap-2">
 			<div class="flex items-center ">
 				<For each={props.views}>
 					{(view, i) => (
@@ -27,6 +27,6 @@ export function Tabs(props: {
 				</For>
 			</div>
 			<div class="flex-1 overflow-auto">{props.views[active()]?.content()}</div>
-		</section>
+		</Panel>
 	)
 }

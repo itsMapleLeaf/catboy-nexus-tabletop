@@ -1,6 +1,16 @@
+import type { ComponentProps } from "solid-js"
+import type { VariantProps } from "tailwind-variants"
 import { twVariants } from "./twVariants.ts"
 
-export const panel = twVariants({
+export interface PanelProps
+	extends ComponentProps<"div">,
+		VariantProps<typeof panelStyle> {}
+
+export function Panel(props: PanelProps) {
+	return <div {...props} class={panelStyle({ ...props, class: props.class })} />
+}
+
+export const panelStyle = twVariants({
 	base: "bg-theme-background/60 shadow shadow-theme-background/75 backdrop-blur-lg",
 	variants: {
 		border: {
