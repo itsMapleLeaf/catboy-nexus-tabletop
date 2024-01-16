@@ -1,7 +1,10 @@
-import { For, type JSX } from "solid-js"
+import { LucidePentagon, LucideSquare, LucideTriangle } from "lucide-solid"
+import { For, type JSX, type ParentProps } from "solid-js"
 import { twMerge } from "tailwind-merge"
 import { Panel } from "./ui/Panel.tsx"
 import { Tabs } from "./ui/Tabs.tsx"
+import { TooltipButton } from "./ui/TooltipButton.tsx"
+import { iconButton } from "./ui/button.ts"
 
 type LayoutItem = {
 	title: string
@@ -102,5 +105,44 @@ function Characters() {
 }
 
 function DiceRolls() {
-	return <section class="flex-center h-full">dice rolls</section>
+	return (
+		<div class="flex h-full flex-col">
+			<ul class="flex flex-1 flex-col">
+				<li>placeholder</li>
+				<li>placeholder</li>
+				<li>placeholder</li>
+			</ul>
+			<div class="flex-center flex-wrap">
+				<DieButton tooltip="Ability">
+					<LucideTriangle class="text-green-300" />
+				</DieButton>
+				<DieButton tooltip="Difficulty">
+					<LucideTriangle class="text-purple-300" />
+				</DieButton>
+				<DieButton tooltip="Proficiency">
+					<LucidePentagon class="text-yellow-300" />
+				</DieButton>
+				<DieButton tooltip="Challenge">
+					<LucidePentagon class="text-red-300" />
+				</DieButton>
+				<DieButton tooltip="Destiny">
+					<LucidePentagon class="text-white" />
+				</DieButton>
+				<DieButton tooltip="Boost">
+					<LucideSquare class="text-sky-300" />
+				</DieButton>
+				<DieButton tooltip="Setback">
+					<div class="size-[26px] rounded border-[3px] border-white bg-black text-neutral-800" />
+				</DieButton>
+			</div>
+		</div>
+	)
+}
+
+function DieButton(props: ParentProps<{ tooltip: JSX.Element }>) {
+	return (
+		<TooltipButton class={iconButton()} tooltip={props.tooltip}>
+			{props.children}
+		</TooltipButton>
+	)
 }

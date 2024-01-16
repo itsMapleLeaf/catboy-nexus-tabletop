@@ -8,6 +8,9 @@ dependencies:
   '@fontsource/barlow':
     specifier: 5.0.8
     version: 5.0.8
+  '@kobalte/core':
+    specifier: ~0.12.0
+    version: 0.12.0(solid-js@1.8.11)
   lucide-solid:
     specifier: 0.309.0
     version: 0.309.0(solid-js@1.8.11)
@@ -49,6 +52,9 @@ devDependencies:
   tailwindcss:
     specifier: 3.4.1
     version: 3.4.1
+  tailwindcss-animate:
+    specifier: ~1.0.7
+    version: 1.0.7(tailwindcss@3.4.1)
   vite:
     specifier: 5.0.11
     version: 5.0.11
@@ -702,8 +708,37 @@ packages:
     dev: true
     optional: true
 
+  /@floating-ui/core@1.5.3:
+    resolution: {integrity: sha512-O0WKDOo0yhJuugCx6trZQj5jVJ9yR0ystG2JaNAemYUWce+pmM6WUEFIibnWyEJKdrDxhm75NoSRME35FNaM/Q==}
+    dependencies:
+      '@floating-ui/utils': 0.2.1
+    dev: false
+
+  /@floating-ui/dom@1.5.4:
+    resolution: {integrity: sha512-jByEsHIY+eEdCjnTVu+E3ephzTOzkQ8hgUfGwos+bg7NlH33Zc5uO+QHz1mrQUOgIKKDD1RtS201P9NvAfq3XQ==}
+    dependencies:
+      '@floating-ui/core': 1.5.3
+      '@floating-ui/utils': 0.2.1
+    dev: false
+
+  /@floating-ui/utils@0.2.1:
+    resolution: {integrity: sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==}
+    dev: false
+
   /@fontsource/barlow@5.0.8:
     resolution: {integrity: sha512-RMUw8YyoNG3o1rwMnfyyWqYuR7k6H48yYZwpCsgY0x7jeaRdp/FdyG6lPLD5P403kDyqauewldk+VDPhQ65+4w==}
+    dev: false
+
+  /@internationalized/date@3.5.1:
+    resolution: {integrity: sha512-LUQIfwU9e+Fmutc/DpRTGXSdgYZLBegi4wygCWDSVmUdLTaMHsQyASDiJtREwanwKuQLq0hY76fCJ9J/9I2xOQ==}
+    dependencies:
+      '@swc/helpers': 0.5.3
+    dev: false
+
+  /@internationalized/number@3.5.0:
+    resolution: {integrity: sha512-ZY1BW8HT9WKYvaubbuqXbbDdHhOUMfE2zHHFJeTppid0S+pc8HtdIxFxaYMsGjCb4UsF+MEJ4n2TfU7iHnUK8w==}
+    dependencies:
+      '@swc/helpers': 0.5.3
     dev: false
 
   /@isaacs/cliui@8.0.2:
@@ -741,6 +776,33 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
+
+  /@kobalte/core@0.12.0(solid-js@1.8.11):
+    resolution: {integrity: sha512-TjUYlFCbfQ8T3g7M0pZI5s0BtkDmojLxDZR/pnsmhOzY6hNdERmnHpwe+7IxLeOx/Vwtudfa+YGm7xdOhZ0o8Q==}
+    peerDependencies:
+      solid-js: ^1.7.11
+    dependencies:
+      '@floating-ui/dom': 1.5.4
+      '@internationalized/date': 3.5.1
+      '@internationalized/number': 3.5.0
+      '@kobalte/utils': 0.9.0(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@kobalte/utils@0.9.0(solid-js@1.8.11):
+    resolution: {integrity: sha512-TYVCpQcpqo1+0HBn3NXoGEBzxd4tH6Um1oc07nrYw1V7Qq0qbMaYAOnfBc1qhlh7sGV4XZldmb0j13Of0FrZQg==}
+    peerDependencies:
+      solid-js: ^1.7.11
+    dependencies:
+      '@solid-primitives/event-listener': 2.3.0(solid-js@1.8.11)
+      '@solid-primitives/keyed': 1.2.0(solid-js@1.8.11)
+      '@solid-primitives/map': 0.4.8(solid-js@1.8.11)
+      '@solid-primitives/media': 2.2.5(solid-js@1.8.11)
+      '@solid-primitives/props': 3.1.8(solid-js@1.8.11)
+      '@solid-primitives/refs': 1.0.5(solid-js@1.8.11)
+      '@solid-primitives/utils': 6.2.1(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
 
   /@nodelib/fs.scandir@2.1.5:
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -869,6 +931,103 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@solid-primitives/event-listener@2.3.0(solid-js@1.8.11):
+    resolution: {integrity: sha512-0DS7DQZvCExWSpurVZC9/wjI8RmkhuOtWOy6Pp1Woq9ElMT9/bfjNpkwXsOwisLpcTqh9eUs17kp7jtpWcC20w==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.1(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/keyed@1.2.0(solid-js@1.8.11):
+    resolution: {integrity: sha512-0DuTeJdxWjCTu73XnDZs24JzfXckBnpvCfQ6Mf/kTPKkMZJh7tjkBnZEk48ckrE9xmwat9stIdfrBmZctsepIw==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/map@0.4.8(solid-js@1.8.11):
+    resolution: {integrity: sha512-p9zhIaIWOQVxLaUEjg6nzrBLZUOzozJFHatdKqISSIq7iJhVXX1M1MPzDHHqKyJw/nSENoKgvZehnG3HErnamw==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/trigger': 1.0.8(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/media@2.2.5(solid-js@1.8.11):
+    resolution: {integrity: sha512-wTESNFteSwOZsNIBPLMIVLuOHIIzt2AIZdaCYYxfsJIr/xjDqSomlmdFlAmxfJD3ondO7fwtWfc0rcmAvjoPCA==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/event-listener': 2.3.0(solid-js@1.8.11)
+      '@solid-primitives/rootless': 1.4.2(solid-js@1.8.11)
+      '@solid-primitives/static-store': 0.0.5(solid-js@1.8.11)
+      '@solid-primitives/utils': 6.2.1(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/props@3.1.8(solid-js@1.8.11):
+    resolution: {integrity: sha512-38ERNFhl87emUDPRlYvCmlbvEcK2mOJB38SU22YS2QXFDK7TQf/7P46XZacs7oODc/fckhfZTitht71FMEDe2g==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.1(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/refs@1.0.5(solid-js@1.8.11):
+    resolution: {integrity: sha512-5hmYmYbm6rs43nMHHozyyUngGA7P7q2WtlaCLJEfmlUJf67GWI1PZmqAiol6m9F37XSMZRuvZLoQ7HA/0q3GYg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.1(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/rootless@1.4.2(solid-js@1.8.11):
+    resolution: {integrity: sha512-ynI/2aEOPyc14IKCX6yDBqnsAYCoLbaP9V/jejEWMVKOT2ZdV2ZxdftaLimOpWPpvjyti5DUJIGTOfLaNb7jlg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.1(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/static-store@0.0.5(solid-js@1.8.11):
+    resolution: {integrity: sha512-ssQ+s/wrlFAEE4Zw8GV499yBfvWx7SMm+ZVc11wvao4T5xg9VfXCL9Oa+x4h+vPMvSV/Knv5LrsLiUa+wlJUXQ==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.1(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/trigger@1.0.8(solid-js@1.8.11):
+    resolution: {integrity: sha512-p9e3FGhCk8sRPxDiCT8vnTE+DOEtrAnJZP4zV0NAV6YGnpV50JATVXNiLjKgyiI/mTIRkWB0+9c5SUbRlqFx6A==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      '@solid-primitives/utils': 6.2.1(solid-js@1.8.11)
+      solid-js: 1.8.11
+    dev: false
+
+  /@solid-primitives/utils@6.2.1(solid-js@1.8.11):
+    resolution: {integrity: sha512-TsecNzxiO5bLfzqb4OOuzfUmdOROcssuGqgh5rXMMaasoFZ3GoveUgdY1wcf17frMJM7kCNGNuK34EjErneZkg==}
+    peerDependencies:
+      solid-js: ^1.6.12
+    dependencies:
+      solid-js: 1.8.11
+    dev: false
+
+  /@swc/helpers@0.5.3:
+    resolution: {integrity: sha512-FaruWX6KdudYloq1AHD/4nU+UsMTdNE8CKyrseXWEcgjDAbvkwJg2QGPAnfIJLIWsjZOSPLOAykK6fuYp4vp4A==}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
 
   /@tailwindcss/container-queries@0.1.1(tailwindcss@3.4.1):
     resolution: {integrity: sha512-p18dswChx6WnTSaJCSGx6lTmrGzNNvm2FtXmiO6AuA1V4U5REyoqwmT6kgAsIMdjo07QdAfYXHJ4hnMtfHzWgA==}
@@ -2673,6 +2832,14 @@ packages:
       tailwindcss: 3.4.1
     dev: false
 
+  /tailwindcss-animate@1.0.7(tailwindcss@3.4.1):
+    resolution: {integrity: sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==}
+    peerDependencies:
+      tailwindcss: '>=3.0.0 || insiders'
+    dependencies:
+      tailwindcss: 3.4.1
+    dev: true
+
   /tailwindcss@3.4.1:
     resolution: {integrity: sha512-qAYmXRfk3ENzuPBakNK0SRrUDipP8NQnEY6772uDhflcQz5EhRdD7JNZxyrFHVQNCwULPBn6FNPp9brpO7ctcA==}
     engines: {node: '>=14.0.0'}
@@ -2738,6 +2905,10 @@ packages:
       typescript:
         optional: true
     dev: true
+
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+    dev: false
 
   /typed-array-buffer@1.0.0:
     resolution: {integrity: sha512-Y8KTSIglk9OZEr8zywiIHG/kmQ7KWyjseXs1CbSo8vC42w7hg2HgYTxSWwP0+is7bWDc1H+Fo026CpHFwm8tkw==}
