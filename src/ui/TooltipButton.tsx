@@ -2,11 +2,22 @@ import { Tooltip } from "@kobalte/core"
 import type { JSX, ParentProps } from "solid-js"
 
 export function TooltipButton(
-	props: ParentProps<{ class?: string; tooltip: JSX.Element }>,
+	props: ParentProps<{
+		class?: string
+		tooltip: JSX.Element
+		placement?: Tooltip.TooltipRootProps["placement"]
+		onClick?: JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent>
+		onContextMenu?: JSX.EventHandlerUnion<HTMLButtonElement, MouseEvent>
+	}>,
 ) {
 	return (
-		<Tooltip.Root openDelay={100} closeDelay={0} gutter={4}>
-			<Tooltip.Trigger type="button" class={props.class}>
+		<Tooltip.Root gutter={4} placement={props.placement}>
+			<Tooltip.Trigger
+				type="button"
+				class={props.class}
+				onClick={props.onClick}
+				onContextMenu={props.onContextMenu}
+			>
 				{props.children}
 			</Tooltip.Trigger>
 			<Tooltip.Portal>
