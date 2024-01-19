@@ -13,37 +13,33 @@ interface DiceKind {
 const diceKinds: DiceKind[] = [
 	{
 		name: "Proficiency",
-		icon: (
-			<Lucide.Pentagon className="size-full -translate-y-0.5 text-yellow-300" />
-		),
+		icon: <Lucide.Pentagon className="-translate-y-0.5 text-yellow-300" />,
 	},
 	{
 		name: "Ability",
-		icon: <Lucide.Diamond className="size-full text-green-300" />,
+		icon: <Lucide.Diamond className="text-green-300" />,
 	},
 	{
 		name: "Boost",
-		icon: <Lucide.Square className="size-full text-sky-300" />,
+		icon: <Lucide.Square className="text-sky-300" />,
 	},
 	{
 		name: "Challenge",
-		icon: (
-			<Lucide.Pentagon className="size-full -translate-y-0.5 text-red-300" />
-		),
+		icon: <Lucide.Pentagon className="-translate-y-0.5 text-red-300" />,
 	},
 	{
 		name: "Difficulty",
-		icon: <Lucide.Diamond className="size-full text-purple-300" />,
+		icon: <Lucide.Diamond className="text-purple-300" />,
 	},
 	{
 		name: "Setback",
 		icon: (
-			<Lucide.Square className="size-full text-neutral-900 drop-shadow-[0_0_1px_white]" />
+			<Lucide.Square className="text-neutral-900 drop-shadow-[0_0_1px_white]" />
 		),
 	},
 	{
 		name: "Destiny",
-		icon: <Lucide.Pentagon className="size-full -translate-y-0.5 text-white" />,
+		icon: <Lucide.Pentagon className="-translate-y-0.5 text-white" />,
 	},
 ]
 
@@ -111,7 +107,7 @@ function DieCounter({
 			)}
 		>
 			<Tooltip tooltip={kind.name}>
-				<div className="flex-center relative size-16 cursor-default">
+				<div className="flex-center relative size-16 cursor-default first:*:size-full">
 					{kind.icon}
 					<span className="absolute text-2xl tabular-nums">{count}</span>
 				</div>
