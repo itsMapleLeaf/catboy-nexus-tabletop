@@ -1,8 +1,8 @@
-import { render } from "solid-js/web"
+import { createRoot } from "react-dom/client"
 import { App } from "./App.tsx"
 
-if (process.env.NODE_ENV === "development") {
+if (import.meta.env.DEV) {
 	document.title += " [dev]"
 }
 
-render(() => <App />, document.getElementById("app") as HTMLElement)
+createRoot(document.getElementById("root") as HTMLElement).render(<App />)

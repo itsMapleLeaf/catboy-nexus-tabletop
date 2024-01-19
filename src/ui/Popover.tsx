@@ -1,24 +1,40 @@
-import * as Kobalte from "@kobalte/core"
+import * as Ariakit from "@ariakit/react"
+import { twMerge } from "tailwind-merge"
 import { Panel } from "./Panel.tsx"
-import { zoomFadeAnimation } from "./animations.ts"
 
-export function Popover(props: Kobalte.Popover.PopoverRootProps) {
-	return <Kobalte.Popover.Root gutter={8} {...props} />
+export function Popover(props: Ariakit.PopoverProviderProps) {
+	return <Ariakit.PopoverProvider {...props} />
 }
 
-export function PopoverTrigger(props: Kobalte.Popover.PopoverTriggerProps) {
-	return <Kobalte.Popover.Trigger {...props} />
-}
-
-export function PopoverContent(props: Kobalte.Popover.PopoverContentProps) {
+export function PopoverTrigger(props: Ariakit.PopoverDisclosureProps) {
 	return (
-		<Kobalte.Popover.Portal>
-			<Kobalte.Popover.Content
-				{...props}
-				class={zoomFadeAnimation("max-w-[calc(100vw-1rem)]", props.class)}
+		<Ariakit.PopoverAnchor>
+			<Ariakit.PopoverDisclosure {...props} />
+		</Ariakit.PopoverAnchor>
+	)
+}
+
+export function PopoverContent({
+	className,
+	render,
+	children,
+	...props
+}: Ariakit.PopoverProps) {
+	return (
+		<Ariakit.Popover
+			gutter={8}
+			portal
+			{...props}
+			className="group opacity-0 transition-opacity data-[enter]:opacity-100"
+		>
+			<Panel
+				className={twMerge(
+					"max-w-[calc(100vw-1rem)] translate-y-1 transition-transform group-data-[enter]:translate-y-0",
+					className,
+				)}
 			>
-				<Panel>{props.children}</Panel>
-			</Kobalte.Popover.Content>
-		</Kobalte.Popover.Portal>
+				{children}
+			</Panel>
+		</Ariakit.Popover>
 	)
 }

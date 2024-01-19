@@ -1,9 +1,9 @@
+import react from "@vitejs/plugin-react-swc"
 import { defineConfig } from "vite"
-import solid from "vite-plugin-solid"
 import tsconfigPaths from "vite-tsconfig-paths"
 
 export default defineConfig({
-	plugins: [solid(), tsconfigPaths()],
+	plugins: [react(), tsconfigPaths()],
 	css: {
 		devSourcemap: true,
 	},

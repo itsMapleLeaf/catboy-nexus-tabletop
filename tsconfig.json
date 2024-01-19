@@ -5,8 +5,8 @@
 		"moduleResolution": "Bundler",
 		"allowSyntheticDefaultImports": true,
 		"esModuleInterop": true,
-		"jsx": "preserve",
-		"jsxImportSource": "solid-js",
+		"jsx": "react-jsx",
+		"jsxImportSource": "react",
 		"allowJs": true,
 		"maxNodeModuleJsDepth": 1,
 		"noEmit": true,
@@ -17,6 +17,7 @@
 			"~/*": ["./src/*"]
 		},
 		"noUncheckedIndexedAccess": true,
-		"verbatimModuleSyntax": true
+		"verbatimModuleSyntax": true,
+		"types": ["vite/client"]
 	}
 }

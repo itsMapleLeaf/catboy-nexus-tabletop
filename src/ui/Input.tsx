@@ -1,6 +1,6 @@
-import { twVariants } from "~/ui/twVariants.ts"
+import { classed } from "@tw-classed/react"
 
-export const input = twVariants({
+export const Input = classed.input({
 	base: "flex min-w-0 cursor-text select-none items-center rounded border border-theme-border bg-transparent leading-none transition-colors hover:border-theme-copy-lighter focus:border-theme-copy-lighter focus:outline-none",
 	variants: {
 		size: {
