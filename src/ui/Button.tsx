@@ -1,4 +1,4 @@
-import { classed } from "@tw-classed/react"
+import { classed } from "./classed.ts"
 
 export const Button = classed.button({
 	base: "flex min-w-0 cursor-pointer select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none",

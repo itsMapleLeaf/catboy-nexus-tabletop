@@ -1,4 +1,4 @@
-import { classed } from "@tw-classed/react"
+import { classed } from "./classed.ts"
 
 export const Panel = classed.div({
 	base: "bg-theme-background/60 shadow shadow-theme-background/75 backdrop-blur-lg",

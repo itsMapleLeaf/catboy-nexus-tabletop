@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { twMerge } from "tailwind-merge"
 import { Panel } from "./Panel.tsx"
+import { classed } from "./classed.ts"
 
 export function Tabs(props: {
 	views: { title: string; content: () => React.ReactNode }[]
@@ -8,21 +8,16 @@ export function Tabs(props: {
 	const [active, setActive] = useState(0)
 	return (
 		<Panel className="flex h-full flex-col gap-2">
-			<div className="flex items-center ">
+			<div className="flex items-center">
 				{props.views.map((view, index) => (
-					<button
+					<Tab
 						key={view.title}
 						type="button"
-						className={twMerge(
-							"h-10 flex-1 justify-center border-b p-2 ",
-							active === index
-								? "border-theme-primary-light font-medium text-theme-primary-content"
-								: "border-white/25 opacity-50 transition-opacity hover:opacity-75",
-						)}
+						active={index === active}
 						onClick={() => setActive(index)}
 					>
 						{view.title}
-					</button>
+					</Tab>
 				))}
 			</div>
 			<div className="flex-1 overflow-auto">
@@ -31,3 +26,16 @@ export function Tabs(props: {
 		</Panel>
 	)
 }
+
+const Tab = classed.button({
+	base: "h-10 flex-1 justify-center border-b p-2",
+	variants: {
+		active: {
+			true: "border-theme-primary-light font-medium text-theme-primary-content",
+			false: "border-white/25 opacity-50 transition-opacity hover:opacity-75",
+		},
+	},
+	defaultVariants: {
+		active: false,
+	},
+})
