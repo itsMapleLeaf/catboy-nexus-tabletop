@@ -84,7 +84,7 @@ export function DiceRollForm() {
 			</div>
 			<div className="flex gap-2">
 				<Input size="lg" className="flex-1" placeholder="Caption" />
-				<Button type="button" appearance="outline" size="lg">
+				<Button appearance="outline" size="lg">
 					<Lucide.Dices /> Roll
 				</Button>
 			</div>
@@ -117,18 +117,10 @@ function DieCounter({
 				</div>
 			</Tooltip>
 			<div className="flex-center flex-col">
-				<Button
-					type="button"
-					className="aspect-square h-8 p-0"
-					onClick={() => onAdd()}
-				>
+				<Button className="aspect-square h-8 p-0" onClick={onAdd}>
 					<Lucide.ChevronUp className="size-8" />
 				</Button>
-				<Button
-					type="button"
-					className="aspect-square h-8 p-0"
-					onClick={() => onRemove()}
-				>
+				<Button className="aspect-square h-8 p-0" onClick={onRemove}>
 					<Lucide.ChevronDown className="size-8" />
 				</Button>
 			</div>

@@ -16,4 +16,7 @@ export const Button = classed.button({
 		appearance: "clear",
 		size: "md",
 	},
+	defaultProps: {
+		type: "button",
+	},
 })

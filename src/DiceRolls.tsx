@@ -12,9 +12,7 @@ export function DiceRolls() {
 				<li>placeholder</li>
 			</ul>
 			<Popover placement="top-start">
-				<PopoverTrigger
-					render={<Button type="button" className="self-start" />}
-				>
+				<PopoverTrigger render={<Button />} className="self-start">
 					<Lucide.Dices /> Roll Dice
 				</PopoverTrigger>
 				<PopoverContent>
