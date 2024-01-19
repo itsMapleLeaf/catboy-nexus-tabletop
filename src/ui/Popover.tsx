@@ -14,27 +14,17 @@ export function PopoverTrigger(props: Ariakit.PopoverDisclosureProps) {
 	)
 }
 
-export function PopoverContent({
-	className,
-	render,
-	children,
-	...props
-}: Ariakit.PopoverProps) {
+export function PopoverContent(props: Ariakit.PopoverProps) {
 	return (
 		<Ariakit.Popover
 			gutter={8}
 			portal
 			{...props}
-			className="group opacity-0 transition-opacity data-[enter]:opacity-100"
-		>
-			<Panel
-				className={twMerge(
-					"max-w-[calc(100vw-1rem)] translate-y-1 transition-transform group-data-[enter]:translate-y-0",
-					className,
-				)}
-			>
-				{children}
-			</Panel>
-		</Ariakit.Popover>
+			render={<Panel />}
+			className={twMerge(
+				"max-w-[calc(100vw-1rem)] translate-y-1 opacity-0 transition data-[enter]:translate-y-0 data-[enter]:opacity-100",
+				props.className,
+			)}
+		/>
 	)
 }
