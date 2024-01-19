@@ -44,11 +44,7 @@ const diceKinds: DiceKind[] = [
 ]
 
 export function DiceRollForm() {
-	const [diceCounts, setDiceCounts] = useState<Record<string, number>>({
-		Proficiency: 3,
-		Ability: 2,
-		Boost: 1,
-	})
+	const [diceCounts, setDiceCounts] = useState<Record<string, number>>({})
 
 	const setCount = (name: string, getNewCount: (count: number) => number) => {
 		setDiceCounts((counts) => ({
