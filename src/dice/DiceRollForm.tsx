@@ -1,9 +1,12 @@
 import * as Lucide from "lucide-react"
 import { useState } from "react"
 import { twMerge } from "tailwind-merge"
-import { Button } from "./ui/Button.tsx"
-import { Input } from "./ui/Input.tsx"
-import { Tooltip } from "./ui/Tooltip.tsx"
+import { titleCase } from "~/helpers/string.ts"
+import { Panel } from "~/ui/Panel.tsx"
+import { Button } from "../ui/Button.tsx"
+import { Input } from "../ui/Input.tsx"
+import { Tooltip } from "../ui/Tooltip.tsx"
+import { GenesysDieIcon, iconNames } from "./GenesysDieIcon.tsx"
 
 interface DiceKind {
 	name: string
@@ -41,6 +44,10 @@ const diceKinds: DiceKind[] = [
 		name: "Destiny",
 		icon: <Lucide.Pentagon className="-translate-y-0.5 text-white" />,
 	},
+	...iconNames.map((name) => ({
+		name: titleCase(name),
+		icon: <GenesysDieIcon icon={name} />,
+	})),
 ]
 
 export function DiceRollForm() {
@@ -96,26 +103,35 @@ function DieCounter({
 	onRemove: () => void
 }) {
 	return (
-		<div
-			className={twMerge(
-				"flex-center gap-1.5 transition-opacity",
-				count < 1 && "opacity-50",
-			)}
-		>
-			<Tooltip tooltip={kind.name}>
-				<div className="flex-center relative size-16 cursor-default first:*:size-full">
-					{kind.icon}
-					<span className="absolute text-2xl tabular-nums">{count}</span>
-				</div>
+		<Panel className="flex-center gap-2 p-1 ">
+			<Tooltip
+				tooltip={kind.name}
+				className={twMerge(
+					"size-14 cursor-default p-1 transition-opacity first:*:size-full",
+					count < 1 && "opacity-50",
+				)}
+				render={<Button onClick={onAdd} aria-hidden />}
+			>
+				{kind.icon}
 			</Tooltip>
+
+			<p
+				className="text-3xl tabular-nums"
+				aria-label={`${kind.name} dice count`}
+			>
+				{count}
+			</p>
+
 			<div className="flex-center flex-col">
 				<Button className="aspect-square h-8 p-0" onClick={onAdd}>
 					<Lucide.ChevronUp className="size-8" />
+					<span className="sr-only">Add {kind.name} die</span>
 				</Button>
 				<Button className="aspect-square h-8 p-0" onClick={onRemove}>
 					<Lucide.ChevronDown className="size-8" />
+					<span className="sr-only">Remove {kind.name} die</span>
 				</Button>
 			</div>
-		</div>
+		</Panel>
 	)
 }

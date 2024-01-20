@@ -1,7 +1,7 @@
 import * as Lucide from "lucide-react"
+import { Button } from "../ui/Button.tsx"
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover.tsx"
 import { DiceRollForm } from "./DiceRollForm.tsx"
-import { Button } from "./ui/Button.tsx"
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/Popover.tsx"
 
 export function DiceRolls() {
 	return (
