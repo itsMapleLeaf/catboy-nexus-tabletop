@@ -3,17 +3,19 @@ import * as Lucide from "lucide-react"
 import { useLocalStorageState } from "~/helpers/react.ts"
 import { Button } from "../ui/Button.tsx"
 
+export interface CollapseProps {
+	title: string
+	children: React.ReactNode
+	defaultOpen?: boolean
+	storageKey?: string
+}
+
 export function Collapse({
 	title,
 	children,
 	defaultOpen = false,
 	storageKey = title,
-}: {
-	title: string
-	children: React.ReactNode
-	defaultOpen?: boolean
-	storageKey?: string
-}) {
+}: CollapseProps) {
 	const [open, setOpen] = useLocalStorageState({
 		key: `collapse:${storageKey}`,
 		deserialize: (value) => (value ? value === "true" : defaultOpen),

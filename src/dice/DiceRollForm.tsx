@@ -1,70 +1,17 @@
 import * as Lucide from "lucide-react"
-import { useState } from "react"
-import { twMerge } from "tailwind-merge"
+import { createContext, useContext, useState } from "react"
 import { titleCase } from "~/helpers/string.ts"
-import { Collapse } from "~/ui/Collapse.tsx"
+import { Collapse, type CollapseProps } from "~/ui/Collapse.tsx"
 import { Panel } from "~/ui/Panel.tsx"
 import { Button } from "../ui/Button.tsx"
 import { Input } from "../ui/Input.tsx"
-import { Tooltip } from "../ui/Tooltip.tsx"
 import { GenesysDieIcon, iconNames } from "./GenesysDieIcon.tsx"
 
-interface DiceKind {
-	name: string
-	icon: JSX.Element
-}
-
-interface DiceSection {
-	title: string
-	dice: DiceKind[]
-	defaultOpen?: boolean
-}
-
-const sections: DiceSection[] = [
-	{
-		title: "Dice",
-		defaultOpen: true,
-		dice: [
-			{
-				name: "Proficiency",
-				icon: <Lucide.Pentagon className="-translate-y-0.5 text-yellow-300" />,
-			},
-			{
-				name: "Ability",
-				icon: <Lucide.Diamond className="text-green-300" />,
-			},
-			{
-				name: "Boost",
-				icon: <Lucide.Square className="text-sky-300" />,
-			},
-			{
-				name: "Challenge",
-				icon: <Lucide.Pentagon className="-translate-y-0.5 text-red-300" />,
-			},
-			{
-				name: "Difficulty",
-				icon: <Lucide.Diamond className="text-purple-300" />,
-			},
-			{
-				name: "Setback",
-				icon: (
-					<Lucide.Square className="text-neutral-900 drop-shadow-[0_0_1px_white]" />
-				),
-			},
-			{
-				name: "Destiny",
-				icon: <Lucide.Pentagon className="-translate-y-0.5 text-white" />,
-			},
-		],
-	},
-	{
-		title: "Symbols",
-		dice: iconNames.map((name) => ({
-			name: titleCase(name),
-			icon: <GenesysDieIcon icon={name} />,
-		})),
-	},
-]
+const Context = createContext({
+	diceCounts: {} as Record<string, number>,
+	add: (name: string) => {},
+	remove: (name: string) => {},
+})
 
 export function DiceRollForm() {
 	const [diceCounts, setDiceCounts] = useState<Record<string, number>>({})
@@ -86,26 +33,43 @@ export function DiceRollForm() {
 
 	return (
 		<div className="flex flex-col gap-3 p-3">
-			{sections.map((section) => (
-				<Collapse
-					key={section.title}
-					title={section.title}
-					defaultOpen={section.defaultOpen}
-				>
-					<ul className="grid grid-cols-3 flex-wrap gap-3">
-						{section.dice.map((kind) => (
-							<li key={kind.name}>
-								<DieCounter
-									kind={kind}
-									count={diceCounts[kind.name] ?? 0}
-									onAdd={() => addDie(kind.name)}
-									onRemove={() => removeDie(kind.name)}
-								/>
-							</li>
-						))}
-					</ul>
-				</Collapse>
-			))}
+			<Context.Provider value={{ diceCounts, add: addDie, remove: removeDie }}>
+				<DiceSection title="Dice" defaultOpen>
+					<DieCounter name="Proficiency">
+						<Lucide.Pentagon className="-translate-y-0.5 text-yellow-300" />
+					</DieCounter>
+					<DieCounter name="Ability">
+						<Lucide.Diamond className="text-green-300" />
+					</DieCounter>
+					<DieCounter name="Boost">
+						<Lucide.Square className="text-sky-300" />
+					</DieCounter>
+					<DieCounter name="Challenge">
+						<Lucide.Pentagon className="-translate-y-0.5 text-red-300" />
+					</DieCounter>
+					<DieCounter name="Difficulty">
+						<Lucide.Diamond className="text-purple-300" />
+					</DieCounter>
+					<DieCounter name="Setback">
+						<Lucide.Square className="text-neutral-900 drop-shadow-[0_0_1px_white]" />
+					</DieCounter>
+					<DieCounter name="Destiny">
+						<Lucide.Pentagon className="-translate-y-0.5 text-white" />
+					</DieCounter>
+					<DieCounterLayout name="Plain Dice">
+						<Input defaultValue={100} className="mx-1.5 text-center" />
+					</DieCounterLayout>
+				</DiceSection>
+
+				<DiceSection title="Symbols">
+					{iconNames.map((name) => (
+						<DieCounter key={name} name={titleCase(name)}>
+							<GenesysDieIcon icon={name} />
+						</DieCounter>
+					))}
+				</DiceSection>
+			</Context.Provider>
+
 			<div className="flex gap-2">
 				<Input size="lg" className="flex-1" placeholder="Caption" />
 				<Button appearance="outline" size="lg">
@@ -116,53 +80,67 @@ export function DiceRollForm() {
 	)
 }
 
-function DieCounter({
-	kind,
-	count,
-	onAdd,
-	onRemove,
-}: {
-	kind: DiceKind
-	count: number
-	onAdd: () => void
-	onRemove: () => void
-}) {
+function DiceSection(props: CollapseProps) {
 	return (
-		<Panel className="flex-center gap-2 p-1 ">
-			<Tooltip
-				tooltip={kind.name}
-				className={twMerge(
-					"size-14 cursor-default p-1 transition-opacity first:*:size-full",
-					count < 1 && "opacity-50",
-				)}
-				render={<Button appearance="clear" onClick={onAdd} aria-hidden />}
-			>
-				{kind.icon}
-			</Tooltip>
+		<Collapse {...props}>
+			<div className="grid grid-cols-3 flex-wrap gap-3">{props.children}</div>
+		</Collapse>
+	)
+}
 
-			<p
-				className="text-3xl tabular-nums"
-				aria-label={`${kind.name} dice count`}
+function DieCounter({
+	name,
+	children,
+}: {
+	name: string
+	children: React.ReactNode
+}) {
+	const { add } = useContext(Context)
+	return (
+		<DieCounterLayout name={name}>
+			<Button
+				appearance="clear"
+				className="aspect-square h-auto w-16 p-1 first:*:size-full"
+				onClick={() => add(name)}
 			>
+				{children}
+				<span className="sr-only">Add {name} die</span>
+			</Button>
+		</DieCounterLayout>
+	)
+}
+
+function DieCounterLayout({
+	name,
+	children,
+}: {
+	name: string
+	children: React.ReactNode
+}) {
+	const { diceCounts, add, remove } = useContext(Context)
+	const count = diceCounts[name] ?? 0
+	return (
+		<Panel className="flex-center gap-2 p-1">
+			{children}
+			<p className="text-3xl tabular-nums" aria-label={`${name} dice count`}>
 				{count}
 			</p>
-
 			<div className="flex-center flex-col">
 				<Button
 					appearance="clear"
 					className="aspect-square h-8 p-0"
-					onClick={onAdd}
+					onClick={() => add(name)}
 				>
 					<Lucide.ChevronUp className="size-8" />
-					<span className="sr-only">Add {kind.name} die</span>
+					<span className="sr-only">Add {name} die</span>
 				</Button>
 				<Button
 					appearance="clear"
 					className="aspect-square h-8 p-0"
-					onClick={onRemove}
+					onClick={() => remove(name)}
 				>
 					<Lucide.ChevronDown className="size-8" />
-					<span className="sr-only">Remove {kind.name} die</span>
+					<span className="sr-only">Remove {name} die</span>
 				</Button>
 			</div>
 		</Panel>
