@@ -15,7 +15,7 @@ export function DiceRolls() {
 				<PopoverTrigger render={<Button />} className="self-start">
 					<Lucide.Dices /> Roll Dice
 				</PopoverTrigger>
-				<PopoverContent>
+				<PopoverContent className="w-[28rem]">
 					<DiceRollForm />
 				</PopoverContent>
 			</Popover>

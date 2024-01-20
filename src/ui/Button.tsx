@@ -1,7 +1,7 @@
 import { classed } from "./classed.ts"
 
 export const Button = classed.button({
-	base: "flex min-w-0 cursor-pointer select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none",
+	base: "flex min-w-0 cursor-default select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none",
 	variants: {
 		appearance: {
 			clear: "border-transparent bg-transparent hover:bg-theme-border",
@@ -13,7 +13,7 @@ export const Button = classed.button({
 		},
 	},
 	defaultVariants: {
-		appearance: "clear",
+		appearance: "outline",
 		size: "md",
 	},
 	defaultProps: {
