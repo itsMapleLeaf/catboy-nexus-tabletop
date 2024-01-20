@@ -31,6 +31,10 @@ export function DiceRollForm() {
 		setCount(name, (count) => count - 1)
 	}
 
+	const reset = () => {
+		setDiceCounts({})
+	}
+
 	return (
 		<div className="flex flex-col gap-3 p-3">
 			<Context.Provider value={{ diceCounts, add: addDie, remove: removeDie }}>
@@ -72,6 +76,9 @@ export function DiceRollForm() {
 
 			<div className="flex gap-2">
 				<Input size="lg" className="flex-1" placeholder="Caption" />
+				<Button appearance="outline" size="lg" onClick={reset}>
+					<Lucide.RotateCcw /> Reset
+				</Button>
 				<Button appearance="outline" size="lg">
 					<Lucide.Dices /> Roll
 				</Button>
