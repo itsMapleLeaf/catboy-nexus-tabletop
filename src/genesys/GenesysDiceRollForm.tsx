@@ -1,11 +1,11 @@
 import * as Lucide from "lucide-react"
 import { createContext, useContext, useState } from "react"
-import { titleCase } from "~/helpers/string.ts"
+import { getGenesisDice } from "~/genesys/dice.tsx"
+import { getGenesysSymbols } from "~/genesys/symbols.ts"
 import { Collapse, type CollapseProps } from "~/ui/Collapse.tsx"
 import { Panel } from "~/ui/Panel.tsx"
 import { Button } from "../ui/Button.tsx"
 import { Input } from "../ui/Input.tsx"
-import { GenesysDieIcon, iconNames } from "./GenesysDieIcon.tsx"
 
 const Context = createContext({
 	diceCounts: {} as Record<string, number>,
@@ -13,7 +13,7 @@ const Context = createContext({
 	remove: (name: string) => {},
 })
 
-export function DiceRollForm() {
+export function GenesysDiceRollForm() {
 	const [diceCounts, setDiceCounts] = useState<Record<string, number>>({})
 
 	const setCount = (name: string, getNewCount: (count: number) => number) => {
@@ -39,36 +39,20 @@ export function DiceRollForm() {
 		<div className="flex flex-col gap-3 p-3">
 			<Context.Provider value={{ diceCounts, add: addDie, remove: removeDie }}>
 				<DiceSection title="Dice" defaultOpen>
-					<DieCounter name="Proficiency">
-						<Lucide.Pentagon className="-translate-y-0.5 text-yellow-300" />
-					</DieCounter>
-					<DieCounter name="Ability">
-						<Lucide.Diamond className="text-green-300" />
-					</DieCounter>
-					<DieCounter name="Boost">
-						<Lucide.Square className="text-sky-300" />
-					</DieCounter>
-					<DieCounter name="Challenge">
-						<Lucide.Pentagon className="-translate-y-0.5 text-red-300" />
-					</DieCounter>
-					<DieCounter name="Difficulty">
-						<Lucide.Diamond className="text-purple-300" />
-					</DieCounter>
-					<DieCounter name="Setback">
-						<Lucide.Square className="text-neutral-900 drop-shadow-[0_0_1px_white]" />
-					</DieCounter>
-					<DieCounter name="Destiny">
-						<Lucide.Pentagon className="-translate-y-0.5 text-white" />
-					</DieCounter>
+					{getGenesisDice().map((die) => (
+						<DieCounter key={die.id} name={die.label}>
+							{die.element}
+						</DieCounter>
+					))}
 					<DieCounterLayout name="Plain Dice">
 						<Input defaultValue={100} className="mx-1.5 text-center" />
 					</DieCounterLayout>
 				</DiceSection>
 
 				<DiceSection title="Symbols">
-					{iconNames.map((name) => (
-						<DieCounter key={name} name={titleCase(name)}>
-							<GenesysDieIcon icon={name} />
+					{getGenesysSymbols().map((symbol) => (
+						<DieCounter key={symbol.id} name={symbol.label}>
+							<img src={symbol.image} alt="" />
 						</DieCounter>
 					))}
 				</DiceSection>
