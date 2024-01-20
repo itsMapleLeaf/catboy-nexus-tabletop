@@ -1,8 +1,12 @@
 import { classed } from "./classed.ts"
 
 export const Panel = classed.div({
-	base: "bg-theme-background/60 shadow shadow-theme-background/75 backdrop-blur-lg",
 	variants: {
+		appearance: {
+			solid: "bg-theme-background",
+			translucent:
+				"bg-theme-background/60 shadow shadow-theme-background/75 backdrop-blur-lg",
+		},
 		border: {
 			left: "border-l border-theme-border",
 			right: "border-r border-theme-border",
@@ -15,6 +19,7 @@ export const Panel = classed.div({
 		},
 	},
 	defaultVariants: {
+		appearance: "solid",
 		border: "all",
 	},
 })

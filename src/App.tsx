@@ -1,4 +1,4 @@
-import { DiceRolls } from "./DiceRolls.tsx"
+import { DiceRolls } from "./dice/DiceRolls.tsx"
 import { Panel } from "./ui/Panel.tsx"
 import { Tabs } from "./ui/Tabs.tsx"
 
@@ -55,7 +55,9 @@ export function App() {
 		<main className="h-dvh gap-2 p-2 @container">
 			<div className="flex h-full flex-col gap-[inherit] @2xl:hidden">
 				{getCollapsedItems(allItems).map((item) => (
-					<Panel key={item.title}>{item.content()}</Panel>
+					<Panel appearance="translucent" key={item.title}>
+						{item.content()}
+					</Panel>
 				))}
 
 				<div className="flex-1 @lg:hidden">
@@ -65,12 +67,16 @@ export function App() {
 				<div className="hidden flex-1 auto-cols-fr grid-flow-col gap-[inherit] @lg:grid">
 					<div className="grid auto-rows-fr gap-[inherit]">
 						{getExpandedItems(layout.left).map((item) => (
-							<Panel key={item.title}>{item.content()}</Panel>
+							<Panel appearance="translucent" key={item.title}>
+								{item.content()}
+							</Panel>
 						))}
 					</div>
 					<div className="grid auto-rows-fr gap-[inherit]">
 						{getExpandedItems(layout.right).map((item) => (
-							<Panel key={item.title}>{item.content()}</Panel>
+							<Panel appearance="translucent" key={item.title}>
+								{item.content()}
+							</Panel>
 						))}
 					</div>
 				</div>
@@ -79,7 +85,11 @@ export function App() {
 			<div className="hidden h-full justify-between gap-[inherit] @2xl:flex">
 				<div className="flex w-[24rem] shrink flex-col gap-[inherit]">
 					{layout.left.map((item) => (
-						<Panel key={item.title} className={item.expanded ? "flex-1" : ""}>
+						<Panel
+							appearance="translucent"
+							key={item.title}
+							className={item.expanded ? "flex-1" : ""}
+						>
 							{item.content()}
 						</Panel>
 					))}
@@ -87,7 +97,11 @@ export function App() {
 
 				<div className="flex w-[24rem] shrink flex-col gap-[inherit]">
 					{layout.right.map((item) => (
-						<Panel key={item.title} className={item.expanded ? "flex-1" : ""}>
+						<Panel
+							appearance="translucent"
+							key={item.title}
+							className={item.expanded ? "flex-1" : ""}
+						>
 							{item.content()}
 						</Panel>
 					))}

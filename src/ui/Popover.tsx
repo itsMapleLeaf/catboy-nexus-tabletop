@@ -20,7 +20,7 @@ export function PopoverContent(props: Ariakit.PopoverProps) {
 			gutter={8}
 			portal
 			{...props}
-			render={<Panel />}
+			render={<Panel appearance="translucent" />}
 			className={twMerge(
 				"max-w-[calc(100vw-1rem)] translate-y-1 opacity-0 transition data-[enter]:translate-y-0 data-[enter]:opacity-100",
 				props.className,
