@@ -86,9 +86,9 @@ export function App() {
 				<div className="flex w-[24rem] shrink flex-col gap-[inherit]">
 					{layout.left.map((item) => (
 						<Panel
-							appearance="translucent"
 							key={item.title}
-							className={item.expanded ? "flex-1" : ""}
+							appearance="translucent"
+							className={item.expanded ? "min-h-0 flex-1" : ""}
 						>
 							{item.content()}
 						</Panel>
@@ -98,9 +98,9 @@ export function App() {
 				<div className="flex w-[24rem] shrink flex-col gap-[inherit]">
 					{layout.right.map((item) => (
 						<Panel
-							appearance="translucent"
 							key={item.title}
-							className={item.expanded ? "flex-1" : ""}
+							appearance="translucent"
+							className={item.expanded ? "min-h-0 flex-1" : ""}
 						>
 							{item.content()}
 						</Panel>

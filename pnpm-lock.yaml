@@ -26,6 +26,9 @@ dependencies:
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
+  react-virtuoso:
+    specifier: 4.6.2
+    version: 4.6.2(react-dom@18.2.0)(react@18.2.0)
   tailwind-merge:
     specifier: 2.2.0
     version: 2.2.0
@@ -2167,6 +2170,17 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-virtuoso@4.6.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-vvlqvzPif+MvBrJ09+hJJrVY0xJK9yran+A+/1iwY78k0YCVKsyoNPqoLxOxzYPggspNBNXqUXEcvckN29OxyQ==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16 || >=17 || >= 18'
+      react-dom: '>=16 || >=17 || >= 18'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react@18.2.0:

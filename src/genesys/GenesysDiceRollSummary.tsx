@@ -6,6 +6,7 @@ import type { GenesysDie } from "./dice.tsx"
 import { genesysSymbolRules } from "./symbols.ts"
 
 type DiceRoll = {
+	key: string
 	caption: string
 	dice: RolledDie[]
 	rolledBy: string
