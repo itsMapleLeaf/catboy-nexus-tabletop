@@ -29,6 +29,27 @@ export const genesysSymbols = objectFromEntries(
 	}),
 )
 
+export const genesysSymbolRules = {
+	[genesysSymbols.success.id]: {
+		removes: genesysSymbols.failure.id,
+	},
+	[genesysSymbols.failure.id]: {
+		removes: genesysSymbols.success.id,
+	},
+	[genesysSymbols.advantage.id]: {
+		removes: genesysSymbols.threat.id,
+	},
+	[genesysSymbols.threat.id]: {
+		removes: genesysSymbols.advantage.id,
+	},
+	[genesysSymbols.triumph.id]: {
+		removes: genesysSymbols.despair.id,
+	},
+	[genesysSymbols.despair.id]: {
+		removes: genesysSymbols.triumph.id,
+	},
+}
+
 export function getGenesysSymbols() {
 	return Object.values(genesysSymbols)
 }
