@@ -1,3 +1,4 @@
+import { objectFromEntries } from "~/helpers/object.ts"
 import { titleCase } from "~/helpers/string.ts"
 
 export type GenesysSymbol = {
@@ -6,29 +7,33 @@ export type GenesysSymbol = {
 	image: string
 }
 
-function defineGenesysSymbol(id: string): GenesysSymbol {
-	return {
-		id,
-		label: titleCase(id),
-		image: new URL(`./assets/${id}.svg`, import.meta.url).href,
-	}
-}
+const genesysSymbolNames = [
+	"success",
+	"failure",
+	"advantage",
+	"threat",
+	"triumph",
+	"despair",
+	"light-point",
+	"dark-point",
+] as const
 
-export const genesysSymbols = {
-	success: defineGenesysSymbol("success"),
-	failure: defineGenesysSymbol("failure"),
-	advantage: defineGenesysSymbol("advantage"),
-	threat: defineGenesysSymbol("threat"),
-	triumph: defineGenesysSymbol("triumph"),
-	despair: defineGenesysSymbol("despair"),
-	"light-point": defineGenesysSymbol("light-point"),
-	"dark-point": defineGenesysSymbol("dark-point"),
-}
+export const genesysSymbols = objectFromEntries(
+	genesysSymbolNames.map((id) => {
+		const symbol: GenesysSymbol = {
+			id,
+			label: titleCase(id),
+			image: new URL(`./assets/${id}.svg`, import.meta.url).href,
+		}
+		return [id, symbol]
+	}),
+)
 
 export function getGenesysSymbols() {
 	return Object.values(genesysSymbols)
 }
 
 export function getGenesysSymbol(id: string): GenesysSymbol | undefined {
-	return (genesysSymbols as Record<string, GenesysSymbol>)[id]
+	const record: Record<string, GenesysSymbol> = genesysSymbols
+	return record[id]
 }

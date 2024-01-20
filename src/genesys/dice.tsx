@@ -1,33 +1,17 @@
 import * as Lucide from "lucide-react"
+import { mapValues } from "~/helpers/object.ts"
 import { titleCase } from "~/helpers/string.ts"
 import { type GenesysSymbol, genesysSymbols } from "./symbols.ts"
 
 export type GenesysDie = {
 	id: string
 	label: string
-	faces: ReadonlyArray<
-		readonly [] | [GenesysSymbol] | [GenesysSymbol, GenesysSymbol]
-	>
+	faces: ReadonlyArray<ReadonlyArray<GenesysSymbol>>
 	element: React.ReactElement
 }
 
-function defineGenesysDie({
-	id,
-	label = titleCase(id),
-	faces,
-	element,
-}: {
-	id: string
-	label?: string
-	faces: GenesysDie["faces"]
-	element: React.ReactElement
-}): GenesysDie {
-	return { id, label, faces, element }
-}
-
-export const genesysDice = {
-	boost: defineGenesysDie({
-		id: "boost",
+const genesysDiceBase = {
+	boost: {
 		faces: [
 			[],
 			[],
@@ -37,9 +21,8 @@ export const genesysDice = {
 			[genesysSymbols.advantage],
 		],
 		element: <Lucide.Square className="text-sky-300" />,
-	}),
-	setback: defineGenesysDie({
-		id: "setback",
+	},
+	setback: {
 		faces: [
 			[],
 			[],
@@ -51,9 +34,8 @@ export const genesysDice = {
 		element: (
 			<Lucide.Square className="text-neutral-900 drop-shadow-[0_0_1px_white]" />
 		),
-	}),
-	ability: defineGenesysDie({
-		id: "ability",
+	},
+	ability: {
 		faces: [
 			[],
 			[genesysSymbols.success],
@@ -65,9 +47,8 @@ export const genesysDice = {
 			[genesysSymbols.advantage, genesysSymbols.advantage],
 		],
 		element: <Lucide.Diamond className="text-green-300" />,
-	}),
-	difficulty: defineGenesysDie({
-		id: "difficulty",
+	},
+	difficulty: {
 		faces: [
 			[],
 			[genesysSymbols.failure],
@@ -79,9 +60,8 @@ export const genesysDice = {
 			[genesysSymbols.failure, genesysSymbols.threat],
 		],
 		element: <Lucide.Diamond className="text-purple-300" />,
-	}),
-	proficiency: defineGenesysDie({
-		id: "proficiency",
+	},
+	proficiency: {
 		faces: [
 			[],
 			[genesysSymbols.success],
@@ -97,9 +77,8 @@ export const genesysDice = {
 			[genesysSymbols.triumph],
 		],
 		element: <Lucide.Pentagon className="-translate-y-0.5 text-yellow-300" />,
-	}),
-	challenge: defineGenesysDie({
-		id: "challenge",
+	},
+	challenge: {
 		faces: [
 			[],
 			[genesysSymbols.failure],
@@ -115,18 +94,25 @@ export const genesysDice = {
 			[genesysSymbols.despair],
 		],
 		element: <Lucide.Pentagon className="-translate-y-0.5 text-red-300" />,
-	}),
-}
+	},
+} as const
 
-export function getGenesisDice(): GenesysDie[] {
-	return Object.entries(genesysDice).map(([id, die]) => ({
+export const genesysDice = mapValues(
+	genesysDiceBase,
+	(die, id): GenesysDie => ({
 		...die,
 		id,
 		label: titleCase(id),
-	}))
+	}),
+)
+
+const genesysDiceArray = Object.values(genesysDice)
+
+export function getGenesisDice(): GenesysDie[] {
+	return genesysDiceArray
 }
 
 export function getGenesysDie(id: string): GenesysDie | undefined {
-	const result = (genesysDice as Record<string, GenesysDie>)[id]
-	return result ? { ...result, id, label: titleCase(id) } : undefined
+	const record: Record<string, GenesysDie> = genesysDice
+	return record[id]
 }

@@ -1,5 +1,5 @@
 export function objectFromEntries<K extends PropertyKey, V>(
-	entries: Iterable<[K, V]>,
+	entries: Iterable<readonly [K, V]>,
 ) {
 	return Object.fromEntries(entries) as Record<K, V>
 }
