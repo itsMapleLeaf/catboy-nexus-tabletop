@@ -1,4 +1,6 @@
+import React, { useMemo } from "react"
 import { DiceRolls } from "./dice/DiceRolls.tsx"
+import { useRect } from "./helpers/useRect.tsx"
 import { Panel } from "./ui/Panel.tsx"
 import { Tabs } from "./ui/Tabs.tsx"
 
@@ -51,9 +53,12 @@ const getExpandedItems = (items: LayoutItem[]) =>
 	items.filter((item) => item.expanded)
 
 export function App() {
-	return (
-		<main className="h-dvh gap-2 p-2 @container">
-			<div className="flex h-full flex-col gap-[inherit] @2xl:hidden">
+	const containerRef = React.useRef<HTMLDivElement>(null)
+	const rect = useRect(containerRef)
+
+	const narrowLayout = useMemo(
+		() => (
+			<div className="flex h-full flex-col gap-[inherit]">
 				{getCollapsedItems(allItems).map((item) => (
 					<Panel appearance="translucent" key={item.title}>
 						{item.content()}
@@ -61,10 +66,15 @@ export function App() {
 				))}
 				<Tabs views={getExpandedItems(allItems)} />
 			</div>
+		),
+		[],
+	)
 
-			<div className="hidden h-full justify-between gap-[inherit] @2xl:flex">
+	const wideLayout = useMemo(
+		() => (
+			<div className="flex h-full justify-between gap-[inherit]">
 				{(["left", "right"] as const).map((side) => (
-					<div className="flex w-[24rem] flex-col gap-[inherit]">
+					<div key={side} className="flex w-[24rem] flex-col gap-[inherit]">
 						{layout[side].map((item) => (
 							<Panel
 								key={item.title}
@@ -77,6 +87,13 @@ export function App() {
 					</div>
 				))}
 			</div>
+		),
+		[],
+	)
+
+	return (
+		<main className="h-dvh gap-2 p-2" ref={containerRef}>
+			{(rect?.width ?? 0) < 672 ? narrowLayout : wideLayout}
 		</main>
 	)
 }
