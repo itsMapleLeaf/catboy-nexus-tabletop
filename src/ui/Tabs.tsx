@@ -1,14 +1,25 @@
-import { useDeferredValue, useState } from "react"
+import { useDeferredValue } from "react"
+import { useLocalStorageState } from "~/helpers/react.ts"
 import { Panel } from "./Panel.tsx"
 import { classed } from "./classed.ts"
 
 export function Tabs(props: {
+	storageId: string
 	views: { title: string; content: () => React.ReactNode }[]
 }) {
-	const [active, setActive] = useState(0)
+	const [active, setActive] = useLocalStorageState({
+		key: `activeTab:${props.storageId}`,
+		deserialize: (value) => {
+			const parsed = Number(value)
+			return Number.isInteger(parsed) && parsed >= 0 ? parsed : 0
+		},
+		serialize: (value) => value.toString(),
+	})
+
 	const deferredActive = useDeferredValue(active)
+
 	return (
-		<Panel appearance="translucent" className="flex h-full flex-col gap-2">
+		<Panel appearance="translucent" className="flex h-full flex-col">
 			<div className="flex items-center">
 				{props.views.map((view, index) => (
 					<Tab
@@ -21,7 +32,7 @@ export function Tabs(props: {
 					</Tab>
 				))}
 			</div>
-			<div className="flex-1 overflow-auto">
+			<div className="min-h-0 flex-1 overflow-auto">
 				{props.views[deferredActive]?.content()}
 			</div>
 		</Panel>
