@@ -59,53 +59,23 @@ export function App() {
 						{item.content()}
 					</Panel>
 				))}
-
-				<div className="flex-1 @lg:hidden">
-					<Tabs views={getExpandedItems(allItems)} />
-				</div>
-
-				<div className="hidden flex-1 auto-cols-fr grid-flow-col gap-[inherit] @lg:grid">
-					<div className="grid auto-rows-fr gap-[inherit]">
-						{getExpandedItems(layout.left).map((item) => (
-							<Panel appearance="translucent" key={item.title}>
-								{item.content()}
-							</Panel>
-						))}
-					</div>
-					<div className="grid auto-rows-fr gap-[inherit]">
-						{getExpandedItems(layout.right).map((item) => (
-							<Panel appearance="translucent" key={item.title}>
-								{item.content()}
-							</Panel>
-						))}
-					</div>
-				</div>
+				<Tabs views={getExpandedItems(allItems)} />
 			</div>
 
 			<div className="hidden h-full justify-between gap-[inherit] @2xl:flex">
-				<div className="flex w-[24rem] shrink flex-col gap-[inherit]">
-					{layout.left.map((item) => (
-						<Panel
-							key={item.title}
-							appearance="translucent"
-							className={item.expanded ? "min-h-0 flex-1" : ""}
-						>
-							{item.content()}
-						</Panel>
-					))}
-				</div>
-
-				<div className="flex w-[24rem] shrink flex-col gap-[inherit]">
-					{layout.right.map((item) => (
-						<Panel
-							key={item.title}
-							appearance="translucent"
-							className={item.expanded ? "min-h-0 flex-1" : ""}
-						>
-							{item.content()}
-						</Panel>
-					))}
-				</div>
+				{(["left", "right"] as const).map((side) => (
+					<div className="flex w-[24rem] flex-col gap-[inherit]">
+						{layout[side].map((item) => (
+							<Panel
+								key={item.title}
+								appearance="translucent"
+								className={item.expanded ? "min-h-0 flex-1" : ""}
+							>
+								{item.content()}
+							</Panel>
+						))}
+					</div>
+				))}
 			</div>
 		</main>
 	)
