@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useDeferredValue, useState } from "react"
 import { Panel } from "./Panel.tsx"
 import { classed } from "./classed.ts"
 
@@ -6,6 +6,7 @@ export function Tabs(props: {
 	views: { title: string; content: () => React.ReactNode }[]
 }) {
 	const [active, setActive] = useState(0)
+	const deferredActive = useDeferredValue(active)
 	return (
 		<Panel appearance="translucent" className="flex h-full flex-col gap-2">
 			<div className="flex items-center">
@@ -21,7 +22,7 @@ export function Tabs(props: {
 				))}
 			</div>
 			<div className="flex-1 overflow-auto">
-				{props.views[active]?.content()}
+				{props.views[deferredActive]?.content()}
 			</div>
 		</Panel>
 	)
