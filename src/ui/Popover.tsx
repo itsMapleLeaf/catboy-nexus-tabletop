@@ -21,6 +21,7 @@ export function PopoverContent(props: Ariakit.PopoverProps) {
 			portal
 			{...props}
 			render={<Panel appearance="translucent" />}
+			unmountOnHide
 			className={twMerge(
 				"max-w-[calc(100vw-1rem)] translate-y-1 opacity-0 transition data-[enter]:translate-y-0 data-[enter]:opacity-100",
 				props.className,

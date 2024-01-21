@@ -12,8 +12,9 @@ export function Tooltip({
 		<Ariakit.TooltipProvider placement={placement}>
 			<Ariakit.TooltipAnchor {...props} />
 			<Ariakit.Tooltip
-				gutter={4}
 				className="pointer-events-none translate-y-0.5 rounded bg-theme-copy px-1.5 py-1 text-sm font-medium leading-none text-theme-background opacity-0 transition data-[enter]:translate-y-0 data-[enter]:opacity-100"
+				gutter={4}
+				unmountOnHide
 			>
 				{tooltip}
 			</Ariakit.Tooltip>
