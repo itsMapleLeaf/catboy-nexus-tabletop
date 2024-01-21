@@ -1,4 +1,5 @@
 import React, { useMemo } from "react"
+import { CharactersSection } from "./characters/CharactersSection.tsx"
 import { DiceRolls } from "./dice/DiceRolls.tsx"
 import { useRect } from "./helpers/useRect.tsx"
 import { Panel } from "./ui/Panel.tsx"
@@ -19,11 +20,11 @@ const layout: Layout = {
 	left: [
 		{
 			title: "Destiny",
-			content: () => <Destiny />,
+			content: () => <DestinySection />,
 		},
 		{
 			title: "Initiative",
-			content: () => <Initiative />,
+			content: () => <InitiativeSection />,
 		},
 		{
 			title: "Dice",
@@ -34,11 +35,11 @@ const layout: Layout = {
 	right: [
 		{
 			title: "Positions",
-			content: () => <Positioning />,
+			content: () => <PositioningSection />,
 		},
 		{
 			title: "Characters",
-			content: () => <Characters />,
+			content: () => <CharactersSection />,
 			expanded: true,
 		},
 	],
@@ -64,7 +65,9 @@ export function App() {
 						{item.content()}
 					</Panel>
 				))}
-				<Tabs views={getExpandedItems(allItems)} />
+				<div className="min-h-0 flex-1">
+					<Tabs storageId="app" views={getExpandedItems(allItems)} />
+				</div>
 			</div>
 		),
 		[],
@@ -98,18 +101,14 @@ export function App() {
 	)
 }
 
-function Initiative() {
+function InitiativeSection() {
 	return <section className="flex-center h-full">initiative</section>
 }
 
-function Destiny() {
+function DestinySection() {
 	return <section className="flex-center h-full">destiny</section>
 }
 
-function Positioning() {
+function PositioningSection() {
 	return <section className="flex-center h-full">positioning</section>
-}
-
-function Characters() {
-	return <section className="flex-center h-full">characters</section>
 }
