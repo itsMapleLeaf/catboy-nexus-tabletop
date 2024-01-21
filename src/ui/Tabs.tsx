@@ -7,7 +7,7 @@ export function Tabs(props: {
 }) {
 	const [active, setActive] = useState(0)
 	return (
-		<Panel className="flex h-full flex-col gap-2">
+		<Panel appearance="translucent" className="flex h-full flex-col gap-2">
 			<div className="flex items-center">
 				{props.views.map((view, index) => (
 					<Tab
