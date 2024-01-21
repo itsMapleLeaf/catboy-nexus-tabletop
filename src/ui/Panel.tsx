@@ -5,7 +5,7 @@ export const Panel = classed.div({
 		appearance: {
 			solid: "bg-theme-background",
 			translucent:
-				"bg-theme-background/60 shadow shadow-theme-background/75 backdrop-blur-lg",
+				"bg-theme-background/75 shadow-md shadow-theme-background/75 backdrop-blur-lg",
 		},
 		border: {
 			left: "border-l border-theme-border",
