@@ -5,7 +5,7 @@ import { RelativeTimestamp } from "../ui/RelativeTimestamp"
 import type { GenesysDie } from "./dice.tsx"
 import { genesysSymbolRules } from "./symbols.ts"
 
-type DiceRoll = {
+export type DiceRoll = {
 	key: string
 	caption: string
 	dice: RolledDie[]

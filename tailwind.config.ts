@@ -43,7 +43,13 @@ export default {
 			},
 		},
 	},
-	plugins: [containerQueries, animate, flexShortcutsPlugin(), gridPlugin()],
+	plugins: [
+		containerQueries,
+		animate,
+		flexShortcutsPlugin(),
+		gridPlugin(),
+		accessibleTouchAreaPlugin(),
+	],
 } satisfies Config
 
 function flexShortcutsPlugin() {
@@ -86,5 +92,17 @@ function gridPlugin() {
 				values: flattenColorPalette(api.theme("colors")),
 			},
 		)
+	})
+}
+
+// before:absolute before:left-1/2 before:top-1/2 before:h-full before:min-h-[44px] before:w-full before:min-w-[44px] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']
+function accessibleTouchAreaPlugin() {
+	return plugin(function accessibleTouchArea(api) {
+		api.addComponents({
+			".touch-area": {
+				"@apply before:absolute before:left-1/2 before:top-1/2 before:h-full before:min-h-[44px] before:w-full before:min-w-[44px] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']":
+					{},
+			},
+		})
 	})
 }

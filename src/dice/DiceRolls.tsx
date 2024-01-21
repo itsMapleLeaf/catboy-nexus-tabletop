@@ -1,3 +1,4 @@
+import * as ScrollArea from "@radix-ui/react-scroll-area"
 import * as Lucide from "lucide-react"
 import { Virtuoso } from "react-virtuoso"
 import { genesysDice } from "~/genesys/dice.tsx"
@@ -24,19 +25,27 @@ const testRolls = [...Array(100)].map((_, index) => ({
 export function DiceRolls() {
 	return (
 		<div className="flex h-full flex-col gap-2 p-2">
-			<div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+			<ScrollArea.Root className="flex min-h-0 flex-1 flex-col">
 				<Virtuoso
 					data={testRolls}
-					itemContent={(_index, data) => (
-						<div className="pb-2">
+					itemContent={(index, data) => (
+						<div className={index === 0 ? "" : "pt-2"}>
 							<GenesysDiceRollSummary key={data.key} diceRoll={data} />
 						</div>
 					)}
-					className="[transform:translateZ(0)]"
-					increaseViewportBy={2000}
+					components={{ Scroller: ScrollArea.Viewport }}
 					defaultItemHeight={200}
+					initialTopMostItemIndex={testRolls.length - 1}
+					followOutput
+					className="[transform:translateZ(0)]"
 				/>
-			</div>
+				<ScrollArea.Scrollbar
+					className="flex touch-none select-none p-1 transition-colors"
+					orientation="vertical"
+				>
+					<ScrollArea.Thumb className="touch-area !w-2 rounded-full bg-theme-border transition-[filter] hover:brightness-125 active:brightness-150 active:transition-none" />
+				</ScrollArea.Scrollbar>
+			</ScrollArea.Root>
 			<Popover placement="top-start">
 				<PopoverTrigger render={<Button />} className="self-start">
 					<Lucide.Dices /> Roll Dice
