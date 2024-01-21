@@ -1,5 +1,7 @@
 import * as React from "react"
 
+let isBrowser = false
+
 export function useLocalStorageState<T>({
 	key,
 	deserialize,
@@ -9,9 +11,13 @@ export function useLocalStorageState<T>({
 	deserialize: (storedValue: string | null) => T
 	serialize: (value: T) => string
 }) {
-	const [value, setValue] = React.useState<T>(deserialize(null))
+	const [value, setValue] = React.useState<T>(
+		deserialize(isBrowser ? localStorage.getItem(key) : null),
+	)
 
 	const load = useEffectEvent((key: string) => {
+		if (isBrowser) return
+		isBrowser = true
 		const storedValue = localStorage.getItem(key)
 		setValue(deserialize(storedValue))
 	})
