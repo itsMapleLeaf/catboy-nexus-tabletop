@@ -29,7 +29,7 @@ export function DiceRolls() {
 				<Virtuoso
 					data={testRolls}
 					itemContent={(index, data) => (
-						<div className={index === 0 ? "" : "pt-2"}>
+						<div className={`animate-in fade-in ${index === 0 ? "" : "pt-2"}`}>
 							<GenesysDiceRollSummary key={data.key} diceRoll={data} />
 						</div>
 					)}
