@@ -22,15 +22,15 @@
 		"@fontsource/barlow": "5.0.8",
 		"@radix-ui/react-scroll-area": "1.0.5",
 		"@tw-classed/react": "1.7.0",
-		"date-fns": "3.3.0",
-		"lucide-react": "0.312.0",
+		"date-fns": "3.3.1",
+		"lucide-react": "0.314.0",
 		"react": "18.2.0",
 		"react-dom": "18.2.0",
 		"react-virtuoso": "4.6.2",
-		"tailwind-merge": "2.2.0"
+		"tailwind-merge": "2.2.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.5.2",
+		"@biomejs/biome": "1.5.3",
 		"@tailwindcss/container-queries": "0.1.1",
 		"@types/react": "18.2.48",
 		"@types/react-dom": "18.2.18",
