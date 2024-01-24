@@ -1,7 +1,15 @@
+import {
+	SignInButton,
+	SignedIn,
+	SignedOut,
+	UserButton,
+} from "@clerk/clerk-react"
+import { LucideLogIn } from "lucide-react"
 import React, { useMemo } from "react"
 import { CharactersSection } from "./characters/CharactersSection.tsx"
 import { DiceRolls } from "./dice/DiceRolls.tsx"
 import { useRect } from "./helpers/useRect.tsx"
+import { Button } from "./ui/Button.tsx"
 import { Panel } from "./ui/Panel.tsx"
 import { Tabs } from "./ui/Tabs.tsx"
 
@@ -95,9 +103,25 @@ export function App() {
 	)
 
 	return (
-		<main className="h-dvh gap-2 p-2" ref={containerRef}>
-			{(rect?.width ?? 0) < 672 ? narrowLayout : wideLayout}
-		</main>
+		<div className="flex h-dvh flex-col gap-2 p-2" ref={containerRef}>
+			<header className="flex h-12 items-center">
+				<div className="ml-auto">
+					<SignedIn>
+						<UserButton />
+					</SignedIn>
+					<SignedOut>
+						<SignInButton>
+							<Button>
+								<LucideLogIn className="size-5" /> Sign in
+							</Button>
+						</SignInButton>
+					</SignedOut>
+				</div>
+			</header>
+			<main className="min-h-0 flex-1 gap-2">
+				{(rect?.width ?? 0) < 672 ? narrowLayout : wideLayout}
+			</main>
+		</div>
 	)
 }
 
