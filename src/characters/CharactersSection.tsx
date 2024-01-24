@@ -39,6 +39,7 @@ export function CharactersSection() {
 								},
 							].map((item) => (
 								<Tooltip
+									key={item.label}
 									className={twMerge(
 										"flex cursor-default items-center gap-1",
 										item.className,
