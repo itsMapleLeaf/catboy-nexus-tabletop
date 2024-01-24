@@ -4,7 +4,7 @@
 	"plugins": ["prettier-plugin-jsdoc", "prettier-plugin-tailwindcss"],
 	"overrides": [
 		{
-			"files": ["pnpm-lock.yaml"],
+			"files": ["pnpm-lock.yaml", "convex/_generated/**"],
 			"options": {
 				"requirePragma": true
 			}

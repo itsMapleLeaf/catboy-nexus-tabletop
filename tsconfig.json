@@ -14,10 +14,12 @@
 		"isolatedModules": true,
 		"allowImportingTsExtensions": true,
 		"paths": {
-			"~/*": ["./src/*"]
+			"~/*": ["./src/*"],
 		},
 		"noUncheckedIndexedAccess": true,
 		"verbatimModuleSyntax": true,
-		"types": ["vite/client"]
-	}
+		"types": ["vite/client"],
+		"skipLibCheck": true,
+	},
+	"exclude": ["convex/_generated"],
 }
