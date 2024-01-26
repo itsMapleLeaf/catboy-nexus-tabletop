@@ -100,7 +100,10 @@ export default function GamePage() {
 	const rect = useRect(containerRef)
 	const isNarrowViewport = rect ? (rect.width ?? 0) < 672 : hasMobileHint
 	return (
-		<div className="flex h-dvh flex-col gap-2 p-2" ref={containerRef}>
+		<div
+			className="flex h-dvh flex-col gap-2 overflow-hidden p-2"
+			ref={containerRef}
+		>
 			<header className="flex h-12 items-center">
 				<div className="ml-auto">
 					<SignedIn>
