@@ -1,8 +1,3 @@
-import "@fontsource/barlow/latin-300.css"
-import "@fontsource/barlow/latin-400.css"
-import "@fontsource/barlow/latin-500.css"
-import "tailwindcss/tailwind.css"
-
 import {
 	ClerkApp,
 	ClerkErrorBoundary,
@@ -10,6 +5,9 @@ import {
 } from "@clerk/remix"
 import { rootAuthLoader } from "@clerk/remix/ssr.server"
 import { dark } from "@clerk/themes"
+import barlowLatin300 from "@fontsource/barlow/latin-300.css"
+import barlowLatin400 from "@fontsource/barlow/latin-400.css"
+import barlowLatin500 from "@fontsource/barlow/latin-500.css"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import {
 	Links,
@@ -19,6 +17,8 @@ import {
 	Scripts,
 	ScrollRestoration,
 } from "@remix-run/react"
+import remixDevToolsStyles from "remix-development-tools/index.css"
+import tailwind from "tailwindcss/tailwind.css"
 import background from "./assets/bg.png"
 import logo from "./assets/logo-filled-light.svg"
 import { colors } from "./ui/theme.ts"
@@ -47,7 +47,7 @@ export async function loader(args: LoaderFunctionArgs) {
 	return rootAuthLoader(args)
 }
 
-function Root() {
+let Root = function Root() {
 	return (
 		<html
 			lang="en"
@@ -58,12 +58,19 @@ function Root() {
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
 				<title>{`Catboy Nexus${process.env.NODE_ENV === "development" ? " [dev]" : ""}`}</title>
+				{process.env.NODE_ENV === "development" && (
+					<link rel="stylesheet" href={remixDevToolsStyles} />
+				)}
+				<link rel="stylesheet" href={barlowLatin300} />
+				<link rel="stylesheet" href={barlowLatin400} />
+				<link rel="stylesheet" href={barlowLatin500} />
+				<link rel="stylesheet" href={tailwind} />
 				<link rel="icon" href={logo} />
 				<Meta />
 				<Links />
 			</head>
 			<body>
-				<div className="h-dvh bg-black/50">
+				<div className="h-dvh overflow-hidden bg-black/50">
 					<Outlet />
 				</div>
 				<ScrollRestoration />
@@ -72,6 +79,11 @@ function Root() {
 			</body>
 		</html>
 	)
+}
+
+if (process.env.NODE_ENV === "development") {
+	const { withDevTools } = await import("remix-development-tools")
+	Root = withDevTools(Root)
 }
 
 export default ClerkApp(Root, { appearance: clerkAppearance })
