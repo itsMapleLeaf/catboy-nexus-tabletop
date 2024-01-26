@@ -398,7 +398,7 @@ function SkillTile({ skill, className }: { skill: Skill; className: string }) {
 	const reactionStats = skill.reactionStats ?? skill.actionStats
 	return (
 		<div
-			className={`flex-col-center size-[20rem] cursor-default gap-2 text-balance rounded-lg border-4 border-red-950 bg-red-800 p-2 text-center text-white brightness-90 transition hover:brightness-110 ${className}`}
+			className={`flex-col-center size-[20rem] cursor-default gap-2 text-balance rounded-lg border-4 p-2 text-center text-white brightness-90 transition hover:brightness-110 ${className}`}
 		>
 			<h1 className="text-3xl/tight font-light">{skill.name}</h1>
 			<p className="text-xl/tight">{skill.description}</p>

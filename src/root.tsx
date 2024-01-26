@@ -70,7 +70,7 @@ let Root = function Root() {
 				<Links />
 			</head>
 			<body>
-				<div className="h-dvh overflow-hidden bg-black/50">
+				<div className="h-dvh bg-black/50">
 					<Outlet />
 				</div>
 				<ScrollRestoration />
