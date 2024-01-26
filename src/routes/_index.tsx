@@ -2,7 +2,7 @@ import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/remix"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { LucideLogIn } from "lucide-react"
-import React, { useMemo } from "react"
+import React from "react"
 import { CharactersSection } from "../characters/CharactersSection.tsx"
 import { DiceRolls } from "../dice/DiceRolls.tsx"
 import { useRect } from "../helpers/useRect.tsx"
@@ -63,51 +63,42 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	return { hasMobileHint }
 }
 
-export default function GamePage() {
-	const { hasMobileHint } = useLoaderData<typeof loader>()
+const narrowLayout = (
+	<div className="flex h-full flex-col gap-[inherit]">
+		{getCollapsedItems(allItems).map((item) => (
+			<Panel appearance="translucent" key={item.title}>
+				{item.content()}
+			</Panel>
+		))}
+		<div className="min-h-0 flex-1">
+			<Tabs storageId="app" views={getExpandedItems(allItems)} />
+		</div>
+	</div>
+)
 
-	const containerRef = React.useRef<HTMLDivElement>(null)
-	const rect = useRect(containerRef)
-
-	const narrowLayout = useMemo(
-		() => (
-			<div className="flex h-full flex-col gap-[inherit]">
-				{getCollapsedItems(allItems).map((item) => (
-					<Panel appearance="translucent" key={item.title}>
+const wideLayout = (
+	<div className="flex h-full justify-between gap-[inherit]">
+		{(["left", "right"] as const).map((side) => (
+			<div key={side} className="flex w-[24rem] flex-col gap-[inherit]">
+				{layout[side].map((item) => (
+					<Panel
+						key={item.title}
+						appearance="translucent"
+						className={item.expanded ? "min-h-0 flex-1" : ""}
+					>
 						{item.content()}
 					</Panel>
 				))}
-				<div className="min-h-0 flex-1">
-					<Tabs storageId="app" views={getExpandedItems(allItems)} />
-				</div>
 			</div>
-		),
-		[],
-	)
+		))}
+	</div>
+)
 
-	const wideLayout = useMemo(
-		() => (
-			<div className="flex h-full justify-between gap-[inherit]">
-				{(["left", "right"] as const).map((side) => (
-					<div key={side} className="flex w-[24rem] flex-col gap-[inherit]">
-						{layout[side].map((item) => (
-							<Panel
-								key={item.title}
-								appearance="translucent"
-								className={item.expanded ? "min-h-0 flex-1" : ""}
-							>
-								{item.content()}
-							</Panel>
-						))}
-					</div>
-				))}
-			</div>
-		),
-		[],
-	)
-
+export default function GamePage() {
+	const { hasMobileHint } = useLoaderData<typeof loader>()
+	const containerRef = React.useRef<HTMLDivElement>(null)
+	const rect = useRect(containerRef)
 	const isNarrowViewport = rect ? (rect.width ?? 0) < 672 : hasMobileHint
-
 	return (
 		<div className="flex h-dvh flex-col gap-2 p-2" ref={containerRef}>
 			<header className="flex h-12 items-center">
