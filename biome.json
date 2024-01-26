@@ -16,6 +16,9 @@
 			"nursery": {
 				"useImportType": "error",
 				"noUnusedImports": "error"
+			},
+			"style": {
+				"noUnusedTemplateLiteral": "off"
 			}
 		}
 	},
