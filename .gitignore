@@ -1,5 +1,7 @@
 
 dist
+/build
+/public/build
 .solid
 .output
 .vercel
@@ -23,6 +25,7 @@ netlify
 
 # Temp
 gitignore
+.cache
 
 # System Files
 .DS_Store

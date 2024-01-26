@@ -35,8 +35,9 @@ export function DiceRolls() {
 					)}
 					components={{ Scroller: ScrollArea.Viewport }}
 					defaultItemHeight={200}
-					initialTopMostItemIndex={testRolls.length - 1}
+					// initialTopMostItemIndex={testRolls.length - 1}
 					followOutput
+					initialItemCount={20}
 					className="[transform:translateZ(0)]"
 				/>
 				<ScrollArea.Scrollbar

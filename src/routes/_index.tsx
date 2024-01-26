@@ -1,17 +1,12 @@
-import {
-	SignInButton,
-	SignedIn,
-	SignedOut,
-	UserButton,
-} from "@clerk/clerk-react"
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/remix"
 import { LucideLogIn } from "lucide-react"
 import React, { useMemo } from "react"
-import { CharactersSection } from "./characters/CharactersSection.tsx"
-import { DiceRolls } from "./dice/DiceRolls.tsx"
-import { useRect } from "./helpers/useRect.tsx"
-import { Button } from "./ui/Button.tsx"
-import { Panel } from "./ui/Panel.tsx"
-import { Tabs } from "./ui/Tabs.tsx"
+import { CharactersSection } from "../characters/CharactersSection.tsx"
+import { DiceRolls } from "../dice/DiceRolls.tsx"
+import { useRect } from "../helpers/useRect.tsx"
+import { Button } from "../ui/Button.tsx"
+import { Panel } from "../ui/Panel.tsx"
+import { Tabs } from "../ui/Tabs.tsx"
 
 type LayoutItem = {
 	title: string
@@ -61,7 +56,7 @@ const getCollapsedItems = (items: LayoutItem[]) =>
 const getExpandedItems = (items: LayoutItem[]) =>
 	items.filter((item) => item.expanded)
 
-export function App() {
+export default function GamePage() {
 	const containerRef = React.useRef<HTMLDivElement>(null)
 	const rect = useRect(containerRef)
 

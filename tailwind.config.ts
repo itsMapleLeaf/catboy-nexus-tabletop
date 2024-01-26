@@ -7,7 +7,7 @@ import plugin from "tailwindcss/plugin.js"
 import { colors } from "./src/ui/theme.ts"
 
 export default {
-	content: ["src/**/*.{js,jsx,ts,tsx}", "index.html"],
+	content: ["src/**/*.{js,jsx,ts,tsx}"],
 	theme: {
 		extend: {
 			fontFamily: {

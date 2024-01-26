@@ -18,7 +18,6 @@
 		},
 		"noUncheckedIndexedAccess": true,
 		"verbatimModuleSyntax": true,
-		"types": ["vite/client"],
 		"skipLibCheck": true,
 	},
 	"exclude": ["convex/_generated"],

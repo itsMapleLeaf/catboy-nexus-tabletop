@@ -23,7 +23,7 @@ export const genesysSymbols = objectFromEntries(
 		const symbol: GenesysSymbol = {
 			id,
 			label: titleCase(id),
-			image: new URL(`./assets/${id}.svg`, import.meta.url).href,
+			image: `/assets/genesys/${id}.svg`,
 		}
 		return [id, symbol]
 	}),
