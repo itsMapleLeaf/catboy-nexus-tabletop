@@ -1,4 +1,6 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/remix"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
 import { LucideLogIn } from "lucide-react"
 import React, { useMemo } from "react"
 import { CharactersSection } from "../characters/CharactersSection.tsx"
@@ -56,7 +58,14 @@ const getCollapsedItems = (items: LayoutItem[]) =>
 const getExpandedItems = (items: LayoutItem[]) =>
 	items.filter((item) => item.expanded)
 
+export async function loader({ request }: LoaderFunctionArgs) {
+	const hasMobileHint = request.headers.get("sec-ch-ua-mobile") === "?1"
+	return { hasMobileHint }
+}
+
 export default function GamePage() {
+	const { hasMobileHint } = useLoaderData<typeof loader>()
+
 	const containerRef = React.useRef<HTMLDivElement>(null)
 	const rect = useRect(containerRef)
 
@@ -97,6 +106,8 @@ export default function GamePage() {
 		[],
 	)
 
+	const isNarrowViewport = rect ? (rect.width ?? 0) < 672 : hasMobileHint
+
 	return (
 		<div className="flex h-dvh flex-col gap-2 p-2" ref={containerRef}>
 			<header className="flex h-12 items-center">
@@ -114,7 +125,7 @@ export default function GamePage() {
 				</div>
 			</header>
 			<main className="min-h-0 flex-1 gap-2">
-				{(rect?.width ?? 0) < 672 ? narrowLayout : wideLayout}
+				{isNarrowViewport ? narrowLayout : wideLayout}
 			</main>
 		</div>
 	)
