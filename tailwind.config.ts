@@ -30,10 +30,13 @@ export default {
 function flexShortcutsPlugin() {
 	return plugin(function flexShortcuts(api) {
 		api.addComponents({
-			".flex-center": {
+			".flex-center, .flex-col-center": {
 				display: "flex",
 				"align-items": "center",
 				"justify-content": "center",
+			},
+			".flex-col-center": {
+				"flex-direction": "column",
 			},
 		})
 	})
