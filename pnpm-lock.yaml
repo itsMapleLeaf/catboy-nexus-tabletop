@@ -32,6 +32,9 @@ dependencies:
   '@tw-classed/react':
     specifier: 1.7.0
     version: 1.7.0(react@18.2.0)
+  '@vercel/remix':
+    specifier: 2.5.1
+    version: 2.5.1(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
   date-fns:
     specifier: 3.3.1
     version: 3.3.1
@@ -70,9 +73,6 @@ devDependencies:
   '@types/react-dom':
     specifier: 18.2.18
     version: 18.2.18
-  '@vercel/remix':
-    specifier: 2.5.1
-    version: 2.5.1(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)
   '@vitejs/plugin-react-swc':
     specifier: 3.5.0
     version: 3.5.0(vite@5.0.12)
@@ -2696,7 +2696,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     transitivePeerDependencies:
       - typescript
-    dev: true
+    dev: false
 
   /@vitejs/plugin-react-swc@3.5.0(vite@5.0.12):
     resolution: {integrity: sha512-1PrOvAaDpqlCV+Up8RkAh9qaiUjoDUcjtttyhXDKw53XA6Ve16SOp6cCOpRs8Dj8DqUQs6eTW5YkLcLJjrXAig==}
@@ -4541,7 +4541,7 @@ packages:
   /isbot@3.8.0:
     resolution: {integrity: sha512-vne1mzQUTR+qsMLeCBL9+/tgnDXRyc2pygLGl/WsgA+EZKIiB5Ehu0CiVTHIIk30zhJ24uGz4M5Ppse37aR0Hg==}
     engines: {node: '>=12'}
-    dev: true
+    dev: false
 
   /isbot@4.4.0:
     resolution: {integrity: sha512-8ZvOWUA68kyJO4hHJdWjyreq7TYNWTS9y15IzeqVdKxR9pPr3P/3r9AHcoIv9M0Rllkao5qWz2v1lmcyKIVCzQ==}
