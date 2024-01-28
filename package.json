@@ -6,7 +6,7 @@
 	},
 	"scripts": {
 		"dev": "run-p --race dev:*",
-		"dev:remix": "remix dev -c \"rdt-serve ./build/index.js\" --manual",
+		"dev:remix": "remix vite:dev",
 		"dev:convex": "convex dev",
 		"build": "remix build",
 		"start": "remix-serve ./build/server/index.js",
