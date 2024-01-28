@@ -8,7 +8,7 @@
 		"dev": "run-p --race dev:*",
 		"dev:remix": "remix vite:dev",
 		"dev:convex": "convex dev",
-		"build": "remix build",
+		"build": "remix vite:build",
 		"start": "remix-serve ./build/server/index.js",
 		"lint": "biome check .",
 		"format": "run-s --continue-on-error biome-apply prettier-write",

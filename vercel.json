@@ -1,3 +1,10 @@
 {
-	"framework": "remix"
+	"framework": null,
+	"outputDirectory": "build/client",
+	"rewrites": [
+		{
+			"source": "/(.*)",
+			"destination": "/api/handler"
+		}
+	]
 }
