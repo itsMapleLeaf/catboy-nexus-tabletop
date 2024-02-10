@@ -14,11 +14,11 @@
 		"isolatedModules": true,
 		"allowImportingTsExtensions": true,
 		"paths": {
-			"~/*": ["./src/*"],
+			"~/*": ["./src/*"]
 		},
 		"noUncheckedIndexedAccess": true,
 		"verbatimModuleSyntax": true,
-		"skipLibCheck": true,
+		"skipLibCheck": true
 	},
-	"exclude": ["convex/_generated"],
+	"exclude": ["build", "convex/_generated"]
 }
