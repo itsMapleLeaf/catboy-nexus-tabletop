@@ -1,9 +1,9 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/remix"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
-import { useConvexAuth } from "convex/react"
 import { LucideLogIn } from "lucide-react"
 import React from "react"
+import { AuthLoadingFade } from "../../auth/AuthLoadingFade.tsx"
 import { CharactersSection } from "../../characters/CharactersSection.tsx"
 import { DiceRolls } from "../../dice/DiceRolls.tsx"
 import { useRect } from "../../helpers/useRect.tsx"
@@ -139,15 +139,6 @@ function AppHeader() {
 				</SignedOut>
 			</AuthLoadingFade>
 		</header>
-	)
-}
-
-function AuthLoadingFade({ children }: { children: React.ReactNode }) {
-	const auth = useConvexAuth()
-	return (
-		<div className="animate-in fade-in" hidden={auth.isLoading}>
-			{children}
-		</div>
 	)
 }
 
