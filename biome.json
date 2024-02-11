@@ -18,7 +18,8 @@
 				"noUnusedImports": "error"
 			},
 			"style": {
-				"noUnusedTemplateLiteral": "off"
+				"noUnusedTemplateLiteral": "off",
+				"noParameterAssign": "off"
 			}
 		}
 	},
