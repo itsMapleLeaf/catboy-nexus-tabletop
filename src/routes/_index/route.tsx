@@ -3,6 +3,7 @@ import logo from "~/assets/logo.svg"
 import { Button } from "~/ui/Button.tsx"
 import { ExternalLink } from "~/ui/ExternalLink.tsx"
 import { Link } from "~/ui/Link.tsx"
+import { PromptButton } from "~/ui/PromptButton.tsx"
 
 export default function Home() {
 	return (
@@ -18,13 +19,20 @@ export default function Home() {
 					rules-lite and rules-medium game systems. Currently supports Genesys,
 					with others planned later.
 				</p>
-				<Button
-					size="xl"
-					appearance="solid"
-					onClick={() => alert("Coming soon!")}
+				<PromptButton
+					render={<Button size="xl" appearance="solid" />}
+					title="New Room"
+					description="Create a new room to play in."
+					label="Room Name"
+					placeholder="Call it something cool! Or something boring. I'm not your boss."
+					confirmText="Create"
+					confirmIcon={<LucideWand2 />}
+					onSubmit={(value) => {
+						console.log(value)
+					}}
 				>
-					<LucideWand2 /> New Game
-				</Button>
+					<LucideWand2 /> New Room
+				</PromptButton>
 			</main>
 			<footer className="flex flex-1 flex-col items-center justify-end">
 				<p className="p-2 text-center text-sm">
