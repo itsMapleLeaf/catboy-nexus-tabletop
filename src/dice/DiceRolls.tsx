@@ -19,7 +19,7 @@ const testRolls = [...Array(100)].map((_, index) => ({
 		{ die: genesysDice.setback, face: 6 },
 	].map((die, index) => ({ ...die, key: index.toString() })),
 	rolledBy: "someone",
-	rolledAt: Date.now(),
+	rolledAt: 1707615938225,
 }))
 
 export function DiceRolls() {
