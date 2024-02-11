@@ -1,6 +1,7 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/remix"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import { useConvexAuth } from "convex/react"
 import { LucideLogIn } from "lucide-react"
 import React from "react"
 import { CharactersSection } from "../characters/CharactersSection.tsx"
@@ -99,13 +100,14 @@ export default function GamePage() {
 	const containerRef = React.useRef<HTMLDivElement>(null)
 	const rect = useRect(containerRef)
 	const isNarrowViewport = rect ? (rect.width ?? 0) < 672 : hasMobileHint
+	const auth = useConvexAuth()
 	return (
 		<div
 			className="flex h-dvh flex-col gap-2 overflow-hidden p-2"
 			ref={containerRef}
 		>
 			<header className="flex h-12 items-center">
-				<div className="ml-auto">
+				<div className="ml-auto animate-in fade-in" hidden={auth.isLoading}>
 					<SignedIn>
 						<UserButton />
 					</SignedIn>

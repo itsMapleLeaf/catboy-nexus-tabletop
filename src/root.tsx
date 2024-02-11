@@ -1,4 +1,4 @@
-import { ClerkApp, ClerkErrorBoundary } from "@clerk/remix"
+import { ClerkApp, ClerkErrorBoundary, useAuth } from "@clerk/remix"
 import { rootAuthLoader } from "@clerk/remix/ssr.server"
 import { dark } from "@clerk/themes"
 import barlow300 from "@fontsource/barlow/latin-300.css?url"
@@ -12,6 +12,9 @@ import {
 	Scripts,
 	ScrollRestoration,
 } from "@remix-run/react"
+import { ConvexReactClient } from "convex/react"
+import { ConvexProviderWithClerk } from "convex/react-clerk"
+import { useState } from "react"
 import tailwind from "tailwindcss/tailwind.css?url"
 import background from "./assets/bg.png"
 import logo from "./assets/logo-filled-light.svg"
@@ -22,6 +25,10 @@ export async function loader(args: LoaderFunctionArgs) {
 }
 
 function Root() {
+	const [convexClient] = useState(
+		() => new ConvexReactClient(import.meta.env.VITE_CONVEX_URL),
+	)
+
 	return (
 		<html
 			lang="en"
@@ -40,9 +47,11 @@ function Root() {
 				<Meta />
 				<Links />
 			</head>
-			<body>
-				<div className="h-dvh bg-black/50">
-					<Outlet />
+			<body className="overflow-hidden">
+				<div className="h-dvh overflow-hidden bg-black/50">
+					<ConvexProviderWithClerk client={convexClient} useAuth={useAuth}>
+						<Outlet />
+					</ConvexProviderWithClerk>
 				</div>
 				<ScrollRestoration />
 				<Scripts />
