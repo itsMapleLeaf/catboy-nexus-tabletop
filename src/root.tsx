@@ -17,7 +17,7 @@ import { ConvexProviderWithClerk } from "convex/react-clerk"
 import { useState } from "react"
 import tailwind from "tailwindcss/tailwind.css?url"
 import background from "./assets/bg.png"
-import logo from "./assets/logo-filled-light.svg"
+import logo from "./assets/logo.svg"
 import { colors } from "./ui/theme.ts"
 
 export async function loader(args: LoaderFunctionArgs) {
