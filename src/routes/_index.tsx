@@ -1,9 +1,10 @@
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/remix"
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
 import { useConvexAuth } from "convex/react"
 import { LucideLogIn } from "lucide-react"
 import React from "react"
+import logo from "../assets/logo.svg"
 import { CharactersSection } from "../characters/CharactersSection.tsx"
 import { DiceRolls } from "../dice/DiceRolls.tsx"
 import { useRect } from "../helpers/useRect.tsx"
@@ -100,29 +101,52 @@ export default function GamePage() {
 	const containerRef = React.useRef<HTMLDivElement>(null)
 	const rect = useRect(containerRef)
 	const isNarrowViewport = rect ? (rect.width ?? 0) < 672 : hasMobileHint
-	const auth = useConvexAuth()
 	return (
 		<div
 			className="flex h-dvh flex-col gap-2 overflow-hidden p-2"
 			ref={containerRef}
 		>
-			<header className="flex h-12 items-center">
-				<div className="ml-auto animate-in fade-in" hidden={auth.isLoading}>
-					<SignedIn>
-						<UserButton />
-					</SignedIn>
-					<SignedOut>
-						<SignInButton>
-							<Button>
-								<LucideLogIn className="size-5" /> Sign in
-							</Button>
-						</SignInButton>
-					</SignedOut>
-				</div>
-			</header>
+			<AppHeader />
 			<main className="min-h-0 flex-1 gap-2">
 				{isNarrowViewport ? narrowLayout : wideLayout}
 			</main>
+		</div>
+	)
+}
+
+function AppHeader() {
+	return (
+		<header className="flex h-12 items-center justify-between px-2">
+			<Link
+				to="/"
+				className="flex items-center gap-2 opacity-70 transition hover:opacity-100"
+			>
+				<img src={logo} alt="Catboy Nexus Logo" className="h-8" />
+				<h1 className="text-xl/4 font-light">Catboy Nexus</h1>
+			</Link>
+			<AuthLoadingFade>
+				<SignedIn>
+					<div className="opacity-70 transition hover:opacity-100">
+						<UserButton />
+					</div>
+				</SignedIn>
+				<SignedOut>
+					<SignInButton>
+						<Button>
+							<LucideLogIn className="size-5" /> Sign in
+						</Button>
+					</SignInButton>
+				</SignedOut>
+			</AuthLoadingFade>
+		</header>
+	)
+}
+
+function AuthLoadingFade({ children }: { children: React.ReactNode }) {
+	const auth = useConvexAuth()
+	return (
+		<div className="animate-in fade-in" hidden={auth.isLoading}>
+			{children}
 		</div>
 	)
 }
