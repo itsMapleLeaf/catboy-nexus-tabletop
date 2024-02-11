@@ -33,7 +33,7 @@ function Root() {
 		<html
 			lang="en"
 			style={{ backgroundImage: `url(${background})` }}
-			className="bg-cover bg-center bg-no-repeat text-theme-copy"
+			className="text-balance break-words bg-cover bg-center bg-no-repeat text-theme-copy [word-break:break-words] selection:bg-theme-background/50"
 		>
 			<head>
 				<meta charSet="utf-8" />
@@ -47,12 +47,10 @@ function Root() {
 				<Meta />
 				<Links />
 			</head>
-			<body className="overflow-hidden">
-				<div className="h-dvh overflow-hidden bg-black/50">
-					<ConvexProviderWithClerk client={convexClient} useAuth={useAuth}>
-						<Outlet />
-					</ConvexProviderWithClerk>
-				</div>
+			<body className="min-h-dvh bg-black/50">
+				<ConvexProviderWithClerk client={convexClient} useAuth={useAuth}>
+					<Outlet />
+				</ConvexProviderWithClerk>
 				<ScrollRestoration />
 				<Scripts />
 			</body>

@@ -1,5 +1,5 @@
 import { redirect } from "@remix-run/node"
-import logo from "../assets/logo.svg"
+import logo from "~/assets/logo.svg"
 
 export async function loader() {
 	return redirect(logo, {
