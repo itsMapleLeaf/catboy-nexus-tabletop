@@ -12,6 +12,7 @@ import {
 	Scripts,
 	ScrollRestoration,
 } from "@remix-run/react"
+import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { ConvexReactClient } from "convex/react"
 import { ConvexProviderWithClerk } from "convex/react-clerk"
 import { useState } from "react"
@@ -51,6 +52,7 @@ function Root() {
 				</ConvexProviderWithClerk>
 				<ScrollRestoration />
 				<Scripts />
+				<SpeedInsights />
 			</body>
 		</html>
 	)
