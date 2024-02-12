@@ -14,7 +14,8 @@
 		"isolatedModules": true,
 		"allowImportingTsExtensions": true,
 		"paths": {
-			"~/*": ["./src/*"]
+			"~/*": ["./src/*"],
+			"convex/*": ["./convex/*"]
 		},
 		"noUncheckedIndexedAccess": true,
 		"verbatimModuleSyntax": true,
