@@ -56,9 +56,9 @@ export default function Home() {
 							onSubmit={(value) => {
 								console.log(value)
 							}}
-							render={<Button size="xl" appearance="solid" />}
+							render={<Button size="xl" appearance="solid" icon={<LucideWand2 />} />}
 						>
-							<LucideWand2 /> New Room
+							 New Room
 						</PromptButton>
 					) : (
 						<SignInButton mode="modal">
@@ -66,8 +66,9 @@ export default function Home() {
 								size="xl"
 								appearance="solid"
 								className="animate-in fade-in"
+								icon={<LucideLogIn />}
 							>
-								<LucideLogIn /> Sign In
+								 Sign In
 							</Button>
 						</SignInButton>
 					)}

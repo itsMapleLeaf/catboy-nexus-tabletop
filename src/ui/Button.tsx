@@ -1,5 +1,6 @@
 import { type ComponentProps, deriveClassed } from "@tw-classed/react"
 import { classed } from "./classed.ts"
+import type { IconNode, LucideIcon } from "lucide-react"
 
 const ButtonBase = classed.button({
 	base: "flex min-w-0 cursor-default select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none",
@@ -12,9 +13,9 @@ const ButtonBase = classed.button({
 				"border-theme-border bg-theme-background/75 hover:bg-theme-background",
 		},
 		size: {
-			md: "h-10 gap-1.5 px-2 [&_svg]:size-5",
-			lg: "h-12 gap-1.5 px-3 text-lg/none [&_svg]:size-6",
-			xl: "h-14 gap-2 px-4 text-2xl/none [&_svg]:size-7",
+			md: "h-10 gap-1.5 px-2",
+			lg: "h-12 gap-1.5 px-3 text-lg/none",
+			xl: "h-14 gap-2 px-4 text-2xl/none",
 		},
 	},
 	defaultVariants: {
@@ -23,14 +24,25 @@ const ButtonBase = classed.button({
 	},
 })
 
-export type ButtonProps = ComponentProps<typeof ButtonBase> & {}
+const ButtonIconContainer = classed.span({
+	variants: {
+		size: {
+			md: "*:size-5",
+			lg: "*:size-6",
+			xl: "*:size-7",
+		},
+	},
+})
+
+export type ButtonProps = ComponentProps<typeof ButtonBase> & {
+	icon?: React.ReactNode
+}
 
 export const Button = deriveClassed<typeof ButtonBase, ButtonProps>(
-	({ children, ...rest }, ref) => {
-		return (
-			<ButtonBase type="button" {...rest} ref={ref}>
-				{children}
-			</ButtonBase>
-		)
-	},
+	({ children, icon, ...rest }, ref) => (
+		<ButtonBase type="button" {...rest} ref={ref}>
+			<ButtonIconContainer size={rest.size}>{icon}</ButtonIconContainer>
+			{children}
+		</ButtonBase>
+	),
 )
