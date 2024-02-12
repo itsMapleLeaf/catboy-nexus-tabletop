@@ -1,6 +1,7 @@
 {
 	"framework": null,
 	"outputDirectory": "build/client",
+	"buildCommand": "pnpx convex deploy --cmd 'pnpm run build'",
 	"rewrites": [
 		{
 			"source": "/(.*)",
