@@ -14,8 +14,7 @@
 				"noArrayIndexKey": "off"
 			},
 			"nursery": {
-				"useImportType": "error",
-				"noUnusedImports": "error"
+				"useImportType": "error"
 			},
 			"style": {
 				"noUnusedTemplateLiteral": "off",
