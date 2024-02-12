@@ -20,7 +20,7 @@ export const headers: HeadersFunction = () => ({
 })
 
 export default function Home() {
-	const { isLoaded, isSignedIn } = useUser()
+	const { isLoaded } = useUser()
 	return (
 		<div className="relative flex min-h-dvh flex-col items-center overflow-clip">
 			<Background />
@@ -45,33 +45,16 @@ export default function Home() {
 					className="flex-col-center h-[5.25rem] opacity-0 transition data-[loaded=true]:opacity-100"
 					data-loaded={isLoaded}
 				>
-					{!isLoaded ? null : isSignedIn ? (
-						<PromptButton
-							title="New Room"
-							description="Create a new room to play in."
-							label="Room Name"
-							placeholder="Call it something cool! Or something boring. I'm not your boss."
-							confirmText="Create"
-							confirmIcon={<LucideWand2 />}
-							onSubmit={(value) => {
-								console.log(value)
-							}}
-							render={<Button size="xl" appearance="solid" icon={<LucideWand2 />} />}
+					<SignInButton mode="modal">
+						<Button
+							size="xl"
+							appearance="solid"
+							className="animate-in fade-in"
+							icon={<LucideLogIn />}
 						>
-							 New Room
-						</PromptButton>
-					) : (
-						<SignInButton mode="modal">
-							<Button
-								size="xl"
-								appearance="solid"
-								className="animate-in fade-in"
-								icon={<LucideLogIn />}
-							>
-								 Sign In
-							</Button>
-						</SignInButton>
-					)}
+							Sign In
+						</Button>
+					</SignInButton>
 				</div>
 			</main>
 
