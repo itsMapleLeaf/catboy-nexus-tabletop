@@ -1,9 +1,9 @@
 import { useRef, useState } from "react"
 import { flushSync } from "react-dom"
 import { twMerge } from "tailwind-merge"
-import background from "~/assets/bg.png"
 import { raise } from "~/helpers/errors.ts"
 import { useIsomorphicLayoutEffect } from "~/helpers/useIsomorphicLayoutEffect.tsx"
+import backgroundUrl from "./bg.webp"
 
 export function Background() {
 	const imageRef = useRef<HTMLImageElement>(null)
@@ -21,7 +21,7 @@ export function Background() {
 
 	return (
 		<img
-			src={background}
+			src={backgroundUrl}
 			alt=""
 			className={twMerge(
 				"absolute inset-x-0 -z-10 h-auto max-h-full w-full object-cover brightness-[0.3] transition duration-700",
