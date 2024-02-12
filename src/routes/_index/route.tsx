@@ -1,7 +1,7 @@
 import { SignInButton, UserButton, useUser } from "@clerk/remix"
 import { getAuth } from "@clerk/remix/ssr.server"
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import { redirect } from "@vercel/remix"
+import { type HeadersFunction, redirect } from "@vercel/remix"
 import { LucideLogIn, LucideWand2 } from "lucide-react"
 import logo from "~/assets/logo.svg"
 import { Background } from "~/ui/Background.tsx"
@@ -14,6 +14,10 @@ export async function loader(args: LoaderFunctionArgs) {
 	const auth = await getAuth(args)
 	return auth.userId ? redirect("/rooms") : new Response()
 }
+
+export const headers: HeadersFunction = () => ({
+	"Cache-Control": "public, stale-while-revalidate",
+})
 
 export default function Home() {
 	const { isLoaded, isSignedIn } = useUser()
