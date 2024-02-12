@@ -23,6 +23,7 @@ export default defineConfig({
 		noExternal: ["@clerk/clerk-react"],
 	},
 	build: {
+		cssMinify: "lightningcss",
 		rollupOptions: {
 			onwarn(warning, next) {
 				// Suppress warnings about "use client" directives
