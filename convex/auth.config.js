@@ -1,7 +1,7 @@
 export default {
 	providers: [
 		{
-			domain: "https://evolving-hagfish-68.clerk.accounts.dev",
+			domain: process.env.CONVEX_AUTH_DOMAIN,
 			applicationID: "convex",
 		},
 	],
