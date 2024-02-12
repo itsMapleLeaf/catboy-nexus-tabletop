@@ -15,7 +15,8 @@
 				"noAssignInExpressions": "off"
 			},
 			"nursery": {
-				"useImportType": "error"
+				"useImportType": "error",
+				"noUnusedImports": "warn"
 			},
 			"style": {
 				"noUnusedTemplateLiteral": "off",
