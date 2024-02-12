@@ -2,6 +2,7 @@ import { useRef, useState } from "react"
 import { flushSync } from "react-dom"
 import { twMerge } from "tailwind-merge"
 import { raise } from "~/helpers/errors.ts"
+import { range } from "~/helpers/range.ts"
 import { useIsomorphicLayoutEffect } from "~/helpers/useIsomorphicLayoutEffect.tsx"
 import backgroundUrl from "./bg.webp"
 
@@ -66,8 +67,4 @@ function getExponentialGradientStops(
 
 function lerp(a: number, b: number, t: number) {
 	return a + (b - a) * t
-}
-
-function range(length: number) {
-	return [...Array(length).keys()]
 }
