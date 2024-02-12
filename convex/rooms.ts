@@ -7,7 +7,7 @@ import { requireIdentity } from "./auth.js"
 
 export const get = query({
 	args: {
-		id: v.id("games"),
+		id: v.id("rooms"),
 	},
 	async handler(ctx, args) {
 		return ctx.db.get(args.id)
@@ -17,12 +17,12 @@ export const get = query({
 export const list = query({
 	args: {
 		numItems: v.optional(v.number()),
-		cursor: v.union(v.id("games"), v.null()),
+		cursor: v.union(v.id("rooms"), v.null()),
 	},
 	async handler(ctx, { numItems = 20, cursor }) {
 		const identity = await requireIdentity(ctx)
 		return ctx.db
-			.query("games")
+			.query("rooms")
 			.withIndex("by_owner", (q) => q.eq("owner", identity.subject))
 			.paginate({ numItems, cursor })
 	},
@@ -30,26 +30,27 @@ export const list = query({
 
 export const upsert = mutation({
 	args: {
-		id: v.optional(v.id("games")),
-		name: v.string(),
+		id: v.optional(v.id("rooms")),
+		title: v.string(),
 	},
 	async handler(ctx, { id, ...data }) {
 		const identity = await requireIdentity(ctx)
-		if (!id) {
-			await ctx.db.insert("games", {
-				...data,
-				owner: identity.subject,
-			})
-		} else {
+
+		if (id) {
 			requireOwnedGame(await requireGame(ctx, id), identity)
-			await ctx.db.patch(id, data)
+			return await ctx.db.patch(id, data)
 		}
+
+		return await ctx.db.insert("rooms", {
+			...data,
+			owner: identity.subject,
+		})
 	},
 })
 
 export const remove = mutation({
 	args: {
-		id: v.id("games"),
+		id: v.id("rooms"),
 	},
 	async handler(ctx, args) {
 		requireOwnedGame(
@@ -60,13 +61,13 @@ export const remove = mutation({
 	},
 })
 
-async function requireGame(ctx: QueryCtx, id: Id<"games">) {
+async function requireGame(ctx: QueryCtx, id: Id<"rooms">) {
 	const existing = await ctx.db.get(id)
 	return existing ?? raise(`Gamemode with ID "${id}" not found`)
 }
 
-function requireOwnedGame(gamemode: Doc<"games">, identity: UserIdentity) {
+function requireOwnedGame(gamemode: Doc<"rooms">, identity: UserIdentity) {
 	if (gamemode.owner !== identity.subject) {
-		raise("You don't own this gamemode")
+		raise("You don't own this room")
 	}
 }
