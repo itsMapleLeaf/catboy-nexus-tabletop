@@ -16,7 +16,6 @@ import { ConvexReactClient } from "convex/react"
 import { ConvexProviderWithClerk } from "convex/react-clerk"
 import { useState } from "react"
 import tailwind from "tailwindcss/tailwind.css?url"
-import background from "./assets/bg.png"
 import logo from "./assets/logo.svg"
 import { colors } from "./ui/theme.ts"
 
@@ -32,8 +31,7 @@ function Root() {
 	return (
 		<html
 			lang="en"
-			style={{ backgroundImage: `url(${background})` }}
-			className="text-balance break-words bg-cover bg-center bg-no-repeat text-theme-copy [word-break:break-words] selection:bg-theme-background/50"
+			className="text-balance break-words bg-theme-background text-theme-copy [word-break:break-words] selection:bg-theme-background/50"
 		>
 			<head>
 				<meta charSet="utf-8" />
@@ -47,7 +45,7 @@ function Root() {
 				<Meta />
 				<Links />
 			</head>
-			<body className="min-h-dvh bg-black/50">
+			<body>
 				<ConvexProviderWithClerk client={convexClient} useAuth={useAuth}>
 					<Outlet />
 				</ConvexProviderWithClerk>

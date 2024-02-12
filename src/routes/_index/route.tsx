@@ -1,15 +1,25 @@
 import { SignInButton, UserButton, useUser } from "@clerk/remix"
+import { getAuth } from "@clerk/remix/ssr.server"
+import type { LoaderFunctionArgs } from "@remix-run/node"
+import { redirect } from "@vercel/remix"
 import { LucideLogIn, LucideWand2 } from "lucide-react"
 import logo from "~/assets/logo.svg"
+import { Background } from "~/ui/Background.tsx"
 import { Button } from "~/ui/Button.tsx"
 import { ExternalLink } from "~/ui/ExternalLink.tsx"
 import { Link } from "~/ui/Link.tsx"
 import { PromptButton } from "~/ui/PromptButton.tsx"
 
+export async function loader(args: LoaderFunctionArgs) {
+	const auth = await getAuth(args)
+	return auth.userId ? redirect("/rooms") : new Response()
+}
+
 export default function Home() {
 	const { isLoaded, isSignedIn } = useUser()
 	return (
-		<div className="flex min-h-dvh flex-col items-center">
+		<div className="relative flex min-h-dvh flex-col items-center overflow-clip">
+			<Background />
 			<header className="flex w-full flex-1 flex-col p-3">
 				<div className="ml-auto opacity-70 transition focus-within:opacity-100 hover:opacity-100">
 					<UserButton />
@@ -47,18 +57,15 @@ export default function Home() {
 							<LucideWand2 /> New Room
 						</PromptButton>
 					) : (
-						<>
-							<SignInButton mode="modal">
-								<Button
-									size="xl"
-									appearance="solid"
-									className="animate-in fade-in"
-								>
-									<LucideLogIn /> Sign In
-								</Button>
-							</SignInButton>
-							<p className="mt-auto">Sign in to keep track of your rooms.</p>
-						</>
+						<SignInButton mode="modal">
+							<Button
+								size="xl"
+								appearance="solid"
+								className="animate-in fade-in"
+							>
+								<LucideLogIn /> Sign In
+							</Button>
+						</SignInButton>
 					)}
 				</div>
 			</main>
