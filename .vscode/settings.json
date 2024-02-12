@@ -14,5 +14,8 @@
 	},
 
 	"typescript.preferences.importModuleSpecifierEnding": "js",
-	"javascript.preferences.importModuleSpecifierEnding": "js"
+	"javascript.preferences.importModuleSpecifierEnding": "js",
+
+	"javascript.preferences.importModuleSpecifier": "shortest",
+	"typescript.preferences.importModuleSpecifier": "shortest"
 }
