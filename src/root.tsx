@@ -16,6 +16,7 @@ import { SpeedInsights } from "@vercel/speed-insights/remix"
 import { ConvexReactClient } from "convex/react"
 import { ConvexProviderWithClerk } from "convex/react-clerk"
 import { useState } from "react"
+import { Toaster } from "react-hot-toast"
 import tailwind from "tailwindcss/tailwind.css?url"
 import logo from "./assets/logo.svg"
 import { colors } from "./ui/theme.ts"
@@ -50,6 +51,13 @@ function Root() {
 				<ConvexProviderWithClerk client={convexClient} useAuth={useAuth}>
 					<Outlet />
 				</ConvexProviderWithClerk>
+				<Toaster
+					position="bottom-right"
+					toastOptions={{
+						className:
+							"!bg-theme-foreground/75 !border-theme-border !text-theme-copy !border !shadow-md !rounded",
+					}}
+				/>
 				<ScrollRestoration />
 				<Scripts />
 				<SpeedInsights />

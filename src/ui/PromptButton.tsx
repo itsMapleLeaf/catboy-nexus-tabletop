@@ -1,9 +1,10 @@
 import * as Ariakit from "@ariakit/react"
 import { LucideX } from "lucide-react"
-import type { FormEvent } from "react"
+import { type FormEvent, useState } from "react"
 import { Button } from "~/ui/Button.tsx"
 import { Input } from "~/ui/Input.tsx"
 import { Panel } from "~/ui/Panel.tsx"
+import { Form } from "./Form.tsx"
 
 export function PromptButton({
 	title,
@@ -14,25 +15,17 @@ export function PromptButton({
 	confirmIcon,
 	onSubmit,
 	...props
-}: Ariakit.DialogDisclosureProps & {
+}: Omit<Ariakit.DialogDisclosureProps, "onSubmit"> & {
 	title: string
 	description: string
 	label: string
 	placeholder: string
 	confirmText: string
 	confirmIcon: React.ReactNode
-	onSubmit: (value: string) => void
+	onSubmit: (value: string) => unknown
 }) {
+	const [answer, setAnswer] = useState("")
 	const store = Ariakit.useDialogStore()
-
-	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
-		const answer = event.currentTarget.elements.namedItem(
-			"answer",
-		) as HTMLInputElement
-		onSubmit(answer.value)
-		store.hide()
-	}
 
 	return (
 		<Ariakit.DialogProvider store={store}>
@@ -59,26 +52,46 @@ export function PromptButton({
 								as={Ariakit.DialogDismiss}
 								size="lg"
 								appearance="clear"
-								className="-mr-1 aspect-square h-11 justify-center p-0"
+								className="-mr-1 aspect-square h-11 items-center justify-center p-0"
 							>
 								<LucideX />
+								<span className="sr-only">Close</span>
 							</Button>
 						</header>
-						<form className="flex flex-col gap-3 p-3" onSubmit={handleSubmit}>
+						<Form
+							onSubmit={async () => {
+								await onSubmit(answer)
+								store.hide()
+							}}
+							className="flex flex-col gap-3 p-3"
+						>
 							<label className="flex flex-col">
 								<div className="mb-1 text-sm/none font-medium">{label}</div>
-								<Input name="answer" placeholder={placeholder} required />
+								<Ariakit.Focusable
+									autoFocus
+									render={
+										<Input
+											value={answer}
+											onChange={(event) => setAnswer(event.currentTarget.value)}
+											placeholder={placeholder}
+											required
+										/>
+									}
+								/>
 							</label>
 							<div className="flex justify-end gap-2">
-								<Button as={Ariakit.DialogDismiss} appearance="clear">
-									<LucideX /> Cancel
+								<Button
+									as={Ariakit.DialogDismiss}
+									appearance="clear"
+									icon={<LucideX />}
+								>
+									Cancel
 								</Button>
-								<Button type="submit" appearance="solid">
-									{confirmIcon}
+								<Button type="submit" appearance="solid" icon={confirmIcon}>
 									{confirmText}
 								</Button>
 							</div>
-						</form>
+						</Form>
 					</Panel>
 				</div>
 			</Ariakit.Dialog>

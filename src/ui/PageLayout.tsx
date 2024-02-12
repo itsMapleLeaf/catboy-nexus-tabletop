@@ -1,4 +1,5 @@
 import { classed } from "@tw-classed/react"
+import { EmptyState } from "./EmptyState"
 
 export function PageLayout({
 	title,
@@ -23,13 +24,13 @@ export function PageLayout({
 export function PageLayoutGridList<T extends Record<string, React.Key>>({
 	items,
 	itemKey,
-	renderItem,
-	emptyState,
+	emptyState = "Nothing here!",
+	children,
 }: {
 	items: T[]
+	emptyState?: React.ReactNode
 	itemKey: keyof T | ((item: T) => React.Key)
-	renderItem: (item: T) => React.ReactNode
-	emptyState: React.ReactNode
+	children: (item: T) => React.ReactNode
 }) {
 	const resolveItemKey = (item: T) =>
 		typeof itemKey === "function" ? itemKey(item) : item[itemKey]
@@ -39,7 +40,7 @@ export function PageLayoutGridList<T extends Record<string, React.Key>>({
 		<Grid>
 			{items.map((item) => (
 				<li key={resolveItemKey(item)} className="contents">
-					{renderItem(item)}
+					{children(item)}
 				</li>
 			))}
 		</Grid>
@@ -55,5 +56,3 @@ const PageHeading = classed.h2("text-3xl font-light")
 const Grid = classed.ul(
 	"grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-3",
 )
-
-const EmptyState = classed.p("p-16 text-center text-2xl font-light opacity-75")

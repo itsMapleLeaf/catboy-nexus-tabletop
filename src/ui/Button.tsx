@@ -1,9 +1,12 @@
 import { type ComponentProps, deriveClassed } from "@tw-classed/react"
+import { LucideLoader2 } from "lucide-react"
+import type * as React from "react"
+import { usePendingAction } from "~/helpers/usePendingAction.ts"
+import { useFormContext } from "./Form.tsx"
 import { classed } from "./classed.ts"
-import type { IconNode, LucideIcon } from "lucide-react"
 
 const ButtonBase = classed.button({
-	base: "flex min-w-0 cursor-default select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none",
+	base: "flex min-w-0 cursor-default select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none disabled:pointer-events-none disabled:opacity-70",
 	variants: {
 		appearance: {
 			clear:
@@ -25,6 +28,7 @@ const ButtonBase = classed.button({
 })
 
 const ButtonIconContainer = classed.span({
+	base: "empty:hidden",
 	variants: {
 		size: {
 			md: "*:size-5",
@@ -34,15 +38,34 @@ const ButtonIconContainer = classed.span({
 	},
 })
 
-export type ButtonProps = ComponentProps<typeof ButtonBase> & {
+export interface ButtonProps extends ComponentProps<typeof ButtonBase> {
 	icon?: React.ReactNode
+	pending?: boolean
+	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => unknown
 }
 
 export const Button = deriveClassed<typeof ButtonBase, ButtonProps>(
-	({ children, icon, ...rest }, ref) => (
-		<ButtonBase type="button" {...rest} ref={ref}>
-			<ButtonIconContainer size={rest.size}>{icon}</ButtonIconContainer>
-			{children}
-		</ButtonBase>
-	),
+	(
+		{ children, icon, onClick, size = "md", pending: pendingProp, ...rest },
+		ref,
+	) => {
+		const [handleClick, actionPending] = usePendingAction(onClick)
+		const form = useFormContext()
+		const pending = actionPending || form.pending || pendingProp
+		return (
+			<ButtonBase
+				type="button"
+				{...rest}
+				size={size}
+				ref={ref}
+				disabled={pending || rest.disabled}
+				onClick={handleClick}
+			>
+				<ButtonIconContainer size={size}>
+					{pending ? <LucideLoader2 className="animate-spin" /> : icon}
+				</ButtonIconContainer>
+				{children}
+			</ButtonBase>
+		)
+	},
 )

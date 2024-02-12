@@ -1,4 +1,4 @@
-import type { UserIdentity } from "convex/server"
+import { type UserIdentity, paginationOptsValidator } from "convex/server"
 import { v } from "convex/values"
 import { raise } from "~/helpers/errors.js"
 import type { Doc, Id } from "./_generated/dataModel.js"
@@ -16,15 +16,14 @@ export const get = query({
 
 export const list = query({
 	args: {
-		numItems: v.optional(v.number()),
-		cursor: v.union(v.id("rooms"), v.null()),
+		paginationOpts: paginationOptsValidator,
 	},
-	async handler(ctx, { numItems = 20, cursor }) {
+	async handler(ctx, { paginationOpts }) {
 		const identity = await requireIdentity(ctx)
 		return ctx.db
 			.query("rooms")
 			.withIndex("by_owner", (q) => q.eq("owner", identity.subject))
-			.paginate({ numItems, cursor })
+			.paginate(paginationOpts)
 	},
 })
 
