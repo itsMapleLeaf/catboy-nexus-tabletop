@@ -14,10 +14,6 @@ export function AuthLoadingFade({
 	const convexAuth = useConvexAuth()
 	const clerkAuth = useUser()
 	const isClient = useIsClient()
-	useEffect(() => {
-		console.log("convexAuth", convexAuth)
-		console.log("clerkAuth", clerkAuth)
-	}, [convexAuth, clerkAuth])
 	return (
 		<div
 			className={twMerge("animate-in fade-in", className)}
