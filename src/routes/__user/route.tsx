@@ -20,26 +20,22 @@ export default function UserRouteLayout() {
 	return (
 		<>
 			<nav className="fixed inset-y-0 left-0 flex h-dvh w-12 flex-col items-center gap-2 bg-theme-foreground py-3">
-				<Link
-					to="/"
-					prefetch="intent"
-					className="opacity-70 transition hover:opacity-100 focus-visible:opacity-100"
-				>
+				<Link to="/" prefetch="intent" className="hover-fade">
 					<img src={logo} alt="Logo" className="size-6" />
 				</Link>
+
 				<hr className="w-full border-theme-border" />
-				<Tooltip tooltip="Your Rooms" placement="right">
-					<NavLink
-						to="/rooms"
-						end
-						prefetch="intent"
-						className="flex-center size-8 rounded-md opacity-50 transition hover:opacity-100 focus-visible:opacity-100 aria-[current=page]:bg-theme-border aria-[current=page]:opacity-100"
-					>
-						<LucideHome className="size-6" />
-					</NavLink>
+
+				<Tooltip
+					tooltip="Your Rooms"
+					placement="right"
+					className="hover-fade-50 flex-center size-8 rounded-md aria-[current=page]:bg-theme-border aria-[current=page]:opacity-100"
+					render={<NavLink to="/rooms" end prefetch="intent" />}
+				>
+					<LucideHome className="size-6" />
 				</Tooltip>
 
-				<div className="mt-auto opacity-70 transition hover:opacity-100">
+				<div className="hover-fade mt-auto">
 					<UserButton afterSignOutUrl="/" />
 				</div>
 			</nav>

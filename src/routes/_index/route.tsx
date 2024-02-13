@@ -2,13 +2,12 @@ import { SignInButton, UserButton, useUser } from "@clerk/remix"
 import { getAuth } from "@clerk/remix/ssr.server"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { type HeadersFunction, redirect } from "@vercel/remix"
-import { LucideLogIn, LucideWand2 } from "lucide-react"
+import { LucideLogIn } from "lucide-react"
 import logo from "~/assets/logo.svg"
 import { Background } from "~/ui/Background.tsx"
 import { Button } from "~/ui/Button.tsx"
 import { ExternalLink } from "~/ui/ExternalLink.tsx"
 import { Link } from "~/ui/Link.tsx"
-import { PromptButton } from "~/ui/PromptButton.tsx"
 
 export async function loader(args: LoaderFunctionArgs) {
 	const auth = await getAuth(args)
@@ -25,7 +24,7 @@ export default function Home() {
 		<div className="relative flex min-h-dvh flex-col items-center overflow-clip">
 			<Background />
 			<header className="flex w-full flex-1 flex-col p-3">
-				<div className="ml-auto opacity-70 transition focus-within:opacity-100 hover:opacity-100">
+				<div className="hover-fade ml-auto">
 					<UserButton />
 				</div>
 			</header>

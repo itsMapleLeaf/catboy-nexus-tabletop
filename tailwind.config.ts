@@ -24,6 +24,26 @@ export default {
 		flexShortcutsPlugin(),
 		gridPlugin(),
 		accessibleTouchAreaPlugin(),
+
+		plugin(function customStyles(api) {
+			api.matchComponents(
+				{
+					"hover-fade": (value) => ({
+						opacity: value,
+						transition: `${api.theme("transitionDuration.DEFAULT")} ${api.theme("transitionTimingFunction.DEFAULT")} opacity`,
+						"&:hover, &:focus-visible, &:has(:focus-visible)": {
+							opacity: "1",
+						},
+					}),
+				},
+				{
+					values: {
+						...api.theme<Record<string, string>>("opacity"),
+						DEFAULT: "0.7",
+					},
+				},
+			)
+		}),
 	],
 } satisfies Config
 
@@ -73,7 +93,6 @@ function gridPlugin() {
 	})
 }
 
-// before:absolute before:left-1/2 before:top-1/2 before:h-full before:min-h-[44px] before:w-full before:min-w-[44px] before:-translate-x-1/2 before:-translate-y-1/2 before:content-['']
 function accessibleTouchAreaPlugin() {
 	return plugin(function accessibleTouchArea(api) {
 		api.addComponents({

@@ -9,11 +9,9 @@ const ButtonBase = classed.button({
 	base: "flex min-w-0 cursor-default select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none disabled:pointer-events-none disabled:opacity-70",
 	variants: {
 		appearance: {
-			clear:
-				"border-transparent bg-transparent opacity-70 hover:bg-theme-border hover:opacity-100",
-			outline: "border-theme-border bg-transparent hover:bg-theme-border",
-			solid:
-				"border-theme-border bg-theme-background/75 hover:bg-theme-background",
+			clear: `hover-fade border-transparent bg-transparent hover:bg-theme-border`,
+			outline: `border-theme-border bg-transparent hover:bg-theme-border`,
+			solid: `border-theme-border bg-theme-background/75 hover:bg-theme-background`,
 		},
 		size: {
 			md: "h-10 gap-1.5 px-2",
