@@ -11,17 +11,19 @@ import { LoadingPlaceholder } from "~/ui/LoadingPlaceholder.tsx"
 export function Query<Func extends FunctionReference<"query", "public">>({
 	query,
 	args,
+	loading = <LoadingPlaceholder />,
 	emptyState,
 	children,
 }: {
 	query: Func
 	args: FunctionArgs<Func>
+	loading?: React.ReactNode
 	emptyState: React.ReactNode
 	children: (data: NonNullable<FunctionReturnType<Func>>) => React.ReactNode
 }) {
 	const data = useQuery(query, args)
 	return data === undefined ? (
-		<LoadingPlaceholder />
+		loading
 	) : data === null ? (
 		<EmptyState>{emptyState}</EmptyState>
 	) : (

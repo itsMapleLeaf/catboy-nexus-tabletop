@@ -33,7 +33,7 @@ function Root() {
 	return (
 		<html
 			lang="en"
-			className="text-balance break-words bg-theme-background text-theme-copy [word-break:break-words] selection:bg-theme-background/50"
+			className="text-balance break-words bg-theme-background text-theme-copy [word-break:break-words] selection:bg-theme-primary-dark"
 		>
 			<head>
 				<meta charSet="utf-8" />

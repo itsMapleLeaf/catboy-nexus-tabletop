@@ -25,7 +25,7 @@ export function Background() {
 			src={backgroundUrl}
 			alt=""
 			className={twMerge(
-				"absolute inset-x-0 -z-10 h-auto max-h-full w-full object-cover brightness-[0.3] transition duration-700",
+				"absolute inset-x-0 top-0 -z-10 h-auto max-h-full w-full object-cover brightness-[0.3] transition duration-700",
 				loaded ? "opacity-100" : "opacity-0",
 			)}
 			style={{

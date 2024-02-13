@@ -19,6 +19,7 @@ export default function RoomList() {
 	return (
 		<PageLayout
 			title="Your Rooms"
+			breadcrumbs={[]}
 			headerAction={
 				<PromptButton
 					title="New Room"

@@ -6,6 +6,7 @@ import React from "react"
 import { CharactersSection } from "~/characters/CharactersSection.tsx"
 import { DiceRolls } from "~/dice/DiceRolls.tsx"
 import { useRect } from "~/helpers/useRect.tsx"
+import { LoadingPlaceholder } from "~/ui/LoadingPlaceholder.tsx"
 import { PageLayout } from "~/ui/PageLayout.tsx"
 import { Panel } from "~/ui/Panel.tsx"
 import { Query } from "~/ui/Query"
@@ -95,7 +96,7 @@ const wideLayout = (
 	</div>
 )
 
-export default function GamePage() {
+export default function RoomPage() {
 	const { hasMobileHint } = useLoaderData<typeof loader>()
 	const { roomId } = useParams()
 	const containerRef = React.useRef<HTMLDivElement>(null)
@@ -106,15 +107,29 @@ export default function GamePage() {
 			query={api.rooms.get}
 			args={{ id: roomId as Id<"rooms"> }}
 			emptyState="Room not found."
+			loading={
+				<PageLayout
+					title="Loading..."
+					headerAction={undefined}
+					breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
+				>
+					<LoadingPlaceholder />
+				</PageLayout>
+			}
 		>
 			{(room) => (
-				<PageLayout title={room.title} headerAction={undefined}>
-					<div ref={containerRef}>
+				<div ref={containerRef}>
+					<PageLayout
+						title={room.title}
+						headerAction={undefined}
+						breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
+						className="h-dvh overflow-hidden"
+					>
 						<main className="min-h-0 flex-1 gap-2">
 							{isNarrowViewport ? narrowLayout : wideLayout}
 						</main>
-					</div>
-				</PageLayout>
+					</PageLayout>
+				</div>
 			)}
 		</Query>
 	)
