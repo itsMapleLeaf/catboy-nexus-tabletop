@@ -1,5 +1,6 @@
 import * as React from "react"
 import { createContext } from "react"
+import { raise } from "./errors.ts"
 
 export function defineContext<T>() {
 	const Context = createContext<T | undefined>(undefined)
@@ -11,11 +12,8 @@ export function defineContext<T>() {
 	}
 
 	function useContextValue() {
-		const context = React.useContext(Context)
-		if (!context) {
-			throw new Error("useRoom must be used within a RoomProvider")
-		}
-		return context
+		const value = React.useContext(Context)
+		return value ?? raise("useContextValue must be used within a Provider")
 	}
 
 	return [Provider, useContextValue] as const
