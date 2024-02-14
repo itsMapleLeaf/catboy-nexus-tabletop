@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import { Link, useLoaderData } from "@remix-run/react"
+import { useLoaderData } from "@remix-run/react"
 import { LucideSettings } from "lucide-react"
 import React from "react"
 import { CharactersSection } from "~/characters/CharactersSection.tsx"
@@ -7,6 +7,7 @@ import { DiceRolls } from "~/dice/DiceRolls.tsx"
 import { useRect } from "~/helpers/useRect.tsx"
 import { useRoom } from "~/rooms/context.tsx"
 import { Button } from "~/ui/Button.tsx"
+import { Modal, ModalButton, ModalPanel } from "~/ui/Modal.tsx"
 import { PageLayout } from "~/ui/PageLayout.tsx"
 import { Panel } from "~/ui/Panel.tsx"
 import { Tabs } from "~/ui/Tabs.tsx"
@@ -105,16 +106,7 @@ export default function RoomPage() {
 		<div ref={containerRef}>
 			<PageLayout
 				title={room.title}
-				headerAction={
-					<Button
-						as={Link}
-						to={`/rooms/${room._id}/settings`}
-						icon={<LucideSettings />}
-						appearance="solid"
-					>
-						Settings
-					</Button>
-				}
+				headerAction={<SettingsButton />}
 				breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
 				className="h-dvh overflow-hidden"
 			>
@@ -123,6 +115,21 @@ export default function RoomPage() {
 				</main>
 			</PageLayout>
 		</div>
+	)
+}
+
+function SettingsButton() {
+	return (
+		<Modal>
+			<ModalButton
+				render={<Button appearance="solid" icon={<LucideSettings />} />}
+			>
+				Settings
+			</ModalButton>
+			<ModalPanel title="Room settings">
+				<div className="h-[150dvh]">placeholder</div>
+			</ModalPanel>
+		</Modal>
 	)
 }
 
