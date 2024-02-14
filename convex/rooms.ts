@@ -1,10 +1,11 @@
 import { type UserIdentity, paginationOptsValidator } from "convex/server"
 import { v } from "convex/values"
 import { raise } from "~/helpers/errors.js"
-import type { Doc, Id } from "./_generated/dataModel.js"
-import { type QueryCtx, mutation, query } from "./_generated/server.js"
+import type { Doc } from "./_generated/dataModel.js"
+import { mutation, query } from "./_generated/server.js"
 import { requireIdentity } from "./auth.js"
 import { requireValidId } from "./helpers.js"
+import { requireDoc } from "./helpers.js"
 
 export const get = query({
 	args: {
@@ -38,7 +39,7 @@ export const upsert = mutation({
 
 		if (idArg) {
 			const id = requireValidId(ctx, "rooms", idArg)
-			requireOwnedGame(await requireGame(ctx, id), identity)
+			requireOwnedRoom(await requireDoc(ctx, "rooms", id), identity)
 			return await ctx.db.patch(id, data)
 		}
 
@@ -55,17 +56,15 @@ export const remove = mutation({
 	},
 	async handler(ctx, args) {
 		const id = requireValidId(ctx, "rooms", args.id)
-		requireOwnedGame(await requireGame(ctx, id), await requireIdentity(ctx))
+		requireOwnedRoom(
+			await requireDoc(ctx, "rooms", id),
+			await requireIdentity(ctx),
+		)
 		await ctx.db.delete(id)
 	},
 })
 
-async function requireGame(ctx: QueryCtx, id: Id<"rooms">) {
-	const existing = await ctx.db.get(id)
-	return existing ?? raise(`Gamemode with ID "${id}" not found`)
-}
-
-function requireOwnedGame(gamemode: Doc<"rooms">, identity: UserIdentity) {
+function requireOwnedRoom(gamemode: Doc<"rooms">, identity: UserIdentity) {
 	if (gamemode.owner !== identity.subject) {
 		raise("You don't own this room")
 	}
