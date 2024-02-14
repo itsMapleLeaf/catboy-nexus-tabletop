@@ -6,7 +6,7 @@ import { useFormContext } from "./Form.tsx"
 import { classed } from "./classed.ts"
 
 const ButtonBase = classed.button({
-	base: "flex min-w-0 cursor-default select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none disabled:pointer-events-none disabled:opacity-70",
+	base: "flex min-w-0 select-none items-center rounded border leading-none transition active:brightness-150 active:transition-none disabled:pointer-events-none disabled:opacity-70 [&:is(button)]:cursor-default",
 	variants: {
 		appearance: {
 			clear: `hover-fade border-transparent bg-transparent hover:bg-theme-border`,

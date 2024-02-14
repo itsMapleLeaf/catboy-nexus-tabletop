@@ -1,11 +1,13 @@
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import { useLoaderData, useParams } from "@remix-run/react"
+import { Link, useLoaderData, useParams } from "@remix-run/react"
 import { api } from "convex/_generated/api.js"
 import type { Id } from "convex/_generated/dataModel.js"
+import { LucideSettings } from "lucide-react"
 import React from "react"
 import { CharactersSection } from "~/characters/CharactersSection.tsx"
 import { DiceRolls } from "~/dice/DiceRolls.tsx"
 import { useRect } from "~/helpers/useRect.tsx"
+import { Button } from "~/ui/Button.tsx"
 import { LoadingPlaceholder } from "~/ui/LoadingPlaceholder.tsx"
 import { PageLayout } from "~/ui/PageLayout.tsx"
 import { Panel } from "~/ui/Panel.tsx"
@@ -99,8 +101,8 @@ const wideLayout = (
 export default function RoomPage() {
 	const { hasMobileHint } = useLoaderData<typeof loader>()
 	const { roomId } = useParams()
-	const containerRef = React.useRef<HTMLDivElement>(null)
-	const rect = useRect(containerRef)
+	const [container, containerRef] = React.useState<HTMLDivElement | null>()
+	const rect = useRect(container)
 	const isNarrowViewport = rect ? (rect.width ?? 0) < 672 : hasMobileHint
 	return (
 		<Query
@@ -110,7 +112,16 @@ export default function RoomPage() {
 			loading={
 				<PageLayout
 					title="Loading..."
-					headerAction={undefined}
+					headerAction={
+						<Button
+							as={Link}
+							to={`/rooms/${roomId}/settings`}
+							icon={<LucideSettings />}
+							appearance="solid"
+						>
+							Settings
+						</Button>
+					}
 					breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
 				>
 					<LoadingPlaceholder />
@@ -121,7 +132,16 @@ export default function RoomPage() {
 				<div ref={containerRef}>
 					<PageLayout
 						title={room.title}
-						headerAction={undefined}
+						headerAction={
+							<Button
+								as={Link}
+								to={`/rooms/${roomId}/settings`}
+								icon={<LucideSettings />}
+								appearance="solid"
+							>
+								Settings
+							</Button>
+						}
 						breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
 						className="h-dvh overflow-hidden"
 					>
