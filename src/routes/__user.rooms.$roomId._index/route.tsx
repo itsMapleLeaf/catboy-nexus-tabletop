@@ -1,17 +1,14 @@
 import type { LoaderFunctionArgs } from "@remix-run/node"
-import { Link, useLoaderData, useParams } from "@remix-run/react"
-import { api } from "convex/_generated/api.js"
-import type { Id } from "convex/_generated/dataModel.js"
+import { Link, useLoaderData } from "@remix-run/react"
 import { LucideSettings } from "lucide-react"
 import React from "react"
 import { CharactersSection } from "~/characters/CharactersSection.tsx"
 import { DiceRolls } from "~/dice/DiceRolls.tsx"
 import { useRect } from "~/helpers/useRect.tsx"
+import { useRoom } from "~/rooms/context.tsx"
 import { Button } from "~/ui/Button.tsx"
-import { LoadingPlaceholder } from "~/ui/LoadingPlaceholder.tsx"
 import { PageLayout } from "~/ui/PageLayout.tsx"
 import { Panel } from "~/ui/Panel.tsx"
-import { Query } from "~/ui/Query"
 import { Tabs } from "~/ui/Tabs.tsx"
 
 type LayoutItem = {
@@ -100,58 +97,32 @@ const wideLayout = (
 
 export default function RoomPage() {
 	const { hasMobileHint } = useLoaderData<typeof loader>()
-	const { roomId } = useParams()
+	const room = useRoom()
 	const [container, containerRef] = React.useState<HTMLDivElement | null>()
 	const rect = useRect(container)
 	const isNarrowViewport = rect ? (rect.width ?? 0) < 672 : hasMobileHint
 	return (
-		<Query
-			query={api.rooms.get}
-			args={{ id: roomId as Id<"rooms"> }}
-			emptyState="Room not found."
-			loading={
-				<PageLayout
-					title="Loading..."
-					headerAction={
-						<Button
-							as={Link}
-							to={`/rooms/${roomId}/settings`}
-							icon={<LucideSettings />}
-							appearance="solid"
-						>
-							Settings
-						</Button>
-					}
-					breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
-				>
-					<LoadingPlaceholder />
-				</PageLayout>
-			}
-		>
-			{(room) => (
-				<div ref={containerRef}>
-					<PageLayout
-						title={room.title}
-						headerAction={
-							<Button
-								as={Link}
-								to={`/rooms/${roomId}/settings`}
-								icon={<LucideSettings />}
-								appearance="solid"
-							>
-								Settings
-							</Button>
-						}
-						breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
-						className="h-dvh overflow-hidden"
+		<div ref={containerRef}>
+			<PageLayout
+				title={room.title}
+				headerAction={
+					<Button
+						as={Link}
+						to={`/rooms/${room._id}/settings`}
+						icon={<LucideSettings />}
+						appearance="solid"
 					>
-						<main className="min-h-0 flex-1 gap-2">
-							{isNarrowViewport ? narrowLayout : wideLayout}
-						</main>
-					</PageLayout>
-				</div>
-			)}
-		</Query>
+						Settings
+					</Button>
+				}
+				breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
+				className="h-dvh overflow-hidden"
+			>
+				<main className="min-h-0 flex-1 gap-2">
+					{isNarrowViewport ? narrowLayout : wideLayout}
+				</main>
+			</PageLayout>
+		</div>
 	)
 }
 
