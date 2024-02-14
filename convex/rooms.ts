@@ -4,13 +4,14 @@ import { raise } from "~/helpers/errors.js"
 import type { Doc, Id } from "./_generated/dataModel.js"
 import { type QueryCtx, mutation, query } from "./_generated/server.js"
 import { requireIdentity } from "./auth.js"
+import { requireValidId } from "./helpers.js"
 
 export const get = query({
 	args: {
-		id: v.id("rooms"),
+		id: v.string(),
 	},
 	async handler(ctx, args) {
-		return ctx.db.get(args.id)
+		return await ctx.db.get(requireValidId(ctx, "rooms", args.id))
 	},
 })
 
@@ -29,13 +30,14 @@ export const list = query({
 
 export const upsert = mutation({
 	args: {
-		id: v.optional(v.id("rooms")),
+		id: v.optional(v.string()),
 		title: v.string(),
 	},
-	async handler(ctx, { id, ...data }) {
+	async handler(ctx, { id: idArg, ...data }) {
 		const identity = await requireIdentity(ctx)
 
-		if (id) {
+		if (idArg) {
+			const id = requireValidId(ctx, "rooms", idArg)
 			requireOwnedGame(await requireGame(ctx, id), identity)
 			return await ctx.db.patch(id, data)
 		}
@@ -49,14 +51,12 @@ export const upsert = mutation({
 
 export const remove = mutation({
 	args: {
-		id: v.id("rooms"),
+		id: v.string(),
 	},
 	async handler(ctx, args) {
-		requireOwnedGame(
-			await requireGame(ctx, args.id),
-			await requireIdentity(ctx),
-		)
-		await ctx.db.delete(args.id)
+		const id = requireValidId(ctx, "rooms", args.id)
+		requireOwnedGame(await requireGame(ctx, id), await requireIdentity(ctx))
+		await ctx.db.delete(id)
 	},
 })
 
