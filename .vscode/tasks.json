@@ -5,12 +5,23 @@
 	"tasks": [
 		{
 			"label": "dev",
-			"type": "npm",
-			"script": "dev",
+			"dependsOn": ["remix dev", "convex dev"],
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"label": "remix dev",
+			"type": "npm",
+			"script": "dev:remix",
+			"isBackground": true
+		},
+		{
+			"label": "convex dev",
+			"type": "npm",
+			"script": "dev:convex",
+			"isBackground": true
 		}
 	]
 }
