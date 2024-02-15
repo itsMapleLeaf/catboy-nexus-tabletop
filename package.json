@@ -37,6 +37,7 @@
 		"react-dom": "18.2.0",
 		"react-hot-toast": "2.4.1",
 		"react-virtuoso": "4.6.3",
+		"remix-routes": "1.7.1",
 		"spin-delay": "1.2.0",
 		"tailwind-merge": "2.2.1"
 	},

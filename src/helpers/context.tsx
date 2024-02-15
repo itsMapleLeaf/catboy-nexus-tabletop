@@ -1,20 +1,17 @@
 import * as React from "react"
-import { createContext } from "react"
-import { raise } from "./errors.ts"
+
+const empty = Symbol("empty")
 
 export function defineContext<T>() {
-	const Context = createContext<T | undefined>(undefined)
-
-	function Provider(props: { children: React.ReactNode; value: T }) {
-		return (
-			<Context.Provider value={props.value}>{props.children}</Context.Provider>
-		)
-	}
+	const Context = React.createContext<T | typeof empty>(empty)
 
 	function useContextValue() {
 		const value = React.useContext(Context)
-		return value ?? raise("useContextValue must be used within a Provider")
+		if (value === empty) {
+			throw new Error("useContextValue must be used within a Provider")
+		}
+		return value
 	}
 
-	return [Provider, useContextValue] as const
+	return [Context.Provider, useContextValue] as const
 }

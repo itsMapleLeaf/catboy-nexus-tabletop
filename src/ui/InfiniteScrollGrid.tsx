@@ -4,7 +4,7 @@ import type {
 	PaginatedQueryReference,
 } from "convex/react"
 import type * as React from "react"
-import { PageLayoutGridList } from "~/ui/PageLayout.tsx"
+import { GridList } from "~/ui/GridList"
 import { InfiniteScrollQuery } from "./InfiniteScrollQuery"
 
 export function InfiniteScrollGrid<Query extends PaginatedQueryReference>({
@@ -23,9 +23,9 @@ export function InfiniteScrollGrid<Query extends PaginatedQueryReference>({
 	return (
 		<InfiniteScrollQuery query={query} args={args} numItems={numItems}>
 			{(items) => (
-				<PageLayoutGridList items={items} itemKey="_id" emptyState={emptyState}>
+				<GridList items={items} itemKey="_id" emptyState={emptyState}>
 					{children}
-				</PageLayoutGridList>
+				</GridList>
 			)}
 		</InfiniteScrollQuery>
 	)

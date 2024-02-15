@@ -7,20 +7,20 @@ import {
 	LucidePlus,
 	LucideWand2,
 } from "lucide-react"
+import { $path } from "remix-routes"
 import { Button } from "~/ui/Button.tsx"
 import { InfiniteScrollGrid } from "~/ui/InfiniteScrollGrid"
-import { PageLayout } from "~/ui/PageLayout.tsx"
 import { Panel } from "~/ui/Panel.tsx"
 import { PromptButton } from "~/ui/PromptButton.tsx"
+import { PageMainHeading } from "~/ui/page"
 
 export default function RoomList() {
 	const upsertRoom = useMutation(api.rooms.upsert)
 	const navigate = useNavigate()
 	return (
-		<PageLayout
-			title="Your Rooms"
-			breadcrumbs={[]}
-			headerAction={
+		<div className="flex flex-col gap-4 p-4">
+			<header className="flex flex-row items-center gap-4">
+				<PageMainHeading className="mr-auto">Your Rooms</PageMainHeading>
 				<PromptButton
 					title="New Room"
 					description="Create a new room to play your game."
@@ -30,14 +30,13 @@ export default function RoomList() {
 					placeholder="Give it something cool. Or silly. Or boring."
 					onSubmit={async (title) => {
 						const roomId = await upsertRoom({ title })
-						navigate(`/rooms/${roomId}`)
+						if (roomId) navigate($path("/rooms/:roomId", { roomId }))
 					}}
 					render={<Button appearance="solid" icon={<LucidePlus />} />}
 				>
 					New Room
 				</PromptButton>
-			}
-		>
+			</header>
 			<InfiniteScrollGrid
 				query={api.rooms.list}
 				args={{}}
@@ -46,13 +45,13 @@ export default function RoomList() {
 			>
 				{(item) => (
 					<NavLinkCard
-						to={`/rooms/${item._id}`}
+						to={$path("/rooms/:roomId", { roomId: item._id })}
 						title={item.title}
 						icon={<LucideGamepad2 />}
 					/>
 				)}
 			</InfiniteScrollGrid>
-		</PageLayout>
+		</div>
 	)
 }
 

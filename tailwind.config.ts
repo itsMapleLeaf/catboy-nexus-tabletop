@@ -38,8 +38,8 @@ export default {
 				},
 				{
 					values: {
-						...api.theme<Record<string, string>>("opacity"),
 						DEFAULT: "0.7",
+						...api.theme<Record<string, string>>("opacity"),
 					},
 				},
 			)
