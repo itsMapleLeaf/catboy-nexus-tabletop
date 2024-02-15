@@ -2,6 +2,7 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { LucideSettings } from "lucide-react"
 import React from "react"
+import { $path } from "remix-routes"
 import { CharactersSection } from "~/characters/CharactersSection.tsx"
 import { DiceRolls } from "~/dice/DiceRolls.tsx"
 import { useRect } from "~/helpers/useRect.tsx"
@@ -107,7 +108,7 @@ export default function RoomPage() {
 			<PageLayout
 				title={room.title}
 				headerAction={<SettingsButton />}
-				breadcrumbs={[{ label: "Rooms", to: "/rooms" }]}
+				breadcrumbs={[{ label: "Rooms", to: $path("/rooms") }]}
 				className="h-dvh overflow-hidden"
 			>
 				<main className="min-h-0 flex-1 gap-2">

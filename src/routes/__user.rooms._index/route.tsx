@@ -7,6 +7,7 @@ import {
 	LucidePlus,
 	LucideWand2,
 } from "lucide-react"
+import { $path } from "remix-routes"
 import { Button } from "~/ui/Button.tsx"
 import { InfiniteScrollGrid } from "~/ui/InfiniteScrollGrid"
 import { PageLayout } from "~/ui/PageLayout.tsx"
@@ -30,7 +31,7 @@ export default function RoomList() {
 					placeholder="Give it something cool. Or silly. Or boring."
 					onSubmit={async (title) => {
 						const roomId = await upsertRoom({ title })
-						navigate(`/rooms/${roomId}`)
+						if (roomId) navigate($path("/rooms/:roomId", { roomId }))
 					}}
 					render={<Button appearance="solid" icon={<LucidePlus />} />}
 				>
@@ -46,7 +47,7 @@ export default function RoomList() {
 			>
 				{(item) => (
 					<NavLinkCard
-						to={`/rooms/${item._id}`}
+						to={$path("/rooms/:roomId", { roomId: item._id })}
 						title={item.title}
 						icon={<LucideGamepad2 />}
 					/>

@@ -3,12 +3,13 @@ import type { LoaderFunctionArgs } from "@remix-run/node"
 import { Outlet } from "@remix-run/react"
 import { redirect } from "@vercel/remix"
 import { useConvexAuth } from "convex/react"
+import { $path } from "remix-routes"
 import { Background } from "~/ui/Background.tsx"
 import { LoadingPlaceholder } from "~/ui/LoadingPlaceholder.tsx"
 
 export async function loader(args: LoaderFunctionArgs) {
 	const auth = await getAuth(args)
-	return auth.userId ? new Response() : redirect("/")
+	return auth.userId ? new Response() : redirect($path("/"))
 }
 
 export default function UserRouteLayout() {

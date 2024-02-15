@@ -3,6 +3,7 @@ import { getAuth } from "@clerk/remix/ssr.server"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { type HeadersFunction, redirect } from "@vercel/remix"
 import { LucideLogIn } from "lucide-react"
+import { $path } from "remix-routes"
 import logo from "~/assets/logo.svg"
 import { Background } from "~/ui/Background.tsx"
 import { Button } from "~/ui/Button.tsx"
@@ -11,7 +12,7 @@ import { Link } from "~/ui/Link.tsx"
 
 export async function loader(args: LoaderFunctionArgs) {
 	const auth = await getAuth(args)
-	return auth.userId ? redirect("/rooms") : new Response()
+	return auth.userId ? redirect($path("/rooms")) : new Response()
 }
 
 export const headers: HeadersFunction = () => ({
