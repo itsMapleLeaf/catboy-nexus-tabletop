@@ -1,7 +1,7 @@
 import { type UserIdentity, paginationOptsValidator } from "convex/server"
 import { v } from "convex/values"
 import { raise } from "~/helpers/errors.js"
-import type { Doc } from "./_generated/dataModel.js"
+import type { Doc, Id } from "./_generated/dataModel.js"
 import { mutation, query } from "./_generated/server.js"
 import { requireIdentity } from "./auth.js"
 import { requireValidId } from "./helpers.js"
@@ -36,17 +36,18 @@ export const upsert = mutation({
 	},
 	async handler(ctx, { id: idArg, ...data }) {
 		const identity = await requireIdentity(ctx)
-
+		let id: Id<"rooms">
 		if (idArg) {
-			const id = requireValidId(ctx, "rooms", idArg)
+			id = requireValidId(ctx, "rooms", idArg)
 			requireOwnedRoom(await requireDoc(ctx, "rooms", id), identity)
-			return await ctx.db.patch(id, data)
+			await ctx.db.patch(id, data)
+		} else {
+			id = await ctx.db.insert("rooms", {
+				...data,
+				owner: identity.subject,
+			})
 		}
-
-		return await ctx.db.insert("rooms", {
-			...data,
-			owner: identity.subject,
-		})
+		return id
 	},
 })
 
