@@ -14,11 +14,4 @@ export default defineSchema({
 	})
 		.index("by_room", ["roomId"])
 		.index("by_collection", ["collectionName"]),
-
-	roomPluginInstalls: defineTable({
-		roomId: v.id("rooms"),
-		pluginId: v.string(),
-	})
-		.index("by_room", ["roomId"])
-		.index("by_plugin", ["pluginId"]),
 })
