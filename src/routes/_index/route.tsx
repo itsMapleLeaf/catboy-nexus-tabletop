@@ -1,4 +1,4 @@
-import { SignInButton, UserButton, useUser } from "@clerk/remix"
+import { SignInButton } from "@clerk/remix"
 import { getAuth } from "@clerk/remix/ssr.server"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { type HeadersFunction, redirect } from "@vercel/remix"
@@ -18,16 +18,10 @@ export const headers: HeadersFunction = () => ({
 	"Cache-Control": "public, stale-while-revalidate",
 })
 
-export default function Home() {
-	const { isLoaded } = useUser()
+export default function LandingPage() {
 	return (
 		<div className="relative flex min-h-dvh flex-col items-center overflow-clip">
 			<Background />
-			<header className="flex w-full flex-1 flex-col p-3">
-				<div className="hover-fade ml-auto">
-					<UserButton />
-				</div>
-			</header>
 			<main className="flex-col-center gap-6 p-6 text-center">
 				<header className="flex items-center justify-center gap-3 drop-shadow-[0_0_4px_rgba(0,0,0,1)]">
 					<img src={logo} alt="" className="h-16" />
@@ -40,10 +34,7 @@ export default function Home() {
 					with others planned later.
 				</p>
 
-				<div
-					className="flex-col-center h-[5.25rem] opacity-0 transition data-[loaded=true]:opacity-100"
-					data-loaded={isLoaded}
-				>
+				<div className="flex-col-center h-[5.25rem]">
 					<SignInButton mode="modal">
 						<Button
 							size="xl"
