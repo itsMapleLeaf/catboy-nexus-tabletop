@@ -1,6 +1,6 @@
 import * as Lucide from "lucide-react"
 import { createContext, useContext, useState } from "react"
-import { getGenesisDice } from "~/genesys/dice.tsx"
+import { getGenesysDice } from "~/genesys/dice.tsx"
 import { getGenesysSymbols } from "~/genesys/symbols.ts"
 import { Collapse, type CollapseProps } from "~/ui/Collapse.tsx"
 import { Panel } from "~/ui/Panel.tsx"
@@ -36,10 +36,10 @@ export function GenesysDiceRollForm() {
 	}
 
 	return (
-		<div className="flex flex-col gap-3 p-3">
+		<div className="flex flex-col gap-2">
 			<Context.Provider value={{ diceCounts, add: addDie, remove: removeDie }}>
 				<DiceSection title="Dice" defaultOpen>
-					{getGenesisDice().map((die) => (
+					{getGenesysDice().map((die) => (
 						<DieCounter key={die.id} name={die.label}>
 							{die.element}
 						</DieCounter>

@@ -16,6 +16,7 @@ import type {
 } from "convex/server";
 import type * as auth from "../auth.js";
 import type * as helpers from "../helpers.js";
+import type * as roomDocuments from "../roomDocuments.js";
 import type * as rooms from "../rooms.js";
 
 /**
@@ -29,6 +30,7 @@ import type * as rooms from "../rooms.js";
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   helpers: typeof helpers;
+  roomDocuments: typeof roomDocuments;
   rooms: typeof rooms;
 }>;
 export declare const api: FilterApi<

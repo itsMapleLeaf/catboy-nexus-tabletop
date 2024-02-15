@@ -1,43 +1,51 @@
 import * as ScrollArea from "@radix-ui/react-scroll-area"
-import * as Lucide from "lucide-react"
+import { api } from "convex/_generated/api.js"
+import { usePaginatedQuery } from "convex/react"
 import { Virtuoso } from "react-virtuoso"
-import { genesysDice } from "~/genesys/dice.tsx"
-import { Button } from "../ui/Button.tsx"
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover.tsx"
+import type { ZodError } from "zod"
 import { GenesysDiceRollForm } from "./GenesysDiceRollForm.tsx"
 import { GenesysDiceRollSummary } from "./GenesysDiceRollSummary.tsx"
-
-const testRolls = [...Array(100)].map((_, index) => ({
-	key: `${index}`,
-	caption: "test roll lol",
-	dice: [
-		{ die: genesysDice.proficiency, face: 1 },
-		{ die: genesysDice.ability, face: 2 },
-		{ die: genesysDice.boost, face: 3 },
-		{ die: genesysDice.challenge, face: 4 },
-		{ die: genesysDice.difficulty, face: 5 },
-		{ die: genesysDice.setback, face: 6 },
-	].map((die, index) => ({ ...die, key: index.toString() })),
-	rolledBy: "someone",
-	rolledAt: 1707615938225,
-}))
+import { genesysDiceRollSchema } from "./types.ts"
 
 export function GenesysDiceRolls() {
+	const list = usePaginatedQuery(
+		api.roomDocuments.list,
+		{},
+		{ initialNumItems: 20 },
+	)
+
 	return (
 		<div className="flex h-full flex-col gap-2 p-2">
+			<GenesysDiceRollForm />
 			<ScrollArea.Root className="flex min-h-0 flex-1 flex-col">
 				<Virtuoso
-					data={testRolls}
-					itemContent={(index, data) => (
-						<div className={`animate-in fade-in ${index === 0 ? "" : "pt-2"}`}>
-							<GenesysDiceRollSummary key={data.key} diceRoll={data} />
-						</div>
-					)}
+					data={list.results}
+					computeItemKey={(index, item) => item._id}
+					itemContent={(index, item) => {
+						const result = genesysDiceRollSchema.safeParse(item.value)
+						return (
+							<div
+								className={`animate-in fade-in ${index === 0 ? "" : "pt-2"}`}
+							>
+								{result.success ? (
+									<GenesysDiceRollSummary
+										key={result.data.key}
+										diceRoll={result.data}
+									/>
+								) : (
+									<div className="text-theme-error">
+										<p>
+											Invalid dice roll data. Please contact the author!
+											Problems:
+										</p>
+										<ZodErrorList error={result.error} />
+									</div>
+								)}
+							</div>
+						)
+					}}
 					components={{ Scroller: ScrollArea.Viewport }}
 					defaultItemHeight={200}
-					// initialTopMostItemIndex={testRolls.length - 1}
-					followOutput
-					initialItemCount={20}
 					className="[transform:translateZ(0)]"
 				/>
 				<ScrollArea.Scrollbar
@@ -47,14 +55,18 @@ export function GenesysDiceRolls() {
 					<ScrollArea.Thumb className="touch-area !w-2 rounded-full bg-theme-border transition-[filter] hover:brightness-125 active:brightness-150 active:transition-none" />
 				</ScrollArea.Scrollbar>
 			</ScrollArea.Root>
-			<Popover placement="top-start">
-				<PopoverTrigger render={<Button />} className="self-start">
-					<Lucide.Dices /> Roll Dice
-				</PopoverTrigger>
-				<PopoverContent className="w-[28rem]">
-					<GenesysDiceRollForm />
-				</PopoverContent>
-			</Popover>
 		</div>
+	)
+}
+
+function ZodErrorList({ error }: { error: ZodError }) {
+	return (
+		<ul className="list-inside list-disc pl-4">
+			{error.issues.map((issue) => (
+				<li key={issue.path.join(".")}>
+					{issue.path.join(".")}: {issue.message}
+				</li>
+			))}
+		</ul>
 	)
 }

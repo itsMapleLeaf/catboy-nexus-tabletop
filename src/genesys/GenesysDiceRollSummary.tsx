@@ -2,30 +2,22 @@ import { removeFirstWhere } from "~/helpers/array.ts"
 import { Panel } from "~/ui/Panel.tsx"
 import { Tooltip } from "~/ui/Tooltip.tsx"
 import { RelativeTimestamp } from "../ui/RelativeTimestamp"
-import type { GenesysDie } from "./dice.tsx"
+import { type GenesysDie, getGenesysDie } from "./dice.tsx"
 import { genesysSymbolRules } from "./symbols.ts"
+import type { GenesysDiceRoll, GenesysRolledDie } from "./types.ts"
 
-export type DiceRoll = {
-	key: string
-	caption: string
-	dice: RolledDie[]
-	rolledBy: string
-	rolledAt: string | number | Date
-}
-
-type RolledDie = {
-	key: string
-	die: GenesysDie
-	face: number
-}
-
-export function GenesysDiceRollSummary({ diceRoll }: { diceRoll: DiceRoll }) {
-	const outcomes = diceRoll.dice.flatMap((die) =>
-		(die.die.faces[die.face - 1] ?? []).map((symbol) => ({
+export function GenesysDiceRollSummary({
+	diceRoll,
+}: {
+	diceRoll: GenesysDiceRoll
+}) {
+	const outcomes = diceRoll.dice.flatMap((die) => {
+		const meta = getGenesysDie(die.name)
+		return (meta?.faces[die.face - 1] ?? []).map((symbol) => ({
 			key: `${die.key}-${symbol.id}`,
 			symbol,
-		})),
-	)
+		}))
+	})
 	for (const outcome of [...outcomes]) {
 		const rules = genesysSymbolRules[outcome.symbol.id]
 		if (rules?.removes) {
@@ -69,22 +61,22 @@ export function GenesysDiceRollSummary({ diceRoll }: { diceRoll: DiceRoll }) {
 	)
 }
 
-function RolledDieIcon({ rolled }: { rolled: RolledDie }) {
-	const symbols = rolled.die.faces[rolled.face - 1] ?? []
+function RolledDieIcon({ rolled }: { rolled: GenesysRolledDie }) {
+	const meta = getGenesysDie(rolled.name) as GenesysDie
+	const symbols = meta.faces[rolled.face - 1] ?? []
 	const listFormat = new Intl.ListFormat(undefined, { type: "conjunction" })
 
 	const tooltip = [
-		rolled.die.label,
+		meta.label,
 		listFormat.format(symbols.map((symbol) => symbol.label)) || "Blank",
 	].join(": ")
 
 	return (
 		<Tooltip className="relative size-14 first:*:size-full" tooltip={tooltip}>
-			{rolled.die.element}
+			{meta.element}
 			<div className="flex-center absolute inset-0 flex-col">
 				{symbols.map((symbol, index) => (
 					<img
-						// biome-ignore lint/suspicious/noArrayIndexKey: some symbols might be the same
 						key={index}
 						src={symbol.image}
 						alt={symbol.label}

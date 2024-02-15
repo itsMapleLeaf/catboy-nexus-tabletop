@@ -6,4 +6,19 @@ export default defineSchema({
 		title: v.string(),
 		owner: v.string(), // identity.subject
 	}).index("by_owner", ["owner"]),
+
+	roomDocuments: defineTable({
+		roomId: v.id("rooms"),
+		collectionName: v.string(),
+		value: v.any(),
+	})
+		.index("by_room", ["roomId"])
+		.index("by_collection", ["collectionName"]),
+
+	roomPluginInstalls: defineTable({
+		roomId: v.id("rooms"),
+		pluginId: v.string(),
+	})
+		.index("by_room", ["roomId"])
+		.index("by_plugin", ["pluginId"]),
 })

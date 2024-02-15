@@ -108,7 +108,7 @@ export const genesysDice = mapValues(
 
 const genesysDiceArray = Object.values(genesysDice)
 
-export function getGenesisDice(): GenesysDie[] {
+export function getGenesysDice(): GenesysDie[] {
 	return genesysDiceArray
 }
 
