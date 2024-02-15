@@ -10,18 +10,17 @@ import {
 import { $path } from "remix-routes"
 import { Button } from "~/ui/Button.tsx"
 import { InfiniteScrollGrid } from "~/ui/InfiniteScrollGrid"
-import { PageLayout } from "~/ui/PageLayout.tsx"
 import { Panel } from "~/ui/Panel.tsx"
 import { PromptButton } from "~/ui/PromptButton.tsx"
+import { PageMainHeading } from "~/ui/page"
 
 export default function RoomList() {
 	const upsertRoom = useMutation(api.rooms.upsert)
 	const navigate = useNavigate()
 	return (
-		<PageLayout
-			title="Your Rooms"
-			breadcrumbs={[]}
-			headerAction={
+		<div className="flex flex-col gap-4 p-4">
+			<header className="flex flex-row items-center gap-4">
+				<PageMainHeading className="mr-auto">Your Rooms</PageMainHeading>
 				<PromptButton
 					title="New Room"
 					description="Create a new room to play your game."
@@ -37,8 +36,7 @@ export default function RoomList() {
 				>
 					New Room
 				</PromptButton>
-			}
-		>
+			</header>
 			<InfiniteScrollGrid
 				query={api.rooms.list}
 				args={{}}
@@ -53,7 +51,7 @@ export default function RoomList() {
 					/>
 				)}
 			</InfiniteScrollGrid>
-		</PageLayout>
+		</div>
 	)
 }
 

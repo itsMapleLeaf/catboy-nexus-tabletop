@@ -2,10 +2,10 @@ import * as ScrollArea from "@radix-ui/react-scroll-area"
 import * as Lucide from "lucide-react"
 import { Virtuoso } from "react-virtuoso"
 import { genesysDice } from "~/genesys/dice.tsx"
-import { GenesysDiceRollForm } from "../genesys/GenesysDiceRollForm.tsx"
-import { GenesysDiceRollSummary } from "../genesys/GenesysDiceRollSummary.tsx"
 import { Button } from "../ui/Button.tsx"
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover.tsx"
+import { GenesysDiceRollForm } from "./GenesysDiceRollForm.tsx"
+import { GenesysDiceRollSummary } from "./GenesysDiceRollSummary.tsx"
 
 const testRolls = [...Array(100)].map((_, index) => ({
 	key: `${index}`,
@@ -22,7 +22,7 @@ const testRolls = [...Array(100)].map((_, index) => ({
 	rolledAt: 1707615938225,
 }))
 
-export function DiceRolls() {
+export function GenesysDiceRolls() {
 	return (
 		<div className="flex h-full flex-col gap-2 p-2">
 			<ScrollArea.Root className="flex min-h-0 flex-1 flex-col">
