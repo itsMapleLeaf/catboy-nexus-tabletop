@@ -1,7 +1,10 @@
 import { classed } from "@tw-classed/react"
 import { EmptyState } from "./EmptyState"
 
-export function GridList<T extends Record<string, React.Key>>({
+export function GridList<
+	K extends PropertyKey,
+	T extends Record<K, React.Key>,
+>({
 	items,
 	itemKey,
 	emptyState = "Nothing here!",
@@ -9,7 +12,7 @@ export function GridList<T extends Record<string, React.Key>>({
 }: {
 	items: T[]
 	emptyState?: React.ReactNode
-	itemKey: keyof T | ((item: T) => React.Key)
+	itemKey: K | ((item: T) => React.Key)
 	children: (item: T) => React.ReactNode
 }) {
 	const resolveItemKey = (item: T) =>

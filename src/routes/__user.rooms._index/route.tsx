@@ -8,18 +8,20 @@ import {
 	LucideWand2,
 } from "lucide-react"
 import { $path } from "remix-routes"
+import { useRoomList } from "~/rooms/context.tsx"
 import { Button } from "~/ui/Button.tsx"
 import { InfiniteScrollGrid } from "~/ui/InfiniteScrollGrid"
 import { Panel } from "~/ui/Panel.tsx"
 import { PromptButton } from "~/ui/PromptButton.tsx"
-import { PageMainHeading } from "~/ui/page"
+import { PageHeader, PageMainHeading } from "~/ui/page.tsx"
 
 export default function RoomList() {
 	const upsertRoom = useMutation(api.rooms.upsert)
 	const navigate = useNavigate()
+	const roomListResult = useRoomList()
 	return (
 		<div className="flex flex-col gap-4 p-4">
-			<header className="flex flex-row items-center gap-4">
+			<PageHeader>
 				<PageMainHeading className="mr-auto">Your Rooms</PageMainHeading>
 				<PromptButton
 					title="New Room"
@@ -36,10 +38,9 @@ export default function RoomList() {
 				>
 					New Room
 				</PromptButton>
-			</header>
+			</PageHeader>
 			<InfiniteScrollGrid
-				query={api.rooms.list}
-				args={{}}
+				listResult={roomListResult}
 				numItems={20}
 				emptyState="You have no rooms yet."
 			>

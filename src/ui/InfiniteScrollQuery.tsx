@@ -1,46 +1,38 @@
-import {
-	type PaginatedQueryArgs,
-	type PaginatedQueryItem,
-	type PaginatedQueryReference,
-	usePaginatedQuery,
-} from "convex/react"
+import type { UsePaginatedQueryResult } from "convex/react"
 import { LucideChevronDown } from "lucide-react"
 import type * as React from "react"
 import { Button } from "~/ui/Button.tsx"
 import { LoadingPlaceholder } from "~/ui/LoadingPlaceholder.tsx"
 
-export function InfiniteScrollQuery<Query extends PaginatedQueryReference>({
-	query,
-	args,
+export function InfiniteScrollQuery<T>({
+	listResult,
 	numItems,
 	children,
 }: {
-	query: Query
-	args: PaginatedQueryArgs<Query>
+	listResult: UsePaginatedQueryResult<T>
 	numItems: number
-	children: (items: Array<PaginatedQueryItem<Query>>) => React.ReactNode
+	children: (items: T[]) => React.ReactNode
 }) {
-	const list = usePaginatedQuery(query, args, { initialNumItems: numItems })
 	return (
 		<div className="flex flex-col gap-4">
 			<div>
-				{list.status === "LoadingFirstPage" ? (
+				{listResult.status === "LoadingFirstPage" ? (
 					<LoadingPlaceholder />
 				) : (
-					children(list.results)
+					children(listResult.results)
 				)}
 			</div>
-			{list.status === "CanLoadMore" && (
+			{listResult.status === "CanLoadMore" && (
 				<Button
 					appearance="solid"
 					icon={<LucideChevronDown />}
 					className="self-start"
-					onClick={() => list.loadMore(numItems)}
+					onClick={() => listResult.loadMore(numItems)}
 				>
 					Load More
 				</Button>
 			)}
-			{list.status === "LoadingMore" && <LoadingPlaceholder />}
+			{listResult.status === "LoadingMore" && <LoadingPlaceholder />}
 		</div>
 	)
 }

@@ -4,17 +4,17 @@ import { useRoom } from "~/rooms/context.tsx"
 import { Button } from "~/ui/Button.tsx"
 import { Modal, ModalButton, ModalPanel } from "~/ui/Modal.tsx"
 import { Panel } from "~/ui/Panel.tsx"
-import { PageLayout } from "~/ui/page"
+import { PageHeader, PageLayout } from "~/ui/page"
 import { PageMainHeading } from "~/ui/page"
 
 export default function RoomPage() {
 	const room = useRoom()
 	return (
 		<PageLayout className="h-dvh">
-			<header className="flex flex-row gap-4">
+			<PageHeader>
 				<PageMainHeading className="mr-auto">{room.title}</PageMainHeading>
 				<SettingsButton />
-			</header>
+			</PageHeader>
 			<main className="min-h-0 flex-1 gap-2">
 				<Panel className="h-full w-full max-w-md">
 					<GenesysDiceRolls />
