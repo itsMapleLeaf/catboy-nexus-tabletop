@@ -1,8 +1,11 @@
-import type { Doc } from "convex/_generated/dataModel.js"
-import type { UsePaginatedQueryResult } from "convex/react"
+import { api } from "convex/_generated/api.js"
+import { usePaginatedQuery, useQuery } from "convex/react"
 import { defineContext } from "~/helpers/context.tsx"
 
-export const [RoomListProvider, useRoomList] =
-	defineContext<UsePaginatedQueryResult<Doc<"rooms">>>()
+export const [RoomListProvider, useRoomList] = defineContext(() =>
+	usePaginatedQuery(api.rooms.list, {}, { initialNumItems: 20 }),
+)
 
-export const [RoomProvider, useRoom] = defineContext<Doc<"rooms">>()
+export const [RoomProvider, useRoom] = defineContext(
+	({ roomId }: { roomId: string }) => useQuery(api.rooms.get, { roomId }),
+)
