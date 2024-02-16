@@ -1,5 +1,6 @@
 import { NavLink, type NavLinkProps, useNavigate } from "@remix-run/react"
 import { api } from "convex/_generated/api.js"
+import type { Doc } from "convex/_generated/dataModel.js"
 import { useMutation } from "convex/react"
 import {
 	LucideGamepad2,
@@ -7,7 +8,9 @@ import {
 	LucidePlus,
 	LucideWand2,
 } from "lucide-react"
+import type { ReactNode } from "react"
 import { $path } from "remix-routes"
+import { useQueryPreload } from "~/convex/preload"
 import { useRoomList } from "~/rooms/context.tsx"
 import { Button } from "~/ui/Button.tsx"
 import { InfiniteScrollGrid } from "~/ui/InfiniteScrollGrid"
@@ -44,15 +47,23 @@ export default function RoomList() {
 				numItems={20}
 				emptyState="You have no rooms yet."
 			>
-				{(item) => (
-					<NavLinkCard
-						to={$path("/rooms/:roomId", { roomId: item._id })}
-						title={item.title}
-						icon={<LucideGamepad2 />}
-					/>
-				)}
+				{(item) => <RoomCard room={item} />}
 			</InfiniteScrollGrid>
 		</div>
+	)
+}
+
+function RoomCard({ room }: { room: Doc<"rooms"> }) {
+	const startPreload = useQueryPreload(api.rooms.get, {
+		id: room._id,
+	})
+	return (
+		<NavLinkCard
+			to={$path("/rooms/:roomId", { roomId: room._id })}
+			title={room.title}
+			icon={<LucideGamepad2 />}
+			onPointerEnter={startPreload}
+		/>
 	)
 }
 
@@ -64,7 +75,7 @@ function NavLinkCard({
 }: {
 	title?: string
 	description?: string
-	icon: React.ReactNode
+	icon: ReactNode
 } & NavLinkProps) {
 	return (
 		<NavLink
