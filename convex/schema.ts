@@ -9,7 +9,7 @@ export default defineSchema({
 
 	rooms: defineTable({
 		title: v.string(),
-		owner: v.string(), // identity.subject
+		owner: v.id("users"),
 	}).index("by_owner", ["owner"]),
 
 	roomDocuments: defineTable({

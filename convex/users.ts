@@ -1,10 +1,24 @@
 import { v } from "convex/values"
+import { raise } from "~/helpers/errors.ts"
 import type { Id } from "./_generated/dataModel"
 import { type QueryCtx, internalMutation } from "./_generated/server"
 import { requireValidId } from "./helpers.ts"
 
 export function getUser(ctx: QueryCtx, userId: string) {
 	return ctx.db.get(requireValidId(ctx, "users", userId))
+}
+
+export async function requireIdentityUser(ctx: QueryCtx) {
+	const identity = (await ctx.auth.getUserIdentity()) ?? raise("Not logged in")
+
+	const user = await ctx.db
+		.query("users")
+		.withIndex("by_clerk_subject", (q) =>
+			q.eq("clerkSubject", identity.subject),
+		)
+		.unique()
+
+	return user ?? raise("User not found")
 }
 
 export const upsert = internalMutation({
