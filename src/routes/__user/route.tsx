@@ -3,7 +3,8 @@ import { getAuth } from "@clerk/remix/ssr.server"
 import type { LoaderFunctionArgs } from "@remix-run/node"
 import { Link, Outlet } from "@remix-run/react"
 import { redirect } from "@vercel/remix"
-import { useConvexAuth } from "convex/react"
+import { api } from "convex/_generated/api.js"
+import { useConvexAuth, useQuery } from "convex/react"
 import { $path } from "remix-routes"
 import logo from "~/assets/logo.svg"
 import { Background } from "~/ui/Background.tsx"
@@ -17,6 +18,7 @@ export async function loader(args: LoaderFunctionArgs) {
 
 export default function UserRouteLayout() {
 	const auth = useConvexAuth()
+	const isAuthReady = useQuery(api.auth.isReady)
 	return (
 		<div className="relative isolate flex min-h-dvh overflow-clip bg-theme-background">
 			<Background />
@@ -34,7 +36,7 @@ export default function UserRouteLayout() {
 				</div>
 			</Panel>
 			<div className="min-w-0 flex-1">
-				{auth.isLoading ? <LoadingPlaceholder /> : <Outlet />}
+				{auth.isLoading || !isAuthReady ? <LoadingPlaceholder /> : <Outlet />}
 			</div>
 		</div>
 	)
