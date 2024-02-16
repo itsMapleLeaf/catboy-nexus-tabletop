@@ -1,5 +1,5 @@
 import { httpRouter } from "convex/server"
-import { handleClerkWebhook } from "./clerk.ts"
+import { handleClerkWebhook } from "./auth.ts"
 
 const http = httpRouter()
 
