@@ -30,7 +30,7 @@ export default function UserRouteLayout() {
 					<img src={logo} alt="Home" className="size-6" />
 				</Link>
 				<div className="hover-fade mt-auto">
-					<UserButton />
+					<UserButton afterSignOutUrl={$path("/")} />
 				</div>
 			</Panel>
 			<div className="min-w-0 flex-1">
