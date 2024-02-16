@@ -1,75 +1,71 @@
+import { customMutation } from "convex-helpers/server/customFunctions.js"
 import { paginationOptsValidator } from "convex/server"
 import { v } from "convex/values"
 import { raise } from "~/helpers/errors.js"
-import type { Doc, Id } from "./_generated/dataModel.js"
-import { mutation, query } from "./_generated/server.js"
+import { mutation } from "./_generated/server.js"
+import { authMutation, authQuery, requireAuth } from "./auth.js"
 import { requireValidId } from "./helpers.js"
 import { requireDoc } from "./helpers.js"
-import { requireIdentityUser } from "./users.js"
 
-export const get = query({
+const roomOwnerMutation = customMutation(mutation, {
 	args: {
-		id: v.string(),
+		roomId: v.string(),
 	},
-	async handler(ctx, args) {
-		return await ctx.db.get(requireValidId(ctx, "rooms", args.id))
+	async input(ctx, args) {
+		const { user } = await requireAuth(ctx)
+		const room = await requireDoc(ctx, "rooms", args.roomId)
+		if (room.owner !== user._id) {
+			raise("You don't own this room")
+		}
+		return { ctx: { room }, args: {} }
 	},
 })
 
-export const list = query({
+export const get = authQuery({
+	args: {
+		roomId: v.string(),
+	},
+	async handler(ctx, args) {
+		return await ctx.db.get(requireValidId(ctx, "rooms", args.roomId))
+	},
+})
+
+export const list = authQuery({
 	args: {
 		paginationOpts: paginationOptsValidator,
 	},
 	async handler(ctx, { paginationOpts }) {
-		const user = await requireIdentityUser(ctx)
-		return (
-			user &&
-			ctx.db
-				.query("rooms")
-				.withIndex("by_owner", (q) => q.eq("owner", user._id))
-				.paginate(paginationOpts)
-		)
+		return ctx.db
+			.query("rooms")
+			.withIndex("by_owner", (q) => q.eq("owner", ctx.user._id))
+			.paginate(paginationOpts)
 	},
 })
 
-export const upsert = mutation({
+export const create = authMutation({
 	args: {
-		id: v.optional(v.string()),
 		title: v.string(),
 	},
-	async handler(ctx, { id: idArg, ...data }) {
-		const user = await requireIdentityUser(ctx)
-		let id: Id<"rooms">
-		if (idArg) {
-			id = requireValidId(ctx, "rooms", idArg)
-			requireOwnedRoom(await requireDoc(ctx, "rooms", id), user)
-			await ctx.db.patch(id, data)
-		} else {
-			id = await ctx.db.insert("rooms", {
-				...data,
-				owner: user._id,
-			})
-		}
-		return id
+	async handler(ctx, args) {
+		return await ctx.db.insert("rooms", {
+			...args,
+			owner: ctx.user._id,
+		})
 	},
 })
 
-export const remove = mutation({
+export const update = roomOwnerMutation({
 	args: {
-		id: v.string(),
+		title: v.string(),
 	},
 	async handler(ctx, args) {
-		const id = requireValidId(ctx, "rooms", args.id)
-		requireOwnedRoom(
-			await requireDoc(ctx, "rooms", id),
-			await requireIdentityUser(ctx),
-		)
-		await ctx.db.delete(id)
+		await ctx.db.patch(ctx.room._id, { title: args.title })
 	},
 })
 
-function requireOwnedRoom(gamemode: Doc<"rooms">, user: { _id: Id<"users"> }) {
-	if (gamemode.owner !== user._id) {
-		raise("You don't own this room")
-	}
-}
+export const remove = roomOwnerMutation({
+	args: {},
+	async handler(ctx) {
+		await ctx.db.delete(ctx.room._id)
+	},
+})

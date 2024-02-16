@@ -19,7 +19,7 @@ import { PromptButton } from "~/ui/PromptButton.tsx"
 import { PageHeader, PageMainHeading } from "~/ui/page.tsx"
 
 export default function RoomList() {
-	const upsertRoom = useMutation(api.rooms.upsert)
+	const createRoom = useMutation(api.rooms.create)
 	const navigate = useNavigate()
 	const roomListResult = useRoomList()
 	return (
@@ -34,8 +34,8 @@ export default function RoomList() {
 					confirmText="Create"
 					placeholder="Give it something cool. Or silly. Or boring."
 					onSubmit={async (title) => {
-						const roomId = await upsertRoom({ title })
-						if (roomId) navigate($path("/rooms/:roomId", { roomId }))
+						const roomId = await createRoom({ title })
+						navigate($path("/rooms/:roomId", { roomId }))
 					}}
 					render={<Button appearance="solid" icon={<LucidePlus />} />}
 				>
@@ -55,7 +55,7 @@ export default function RoomList() {
 
 function RoomCard({ room }: { room: Doc<"rooms"> }) {
 	const startPreload = useQueryPreload(api.rooms.get, {
-		id: room._id,
+		roomId: room._id,
 	})
 	return (
 		<NavLinkCard

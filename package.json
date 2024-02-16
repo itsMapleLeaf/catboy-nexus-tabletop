@@ -30,6 +30,7 @@
 		"@tw-classed/react": "1.7.0",
 		"@vercel/remix": "2.5.1",
 		"@vercel/speed-insights": "1.0.9",
+		"convex-helpers": "0.1.19",
 		"date-fns": "3.3.1",
 		"isbot": "4.4.0",
 		"lucide-react": "0.323.0",

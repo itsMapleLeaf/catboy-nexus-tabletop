@@ -2,8 +2,8 @@ import { paginationOptsValidator } from "convex/server"
 import { v } from "convex/values"
 import { addMinutes } from "date-fns"
 import type { GenesysDiceRoll } from "~/genesys/types.js"
-import { internalMutation, mutation, query } from "./_generated/server.js"
-import { requireIdentity } from "./auth.js"
+import { internalMutation, query } from "./_generated/server.js"
+import { authMutation } from "./auth.js"
 import { requireValidId } from "./helpers.js"
 
 export const get = query({
@@ -24,36 +24,33 @@ export const list = query({
 	},
 })
 
-export const create = mutation({
+export const create = authMutation({
 	args: {
 		roomId: v.id("rooms"),
 		collectionName: v.string(),
 		value: v.any(),
 	},
 	async handler(ctx, data) {
-		await requireIdentity(ctx)
 		return await ctx.db.insert("roomDocuments", data)
 	},
 })
 
-export const update = mutation({
+export const update = authMutation({
 	args: {
 		id: v.id("roomDocuments"),
 		value: v.any(),
 	},
 	async handler(ctx, { id, value }) {
-		await requireIdentity(ctx)
 		return await ctx.db.patch(id, { value })
 	},
 })
 
-export const remove = mutation({
+export const remove = authMutation({
 	args: {
 		id: v.string(),
 	},
 	async handler(ctx, args) {
 		const id = requireValidId(ctx, "roomDocuments", args.id)
-		await requireIdentity(ctx)
 		await ctx.db.delete(id)
 	},
 })
