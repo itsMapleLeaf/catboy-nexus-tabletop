@@ -1,6 +1,7 @@
+import type { UserIdentity } from "convex/server"
 import { v } from "convex/values"
 import type { Id } from "./_generated/dataModel"
-import { internalMutation } from "./_generated/server"
+import { type QueryCtx, internalMutation } from "./_generated/server"
 
 export const upsert = internalMutation({
 	args: {
@@ -39,3 +40,12 @@ export const remove = internalMutation({
 		}
 	},
 })
+
+export async function getUser(ctx: QueryCtx, identity: UserIdentity) {
+	return await ctx.db
+		.query("users")
+		.withIndex("by_clerk_subject", (q) =>
+			q.eq("clerkSubject", identity.subject),
+		)
+		.unique()
+}
