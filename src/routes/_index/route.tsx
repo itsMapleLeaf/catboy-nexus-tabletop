@@ -23,6 +23,8 @@ export default function LandingPage() {
 	return (
 		<div className="relative flex min-h-dvh flex-col items-center overflow-clip">
 			<Background />
+			<div className="flex-1" />
+
 			<main className="flex-col-center gap-6 p-6 text-center">
 				<header className="flex items-center justify-center gap-3 drop-shadow-[0_0_4px_rgba(0,0,0,1)]">
 					<img src={logo} alt="" className="h-16" />
