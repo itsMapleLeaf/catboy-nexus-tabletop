@@ -91,7 +91,7 @@ function DieCounter({
 		<DieCounterLayout name={name}>
 			<Button
 				appearance="clear"
-				className="aspect-square h-auto w-16 p-1 first:*:size-full"
+				className="aspect-square h-auto w-16 p-1 *:size-full"
 				onClick={() => add(name)}
 			>
 				{children}
