@@ -5,6 +5,7 @@ import {
 	customQuery,
 } from "convex-helpers/server/customFunctions.js"
 import { Webhook } from "svix"
+import { raise } from "~/helpers/errors.js"
 import { internal } from "./_generated/api.js"
 import {
 	type QueryCtx,
@@ -12,20 +13,21 @@ import {
 	mutation,
 	query,
 } from "./_generated/server.js"
-import { getUser } from "./users.js"
+import { getUser } from "./profiles.js"
 
-export async function requireAuth(ctx: QueryCtx) {
+export async function requireIdentity(ctx: QueryCtx) {
 	const identity = await ctx.auth.getUserIdentity()
-	if (!identity) throw new Error("Not logged in")
-
-	const user = await getUser(ctx, identity)
-	if (!user) throw new Error("User not initialized")
-
-	return { user, identity }
+	return identity ?? raise("Not logged in")
 }
 
-export const authQuery = customQuery(query, customCtx(requireAuth))
-export const authMutation = customMutation(mutation, customCtx(requireAuth))
+export const authQuery = customQuery(
+	query,
+	customCtx(async (ctx) => ({ identity: await requireIdentity(ctx) })),
+)
+export const authMutation = customMutation(
+	mutation,
+	customCtx(async (ctx) => ({ identity: await requireIdentity(ctx) })),
+)
 
 export const isReady = query({
 	async handler(ctx) {
@@ -46,8 +48,8 @@ export const handleClerkWebhook = httpAction(async (ctx, request) => {
 	switch (event.type) {
 		case "user.created":
 		case "user.updated": {
-			await ctx.runMutation(internal.users.upsert, {
-				clerkSubject: event.data.id,
+			await ctx.runMutation(internal.profiles.upsert, {
+				clerkId: event.data.id,
 				name: event.data.username || event.data.first_name,
 			})
 			break
@@ -58,8 +60,8 @@ export const handleClerkWebhook = httpAction(async (ctx, request) => {
 				secretKey: process.env.CLERK_SECRET_KEY,
 			})
 			const user = await client.users.getUser(event.data.user_id)
-			await ctx.runMutation(internal.users.upsert, {
-				clerkSubject: user.id,
+			await ctx.runMutation(internal.profiles.upsert, {
+				clerkId: user.id,
 				name:
 					user.username ||
 					user.firstName ||
@@ -70,8 +72,8 @@ export const handleClerkWebhook = httpAction(async (ctx, request) => {
 
 		case "user.deleted": {
 			if (event.data.id) {
-				await ctx.runMutation(internal.users.remove, {
-					clerkSubject: event.data.id,
+				await ctx.runMutation(internal.profiles.remove, {
+					clerkId: event.data.id,
 				})
 			}
 			break

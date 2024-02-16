@@ -3,7 +3,7 @@ import { paginationOptsValidator } from "convex/server"
 import { v } from "convex/values"
 import { raise } from "~/helpers/errors.js"
 import { mutation } from "./_generated/server.js"
-import { authMutation, authQuery, requireAuth } from "./auth.js"
+import { authMutation, authQuery, requireIdentity } from "./auth.js"
 import { requireValidId } from "./helpers.js"
 import { requireDoc } from "./helpers.js"
 
@@ -12,9 +12,9 @@ const roomOwnerMutation = customMutation(mutation, {
 		roomId: v.string(),
 	},
 	async input(ctx, args) {
-		const { user } = await requireAuth(ctx)
+		const identity = await requireIdentity(ctx)
 		const room = await requireDoc(ctx, "rooms", args.roomId)
-		if (room.owner !== user._id) {
+		if (room.owner !== identity.subject) {
 			raise("You don't own this room")
 		}
 		return { ctx: { room }, args: {} }
@@ -37,7 +37,7 @@ export const list = authQuery({
 	async handler(ctx, { paginationOpts }) {
 		return ctx.db
 			.query("rooms")
-			.withIndex("by_owner", (q) => q.eq("owner", ctx.user._id))
+			.withIndex("by_owner", (q) => q.eq("owner", ctx.identity.subject))
 			.paginate(paginationOpts)
 	},
 })
@@ -49,7 +49,7 @@ export const create = authMutation({
 	async handler(ctx, args) {
 		return await ctx.db.insert("rooms", {
 			...args,
-			owner: ctx.user._id,
+			owner: ctx.identity.subject,
 		})
 	},
 })

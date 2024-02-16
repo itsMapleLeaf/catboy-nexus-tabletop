@@ -5,21 +5,21 @@ import { type QueryCtx, internalMutation } from "./_generated/server"
 
 export const upsert = internalMutation({
 	args: {
-		clerkSubject: v.string(),
+		clerkId: v.string(),
 		name: v.string(),
 	},
-	async handler(ctx, { clerkSubject, ...data }) {
+	async handler(ctx, { clerkId, ...data }) {
 		const doc = await ctx.db
-			.query("users")
-			.withIndex("by_clerk_subject", (q) => q.eq("clerkSubject", clerkSubject))
+			.query("profiles")
+			.withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkId))
 			.unique()
 
-		let id: Id<"users">
+		let id: Id<"profiles">
 		if (doc) {
 			await ctx.db.patch(doc._id, data)
 			id = doc._id
 		} else {
-			id = await ctx.db.insert("users", { clerkSubject, ...data })
+			id = await ctx.db.insert("profiles", { clerkId, ...data })
 		}
 		return id
 	},
@@ -27,12 +27,12 @@ export const upsert = internalMutation({
 
 export const remove = internalMutation({
 	args: {
-		clerkSubject: v.string(),
+		clerkId: v.string(),
 	},
-	async handler(ctx, { clerkSubject }) {
+	async handler(ctx, { clerkId }) {
 		const doc = await ctx.db
-			.query("users")
-			.withIndex("by_clerk_subject", (q) => q.eq("clerkSubject", clerkSubject))
+			.query("profiles")
+			.withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkId))
 			.unique()
 
 		if (doc) {
@@ -43,9 +43,7 @@ export const remove = internalMutation({
 
 export async function getUser(ctx: QueryCtx, identity: UserIdentity) {
 	return await ctx.db
-		.query("users")
-		.withIndex("by_clerk_subject", (q) =>
-			q.eq("clerkSubject", identity.subject),
-		)
+		.query("profiles")
+		.withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
 		.unique()
 }
