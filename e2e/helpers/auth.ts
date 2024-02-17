@@ -1,6 +1,8 @@
 import { type BrowserContext, type Page, expect } from "@playwright/test"
 import { serverUrl } from "../../playwright.config.ts"
 
+export const authStoragePath = "playwright/.state/auth.json"
+
 export async function signIn(page: Page) {
 	// we need to open the website first to sign in
 	if (!page.url().startsWith(serverUrl)) {

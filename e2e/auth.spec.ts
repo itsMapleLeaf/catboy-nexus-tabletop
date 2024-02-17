@@ -1,6 +1,5 @@
 import { expect, test } from "@playwright/test"
-import { signIn } from "./helpers/auth"
-import { signOut } from "./helpers/auth"
+import { signIn, signOut } from "./helpers/auth.ts"
 
 test("auth redirects", async ({ page, context }) => {
 	await page.goto("/")
