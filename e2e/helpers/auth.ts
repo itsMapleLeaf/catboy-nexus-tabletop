@@ -16,18 +16,21 @@ export async function signIn(page: Page) {
 		// @ts-expect-error
 		await page.waitForFunction(() => window.Clerk?.isReady())
 
-		await page.evaluate(async () => {
-			// @ts-expect-error
-			const res = await window.Clerk.client.signIn.create({
-				identifier: testEnv.TEST_USERNAME,
-				password: "password",
-			})
-			// @ts-expect-error
-			await window.Clerk.setActive({
-				session: res.createdSessionId,
-			})
-			return true
-		})
+		await page.evaluate(
+			async ({ identifier }) => {
+				// @ts-expect-error
+				const res = await window.Clerk.client.signIn.create({
+					identifier,
+					password: "password",
+				})
+				// @ts-expect-error
+				await window.Clerk.setActive({
+					session: res.createdSessionId,
+				})
+				return true
+			},
+			{ identifier: testEnv.TEST_USERNAME },
+		)
 	}).toPass({ timeout: 5_000 })
 }
 
