@@ -8,6 +8,11 @@ on:
 
 concurrency: e2e:${{ github.ref }}
 
+env:
+  CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
+  CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+  VITE_CONVEX_URL: ${{ secrets.CLERK_SECRET_KEY }}
+
 jobs:
   e2e:
     runs-on: ubuntu-latest
