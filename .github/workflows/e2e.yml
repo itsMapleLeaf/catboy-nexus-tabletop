@@ -23,5 +23,8 @@ jobs:
       - name: Setup pnpm & Node.js
         uses: ./.github/actions/setup-node-pnpm
 
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install
+
       - name: Run tests
         run: npm test
