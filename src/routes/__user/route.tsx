@@ -7,13 +7,14 @@ import { api } from "convex/_generated/api.js"
 import { useConvexAuth, useQuery } from "convex/react"
 import { $path } from "remix-routes"
 import logo from "~/assets/logo.svg"
+import { ok } from "~/helpers/responses.ts"
 import { Background } from "~/ui/Background.tsx"
 import { LoadingPlaceholder } from "~/ui/LoadingPlaceholder.tsx"
 import { Panel } from "~/ui/Panel.tsx"
 
 export async function loader(args: LoaderFunctionArgs) {
 	const auth = await getAuth(args)
-	return auth.userId ? new Response() : redirect($path("/"))
+	return auth.userId ? ok() : redirect($path("/"))
 }
 
 export default function UserRouteLayout() {

@@ -5,6 +5,7 @@ import { type HeadersFunction, redirect } from "@vercel/remix"
 import { LucideLogIn } from "lucide-react"
 import { $path } from "remix-routes"
 import logo from "~/assets/logo.svg"
+import { ok } from "~/helpers/responses.ts"
 import { Background } from "~/ui/Background.tsx"
 import { Button } from "~/ui/Button.tsx"
 import { ExternalLink } from "~/ui/ExternalLink.tsx"
@@ -12,7 +13,7 @@ import { Link } from "~/ui/Link.tsx"
 
 export async function loader(args: LoaderFunctionArgs) {
 	const auth = await getAuth(args)
-	return auth.userId ? redirect($path("/rooms")) : new Response()
+	return auth.userId ? redirect($path("/rooms")) : ok()
 }
 
 export const headers: HeadersFunction = () => ({
