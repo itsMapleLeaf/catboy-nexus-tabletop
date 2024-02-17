@@ -63,11 +63,21 @@ function RolledDieIcon({
 	symbols: DiceSymbol[]
 }) {
 	const symbolSize = (symbols.length ?? 0) > 1 ? "small" : "normal"
+
+	const symbolCounts = new Map<string, number>()
+	for (const symbol of symbols) {
+		symbolCounts.set(symbol.name, (symbolCounts.get(symbol.name) ?? 0) + 1)
+	}
+
+	const tooltip = [...symbolCounts.entries()]
+		.map(([name, count]) => (count > 1 ? `${name} x${count}` : name))
+		.join(", ")
+
 	return (
 		<Tooltip
 			className="relative size-16"
-			tooltip={diceType.name}
-			aria-label={diceType.name}
+			tooltip={`${diceType.name}: ${tooltip || "Blank"}`}
+			aria-label={`${diceType.name}: ${tooltip || "Blank"}`}
 		>
 			{diceType && <DieIcon diceType={diceType} className="size-full" />}
 			<div className="flex-center absolute inset-0 flex-col">

@@ -2,18 +2,16 @@ import type { DiceType } from "convex/diceSets.types.ts"
 import * as Lucide from "lucide-react"
 import { twMerge } from "tailwind-merge"
 
-export function DieIcon({
-	diceType,
-	className,
-}: {
-	diceType: DiceType
-	className?: string
-}) {
+export function DieIcon(
+	props: {
+		diceType: DiceType
+	} & React.HTMLAttributes<HTMLElement | SVGSVGElement>,
+) {
 	return (
 		<>
 			<DieIconElement
-				diceType={diceType}
-				className={twMerge(getColorClass(diceType), className)}
+				{...props}
+				className={twMerge(getColorClass(props.diceType), props.className)}
 			/>
 		</>
 	)
