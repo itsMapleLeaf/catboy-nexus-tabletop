@@ -67,5 +67,6 @@ export default defineConfig({
 		command: "pnpm run preview",
 		url: serverUrl,
 		reuseExistingServer: !process.env.CI,
+		stdout: "pipe",
 	},
 })
