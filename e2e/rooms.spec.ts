@@ -10,7 +10,8 @@ test.use({
 	storageState: authStoragePath,
 })
 
-test.beforeAll(async ({ page }) => {
+test.beforeAll(async ({ browser }) => {
+	const page = await browser.newPage()
 	await page.goto("/")
 	convex = await createConvexClient(page)
 })
