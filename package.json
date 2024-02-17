@@ -9,14 +9,16 @@
 		"dev:remix": "remix vite:dev",
 		"dev:convex": "convex dev",
 		"build": "remix vite:build",
-		"serve": "dotenv -- remix-serve ./build/server/index.js",
+		"serve": "dotenv -v PORT=5173 -- remix-serve ./build/server/index.js",
 		"preview": "pnpm build && pnpm serve",
 		"lint": "biome check .",
 		"format": "run-s --continue-on-error biome-apply prettier-write",
 		"format-unsafe": "run-s --continue-on-error biome-apply-unsafe prettier-write",
 		"prettier-write": "prettier . --write",
 		"biome-apply": "biome check . --apply",
-		"biome-apply-unsafe": "biome check . --apply-unsafe"
+		"biome-apply-unsafe": "biome check . --apply-unsafe",
+		"test": "playwright test",
+		"test-ui": "playwright test --ui"
 	},
 	"dependencies": {
 		"@ariakit/react": "0.4.1",
@@ -46,8 +48,10 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.5.3",
+		"@playwright/test": "1.41.2",
 		"@remix-run/dev": "2.6.0",
 		"@tailwindcss/container-queries": "0.1.1",
+		"@types/node": "20.11.19",
 		"@types/react": "18.2.55",
 		"@types/react-dom": "18.2.19",
 		"@vitejs/plugin-react-swc": "3.6.0",
