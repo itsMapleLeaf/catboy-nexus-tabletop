@@ -1,10 +1,9 @@
 import { paginationOptsValidator } from "convex/server"
 import { v } from "convex/values"
-import { randomInt } from "~/helpers/math.ts"
 import { query } from "./_generated/server"
 import { authMutation } from "./auth.ts"
+import type { RolledDie } from "./diceRolls.types.ts"
 import { requireDoc, requireValidId } from "./helpers.ts"
-import type { RolledDie } from "./schema.ts"
 
 export const list = query({
 	args: {
@@ -24,39 +23,37 @@ export const list = query({
 export const create = authMutation({
 	args: {
 		roomId: v.string(),
+		diceSetId: v.string(),
+		diceInput: v.array(v.object({ typeId: v.string() })),
 		caption: v.optional(v.string()),
-		diceInput: v.array(v.object({ type: v.string() })),
 	},
 	async handler(ctx, args) {
-		const roomId = requireValidId(ctx, "rooms", args.roomId)
-		const diceTypeIds = new Set(args.diceInput.map((die) => die.type))
+		const room = await requireDoc(ctx, "rooms", args.roomId)
+		const diceSet = await requireDoc(ctx, "diceSets", args.diceSetId)
 
-		const diceTypes = await Promise.all(
-			[...diceTypeIds].map((id) => requireDoc(ctx, "diceTypes", id)),
-		)
-
-		const diceTypesById = new Map(
-			diceTypes.flatMap((d) => d ?? []).map((type) => [type._id, type]),
+		const diceTypes = new Map(
+			diceSet.dice.map((diceType) => [diceType.id, diceType]),
 		)
 
 		const rolledDice: RolledDie[] = args.diceInput.flatMap((die) => {
-			const type = diceTypesById.get(requireValidId(ctx, "diceTypes", die.type))
+			const type = diceTypes.get(die.typeId)
 			if (!type) {
-				console.warn(`Invalid dice type "${die.type}"`, args)
+				console.warn(`Invalid dice type "${die.typeId}"`, args)
 				return []
 			}
 			return {
 				key: crypto.randomUUID(),
-				type: type._id,
-				face: randomInt(1, type.faces.length) - 1,
+				typeId: type.id,
+				face: Math.floor(Math.random() * type.faces.length),
 			}
 		})
 
 		return ctx.db.insert("diceRolls", {
-			roomId,
-			caption: args.caption,
+			roomId: room._id,
+			diceSetId: diceSet._id,
 			rolledBy: ctx.identity.subject,
 			rolledDice,
+			caption: args.caption,
 		})
 	},
 })

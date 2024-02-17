@@ -16,8 +16,9 @@ import type {
 } from "convex/server";
 import type * as auth from "../auth.js";
 import type * as diceRolls from "../diceRolls.js";
-import type * as diceTypes from "../diceTypes.js";
+import type * as diceSets from "../diceSets.js";
 import type * as env from "../env.js";
+import type * as genesysDice from "../genesysDice.js";
 import type * as helpers from "../helpers.js";
 import type * as http from "../http.js";
 import type * as images from "../images.js";
@@ -36,8 +37,9 @@ import type * as testing from "../testing.js";
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   diceRolls: typeof diceRolls;
-  diceTypes: typeof diceTypes;
+  diceSets: typeof diceSets;
   env: typeof env;
+  genesysDice: typeof genesysDice;
   helpers: typeof helpers;
   http: typeof http;
   images: typeof images;

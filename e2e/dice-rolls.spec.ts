@@ -25,35 +25,35 @@ test.beforeEach(async ({ page }) => {
 test("submitting the dice roll form should add a dice roll with the selected dice", async ({
 	page,
 }) => {
-	await page.getByRole("button", { name: "Add ability die" }).nth(1).click()
-	await page.getByRole("button", { name: "Add ability die" }).nth(1).click()
-	await page.getByRole("button", { name: "Add ability die" }).first().click()
-	await page.getByRole("button", { name: "Add proficiency die" }).nth(1).click()
-	await page.getByRole("button", { name: "Add proficiency die" }).nth(1).click()
-	await page.getByRole("button", { name: "Remove proficiency die" }).click()
+	await page.getByRole("button", { name: "Add Ability die" }).nth(1).click()
+	await page.getByRole("button", { name: "Add Ability die" }).nth(1).click()
+	await page.getByRole("button", { name: "Add Ability die" }).first().click()
+	await page.getByRole("button", { name: "Add Proficiency die" }).nth(1).click()
+	await page.getByRole("button", { name: "Add Proficiency die" }).nth(1).click()
+	await page.getByRole("button", { name: "Remove Proficiency die" }).click()
 	await page
-		.getByRole("button", { name: "Add difficulty die" })
+		.getByRole("button", { name: "Add Difficulty die" })
 		.nth(1)
 		.dblclick()
 
 	await page.getByRole("button", { name: "Roll" }).click()
-	await expect(page.getByPlaceholder("Caption")).toBeEmpty()
+	await expect(page.getByLabel("Caption")).toBeEmpty()
 	await expect(page.getByText("Dice rolled at")).toBeVisible()
 
 	await page
-		.getByRole("button", { name: "Add force die" })
+		.getByRole("button", { name: "Add Force die" })
 		.first()
 		.click({ clickCount: 3 })
-	await page.getByPlaceholder("Caption").fill("destiny roll")
+	await page.getByLabel("Caption").fill("destiny roll")
 	await page.getByRole("button", { name: "Roll" }).click()
-	await expect(page.getByPlaceholder("Caption")).toBeEmpty()
+	await expect(page.getByLabel("Caption")).toBeEmpty()
 	await expect(
-		page.locator("section", { hasText: "destiny roll" }).getByLabel("force"),
+		page.locator("section", { hasText: "destiny roll" }).getByLabel("Force"),
 	).toHaveCount(3)
 
 	const rollItem = () => page.locator("section", { hasText: "Dice rolled at" })
 
-	await expect(rollItem().getByLabel("ability")).toHaveCount(3)
-	await expect(rollItem().getByLabel("proficiency")).toHaveCount(1)
-	await expect(rollItem().getByLabel("difficulty")).toHaveCount(2)
+	await expect(rollItem().getByLabel("Ability")).toHaveCount(3)
+	await expect(rollItem().getByLabel("Proficiency")).toHaveCount(1)
+	await expect(rollItem().getByLabel("Difficulty")).toHaveCount(2)
 })

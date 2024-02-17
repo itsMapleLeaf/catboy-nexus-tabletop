@@ -4,6 +4,8 @@ export const Panel = classed.div({
 	variants: {
 		appearance: {
 			solid: "bg-theme-background",
+			"solid-raised":
+				"bg-theme-background shadow-md shadow-theme-background/75",
 			translucent:
 				"bg-theme-background/75 shadow-md shadow-theme-background/75 backdrop-blur-lg",
 		},

@@ -1,31 +1,31 @@
-import type { Doc } from "convex/_generated/dataModel.js"
+import type { DiceType } from "convex/diceSets.types.ts"
 import * as Lucide from "lucide-react"
 import { twMerge } from "tailwind-merge"
 
 export function DieIcon({
-	die,
+	diceType,
 	className,
 }: {
-	die: Doc<"diceTypes">
+	diceType: DiceType
 	className?: string
 }) {
 	return (
 		<>
 			<DieIconElement
-				die={die}
-				className={twMerge(getDiceColorClass(die), className)}
+				diceType={diceType}
+				className={twMerge(getColorClass(diceType), className)}
 			/>
 		</>
 	)
 }
 
 function DieIconElement({
-	die,
+	diceType,
 	...props
 }: {
-	die: Doc<"diceTypes">
+	diceType: DiceType
 } & React.HTMLAttributes<HTMLElement | SVGSVGElement>) {
-	switch (die.faces.length) {
+	switch (diceType.faces.length) {
 		case 4:
 			return <Lucide.Triangle {...props} />
 		case 6:
@@ -44,11 +44,11 @@ function DieIconElement({
 		case 20:
 			return <Lucide.Hexagon {...props} />
 		default:
-			return <p {...props}>d{die.faces.length}</p>
+			return <p {...props}>d{diceType.faces.length}</p>
 	}
 }
 
-function getDiceColorClass(die: Doc<"diceTypes">) {
+function getColorClass(diceType: DiceType) {
 	return twMerge(
 		{
 			red: "text-red-300",
@@ -59,6 +59,6 @@ function getDiceColorClass(die: Doc<"diceTypes">) {
 			purple: "text-purple-300",
 			white: "text-white",
 			black: "text-neutral-900 drop-shadow-[0_0_1px_white]",
-		}[die.color ?? "white"],
+		}[diceType.color ?? "white"],
 	)
 }
