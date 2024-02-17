@@ -65,6 +65,9 @@ export default defineConfig({
 	/* Run your local dev server before starting the tests */
 	webServer: {
 		command: "pnpm run preview",
+		env: {
+			NODE_ENV: "test",
+		},
 		url: serverUrl,
 		reuseExistingServer: !process.env.CI,
 		stdout: "pipe",
