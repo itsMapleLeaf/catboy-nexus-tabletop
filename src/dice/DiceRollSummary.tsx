@@ -11,6 +11,9 @@ import { RelativeTimestamp } from "../ui/RelativeTimestamp"
 
 export function DiceRollSummary({ diceRoll }: { diceRoll: Doc<"diceRolls"> }) {
 	const diceSet = useQuery(api.diceSets.get, { diceSetId: diceRoll.diceSetId })
+	const rolledByProfile = useQuery(api.profiles.get, {
+		clerkId: diceRoll.rolledBy,
+	})
 	const symbols = new Map(diceSet?.symbols.map((symbol) => [symbol.id, symbol]))
 
 	const rolledDiceByType = new Map<string, RolledDie[]>()
@@ -48,7 +51,8 @@ export function DiceRollSummary({ diceRoll }: { diceRoll: Doc<"diceRolls"> }) {
 				})}
 			</ul>
 			<p className="text-sm text-theme-copy-lighter">
-				rolled by <span className="text-theme-copy">{diceRoll.rolledBy}</span>{" "}
+				rolled by{" "}
+				<span className="text-theme-copy">{rolledByProfile?.name}</span>{" "}
 				<RelativeTimestamp date={diceRoll._creationTime} addSuffix />
 			</p>
 		</Panel>

@@ -1,7 +1,19 @@
 import type { UserIdentity } from "convex/server"
 import { v } from "convex/values"
 import type { Id } from "./_generated/dataModel"
-import { type QueryCtx, internalMutation } from "./_generated/server"
+import { type QueryCtx, internalMutation, query } from "./_generated/server"
+
+export const get = query({
+	args: {
+		clerkId: v.string(),
+	},
+	async handler(ctx, { clerkId }) {
+		return await ctx.db
+			.query("profiles")
+			.withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkId))
+			.unique()
+	},
+})
 
 export const upsert = internalMutation({
 	args: {
@@ -41,7 +53,7 @@ export const remove = internalMutation({
 	},
 })
 
-export async function getUser(ctx: QueryCtx, identity: UserIdentity) {
+export async function getProfile(ctx: QueryCtx, identity: UserIdentity) {
 	return await ctx.db
 		.query("profiles")
 		.withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))

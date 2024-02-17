@@ -11,7 +11,7 @@ import { internal } from "./_generated/api.js"
 import type { DataModel } from "./_generated/dataModel.js"
 import { httpAction, mutation, query } from "./_generated/server.js"
 import { convexEnv } from "./env.js"
-import { getUser } from "./profiles.js"
+import { getProfile } from "./profiles.js"
 
 export async function requireIdentity(
 	ctx: GenericQueryCtx<DataModel> | GenericActionCtx<DataModel>,
@@ -32,7 +32,7 @@ export const authMutation = customMutation(
 export const isReady = query({
 	async handler(ctx) {
 		const identity = await ctx.auth.getUserIdentity()
-		const user = identity && (await getUser(ctx, identity))
+		const user = identity && (await getProfile(ctx, identity))
 		return !!user
 	},
 })
