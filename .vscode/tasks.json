@@ -13,10 +13,11 @@
 		},
 		{
 			"label": "typecheck",
-			"type": "shell",
-			"command": "pnpm",
-			"args": ["exec", "tsc", "--noEmit", "--watch"],
-			"problemMatcher": ["$tsc-watch"]
+			"type": "typescript",
+			"tsconfig": "tsconfig.json",
+			"option": "watch",
+			"problemMatcher": ["$tsc-watch"],
+			"group": "build"
 		},
 		{
 			"label": "convex dev",
