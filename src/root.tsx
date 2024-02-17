@@ -1,3 +1,5 @@
+import "./env.server.ts" // this isn't used directly anywhere (yet), so we just want to run it
+
 import { ClerkApp, ClerkErrorBoundary, useAuth } from "@clerk/remix"
 import { rootAuthLoader } from "@clerk/remix/ssr.server"
 import { dark } from "@clerk/themes"
@@ -19,6 +21,7 @@ import { useState } from "react"
 import { Toaster } from "react-hot-toast"
 import tailwind from "tailwindcss/tailwind.css?url"
 import logo from "./assets/logo.svg"
+import { clientEnv } from "./env.ts"
 import { colors } from "./ui/theme.ts"
 
 export async function loader(args: LoaderFunctionArgs) {
@@ -27,7 +30,7 @@ export async function loader(args: LoaderFunctionArgs) {
 
 function Root() {
 	const [convexClient] = useState(
-		() => new ConvexReactClient(import.meta.env.VITE_CONVEX_URL),
+		() => new ConvexReactClient(clientEnv.VITE_CONVEX_URL),
 	)
 
 	return (

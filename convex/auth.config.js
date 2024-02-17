@@ -1,7 +1,9 @@
+import { convexEnv } from "./env.ts"
+
 export default {
 	providers: [
 		{
-			domain: process.env.CONVEX_AUTH_DOMAIN,
+			domain: convexEnv.CONVEX_AUTH_DOMAIN,
 			applicationID: "convex",
 		},
 	],

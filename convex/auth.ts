@@ -13,6 +13,7 @@ import {
 	mutation,
 	query,
 } from "./_generated/server.js"
+import { convexEnv } from "./env.js"
 import { getUser } from "./profiles.js"
 
 export async function requireIdentity(ctx: QueryCtx) {
@@ -38,7 +39,7 @@ export const isReady = query({
 })
 
 export const handleClerkWebhook = httpAction(async (ctx, request) => {
-	const webhook = new Webhook(process.env.CLERK_WEBHOOK_SECRET as string)
+	const webhook = new Webhook(convexEnv.CLERK_WEBHOOK_SECRET as string)
 
 	const event = webhook.verify(
 		await request.text(),
@@ -57,7 +58,7 @@ export const handleClerkWebhook = httpAction(async (ctx, request) => {
 
 		case "session.created": {
 			const client = createClerkClient({
-				secretKey: process.env.CLERK_SECRET_KEY,
+				secretKey: convexEnv.CLERK_SECRET_KEY,
 			})
 			const user = await client.users.getUser(event.data.user_id)
 			await ctx.runMutation(internal.profiles.upsert, {
