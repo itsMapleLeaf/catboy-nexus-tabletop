@@ -1,5 +1,6 @@
 import { type BrowserContext, type Page, expect } from "@playwright/test"
 import { serverUrl } from "../../playwright.config.ts"
+import { testEnv } from "./env.ts"
 
 export const authStoragePath = "playwright/.state/auth.json"
 
@@ -18,7 +19,7 @@ export async function signIn(page: Page) {
 		await page.evaluate(async () => {
 			// @ts-expect-error
 			const res = await window.Clerk.client.signIn.create({
-				identifier: "test@example.com",
+				identifier: testEnv.TEST_USERNAME,
 				password: "password",
 			})
 			// @ts-expect-error

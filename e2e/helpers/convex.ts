@@ -1,5 +1,6 @@
 import type { Page } from "@playwright/test"
 import { ConvexHttpClient } from "convex/browser"
+import { testEnv } from "./env.ts"
 
 export async function createConvexClient(page: Page) {
 	const token = await page.waitForFunction(
@@ -8,7 +9,7 @@ export async function createConvexClient(page: Page) {
 			window.Clerk?.session?.getToken({ template: "convex" }),
 	)
 
-	const convex = new ConvexHttpClient(process.env.VITE_CONVEX_URL as string)
+	const convex = new ConvexHttpClient(testEnv.VITE_CONVEX_URL)
 	convex.setAuth(await token.evaluate((t) => t))
 	return convex
 }
