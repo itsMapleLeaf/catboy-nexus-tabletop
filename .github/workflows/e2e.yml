@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
 
-concurrency: e2e:${{ github.ref }}
+concurrency: e2e-tests
 
 env:
   CLERK_PUBLISHABLE_KEY: ${{ secrets.CLERK_PUBLISHABLE_KEY }}
