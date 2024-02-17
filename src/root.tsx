@@ -39,7 +39,7 @@ function Root() {
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
-				<title>{`Catboy Nexus${process.env.NODE_ENV === "development" ? " [dev]" : ""}`}</title>
+				<title>{`Catboy Nexus${import.meta.env.PROD ? "" : ` [${import.meta.env.MODE}]`}`}</title>
 				<link rel="icon" href={logo} />
 				<link rel="stylesheet" href={barlow300} />
 				<link rel="stylesheet" href={barlow400} />
