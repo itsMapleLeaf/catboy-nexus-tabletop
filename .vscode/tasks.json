@@ -17,7 +17,7 @@
 			"tsconfig": "tsconfig.json",
 			"option": "watch",
 			"problemMatcher": ["$tsc-watch"],
-			"group": "build"
+			"isBackground": true
 		},
 		{
 			"label": "convex dev",
