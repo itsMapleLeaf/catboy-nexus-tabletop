@@ -12,10 +12,11 @@
 			}
 		},
 		{
-			"label": "remix dev",
-			"type": "npm",
-			"script": "dev:remix",
-			"isBackground": true
+			"label": "typecheck",
+			"type": "shell",
+			"command": "pnpm",
+			"args": ["exec", "tsc", "--noEmit", "--watch"],
+			"problemMatcher": ["$tsc-watch"]
 		},
 		{
 			"label": "convex dev",
@@ -24,11 +25,10 @@
 			"isBackground": true
 		},
 		{
-			"label": "typecheck",
-			"type": "shell",
-			"command": "pnpm",
-			"args": ["exec", "tsc", "--noEmit", "--watch"],
-			"problemMatcher": ["$tsc-watch"]
+			"label": "remix dev",
+			"type": "npm",
+			"script": "dev:remix",
+			"isBackground": true
 		}
 	]
 }
