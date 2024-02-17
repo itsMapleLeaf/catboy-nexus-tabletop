@@ -1,5 +1,3 @@
-import "./env.server.ts" // this isn't used directly anywhere (yet), so we just want to run it
-
 import { ClerkApp, ClerkErrorBoundary, useAuth } from "@clerk/remix"
 import { rootAuthLoader } from "@clerk/remix/ssr.server"
 import { dark } from "@clerk/themes"
