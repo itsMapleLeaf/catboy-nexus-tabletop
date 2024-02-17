@@ -1,3 +1,5 @@
+import "dotenv/config.js"
+
 import { defineConfig, devices } from "@playwright/test"
 
 export const serverUrl = "http://localhost:5173"

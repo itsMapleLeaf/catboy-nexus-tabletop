@@ -21,6 +21,7 @@ import type * as http from "../http.js";
 import type * as profiles from "../profiles.js";
 import type * as roomDocuments from "../roomDocuments.js";
 import type * as rooms from "../rooms.js";
+import type * as testing from "../testing.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -38,6 +39,7 @@ declare const fullApi: ApiFromModules<{
   profiles: typeof profiles;
   roomDocuments: typeof roomDocuments;
   rooms: typeof rooms;
+  testing: typeof testing;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

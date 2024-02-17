@@ -4,19 +4,18 @@ import {
 	customMutation,
 	customQuery,
 } from "convex-helpers/server/customFunctions.js"
+import type { GenericActionCtx, GenericQueryCtx } from "convex/server"
 import { Webhook } from "svix"
 import { raise } from "~/helpers/errors.js"
 import { internal } from "./_generated/api.js"
-import {
-	type QueryCtx,
-	httpAction,
-	mutation,
-	query,
-} from "./_generated/server.js"
+import type { DataModel } from "./_generated/dataModel.js"
+import { httpAction, mutation, query } from "./_generated/server.js"
 import { convexEnv } from "./env.js"
 import { getUser } from "./profiles.js"
 
-export async function requireIdentity(ctx: QueryCtx) {
+export async function requireIdentity(
+	ctx: GenericQueryCtx<DataModel> | GenericActionCtx<DataModel>,
+) {
 	const identity = await ctx.auth.getUserIdentity()
 	return identity ?? raise("Not logged in")
 }

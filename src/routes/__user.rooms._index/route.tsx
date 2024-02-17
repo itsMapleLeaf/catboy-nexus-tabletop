@@ -63,6 +63,7 @@ function RoomCard({ room }: { room: Doc<"rooms"> }) {
 			title={room.title}
 			icon={<LucideGamepad2 />}
 			onPointerEnter={startPreload}
+			data-testid="room-list-item"
 		/>
 	)
 }

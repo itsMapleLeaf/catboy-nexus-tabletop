@@ -1,11 +1,12 @@
 import { customMutation } from "convex-helpers/server/customFunctions.js"
-import { paginationOptsValidator } from "convex/server"
+import { type UserIdentity, paginationOptsValidator } from "convex/server"
 import { v } from "convex/values"
 import { raise } from "~/helpers/errors.js"
-import { mutation } from "./_generated/server.js"
+import { type QueryCtx, mutation } from "./_generated/server.js"
 import { authMutation, authQuery, requireIdentity } from "./auth.js"
 import { requireValidId } from "./helpers.js"
 import { requireDoc } from "./helpers.js"
+import { testMutation } from "./testing.js"
 
 const roomOwnerMutation = customMutation(mutation, {
 	args: {
@@ -35,10 +36,7 @@ export const list = authQuery({
 		paginationOpts: paginationOptsValidator,
 	},
 	async handler(ctx, { paginationOpts }) {
-		return ctx.db
-			.query("rooms")
-			.withIndex("by_owner", (q) => q.eq("owner", ctx.identity.subject))
-			.paginate(paginationOpts)
+		return queryOwnedRooms(ctx).order("desc").paginate(paginationOpts)
 	},
 })
 
@@ -69,3 +67,15 @@ export const remove = roomOwnerMutation({
 		await ctx.db.delete(ctx.room._id)
 	},
 })
+
+export const removeAll = testMutation(async (ctx) => {
+	const identity = await requireIdentity(ctx)
+	for await (const doc of queryOwnedRooms({ ...ctx, identity })) {
+		await ctx.db.delete(doc._id)
+	}
+})
+
+function queryOwnedRooms(ctx: QueryCtx & { identity: UserIdentity }) {
+	const query = ctx.db.query("rooms")
+	return query.withIndex("by_owner", (q) => q.eq("owner", ctx.identity.subject))
+}
