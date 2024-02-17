@@ -2,6 +2,7 @@ import { defineSchema, defineTable } from "convex/server"
 import { type Infer, v } from "convex/values"
 
 const rolledDieValidator = v.object({
+	key: v.string(),
 	type: v.id("diceTypes"),
 	face: v.number(),
 })
@@ -18,17 +19,9 @@ export default defineSchema({
 		owner: v.string(), // clerk user ID
 	}).index("by_owner", ["owner"]),
 
-	roomDocuments: defineTable({
-		roomId: v.id("rooms"),
-		collectionName: v.string(),
-		value: v.any(),
-	})
-		.index("by_room", ["roomId"])
-		.index("by_collection", ["collectionName"]),
-
 	images: defineTable({
 		slug: v.string(),
-		storageId: v.string(),
+		storageId: v.id("_storage"),
 	}).index("by_slug", ["slug"]),
 
 	diceTypes: defineTable({
@@ -59,7 +52,10 @@ export default defineSchema({
 
 	diceRolls: defineTable({
 		roomId: v.id("rooms"),
+		caption: v.optional(v.string()),
 		rolledDice: v.array(rolledDieValidator),
-		rolledBy: v.id("users"),
-	}),
+		rolledBy: v.string(), // clerk user ID
+	})
+		.index("by_room", ["roomId"])
+		.index("by_rolled_by", ["rolledBy"]),
 })

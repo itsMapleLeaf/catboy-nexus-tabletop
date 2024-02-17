@@ -15,11 +15,13 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth.js";
+import type * as diceRolls from "../diceRolls.js";
+import type * as diceTypes from "../diceTypes.js";
 import type * as env from "../env.js";
 import type * as helpers from "../helpers.js";
 import type * as http from "../http.js";
+import type * as images from "../images.js";
 import type * as profiles from "../profiles.js";
-import type * as roomDocuments from "../roomDocuments.js";
 import type * as rooms from "../rooms.js";
 import type * as testing from "../testing.js";
 
@@ -33,11 +35,13 @@ import type * as testing from "../testing.js";
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  diceRolls: typeof diceRolls;
+  diceTypes: typeof diceTypes;
   env: typeof env;
   helpers: typeof helpers;
   http: typeof http;
+  images: typeof images;
   profiles: typeof profiles;
-  roomDocuments: typeof roomDocuments;
   rooms: typeof rooms;
   testing: typeof testing;
 }>;

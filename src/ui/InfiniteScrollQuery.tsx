@@ -14,8 +14,8 @@ export function InfiniteScrollQuery<T>({
 	children: (items: T[]) => React.ReactNode
 }) {
 	return (
-		<div className="flex flex-col gap-4">
-			<div>
+		<div className="flex h-full flex-col gap-4">
+			<div className="h-full">
 				{listResult.status === "LoadingFirstPage" ? (
 					<LoadingPlaceholder />
 				) : (

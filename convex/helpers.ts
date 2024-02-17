@@ -7,7 +7,10 @@ export function requireValidId<T extends TableNames>(
 	table: T,
 	id: string,
 ) {
-	return ctx.db.normalizeId(table, id) ?? raise("Invalid room ID")
+	return (
+		ctx.db.normalizeId(table, id) ??
+		raise(`Invalid ID "${id}" for table "${table}"`)
+	)
 }
 
 export async function requireDoc<T extends TableNames>(

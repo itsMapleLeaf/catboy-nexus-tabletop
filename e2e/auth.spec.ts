@@ -27,6 +27,7 @@ test.describe("when signed in", () => {
 // so we don't invalidate the token for other tests
 test.describe("when signing out", () => {
 	test("redirects to landing", async ({ page }) => {
+		await page.goto("/", { waitUntil: "load" })
 		await signIn(page)
 		await page.goto("/rooms")
 		await page.getByLabel("Open user button").click()

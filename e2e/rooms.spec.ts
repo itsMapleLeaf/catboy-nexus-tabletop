@@ -4,21 +4,18 @@ import type { ConvexHttpClient } from "convex/browser"
 import { authStoragePath } from "./helpers/auth.ts"
 import { createConvexClient } from "./helpers/convex.ts"
 
-let convex: ConvexHttpClient
-
 test.use({
 	storageState: authStoragePath,
 })
 
-test.beforeAll(async ({ browser }) => {
-	const page = await browser.newPage()
-	await page.goto("/")
-	convex = await createConvexClient(page)
+test.beforeEach(async ({ page }) => {
+	await page.goto("/rooms")
 })
 
+let convex: ConvexHttpClient
 test.beforeEach(async ({ page }) => {
+	convex = await createConvexClient(page)
 	await convex.mutation(api.rooms.removeAll, {})
-	await page.goto("/rooms")
 })
 
 test("shows an empty state when there are no rooms", async ({ page }) => {
@@ -66,5 +63,9 @@ test.describe("with existing rooms", () => {
 		await expect(page.getByTestId("room-list-item").first()).toHaveText(
 			roomTitle,
 		)
+	})
+
+	test.skip("pagination", () => {
+		// TODO
 	})
 })
