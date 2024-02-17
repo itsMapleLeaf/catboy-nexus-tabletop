@@ -1,6 +1,6 @@
 import { useUser } from "@clerk/remix"
 import { useConvexAuth } from "convex/react"
-import { type ReactNode, useEffect, useState } from "react"
+import { type ReactNode, useState } from "react"
 import { twMerge } from "tailwind-merge"
 import { useIsomorphicLayoutEffect } from "../helpers/useIsomorphicLayoutEffect"
 
