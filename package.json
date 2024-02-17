@@ -14,6 +14,7 @@
 		"serve:command": "tsx src/env.server.ts && remix-serve ./build/server/index.js",
 		"preview": "pnpm build && pnpm serve",
 		"lint": "biome check .",
+		"typecheck": "tsc --noEmit",
 		"format": "run-s --continue-on-error biome-apply prettier-write",
 		"format-unsafe": "run-s --continue-on-error biome-apply-unsafe prettier-write",
 		"prettier-write": "prettier . --write",

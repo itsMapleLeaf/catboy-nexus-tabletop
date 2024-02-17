@@ -1,0 +1,30 @@
+name: Checks
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        script:
+          - lint
+          - typecheck
+    name: ${{ matrix.script }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup pnpm & Node.js
+        uses: ./.github/actions/setup-node-pnpm
+
+      - name: Run ${{ matrix.script }}
+        run: pnpm run ${{ matrix.script }}
